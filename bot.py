@@ -5,7 +5,7 @@ import config_reader
 
 from aiogram import Bot, Dispatcher
 
-import handlers.bot_start
+from handlers import bot_start, ban_new_user_for_links
 
 
 async def main():
@@ -13,7 +13,7 @@ async def main():
     bot = Bot(token=config_reader.config.bot_token.get_secret_value())
     dp = Dispatcher()
 
-    dp.include_routers(handlers.bot_start.router)
+    dp.include_routers(bot_start.router, ban_new_user_for_links.router)
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)

@@ -11,6 +11,6 @@ class HasLinkFilter(BaseFilter):
             if item.url is not None
         ]
 
-        if len(entities) > 0:
+        if len(found_link) > 0:
             return {'find link': found_link}
         return False
