@@ -1,11 +1,13 @@
-from aiogram.types import Message, ChatMemberUpdated
+from aiogram.types import ChatMemberUpdated
+from aiogram.filters.chat_member_updated import ChatMemberUpdatedFilter, IS_MEMBER, IS_NOT_MEMBER
 from aiogram import Router
 
 
 router = Router()
 
 
-async def save_chat_member_updated(message: Message):
-    member_updated = {}
-    new_chat_member = message.new_chat_members
+@router.chat_member(ChatMemberUpdatedFilter(IS_NOT_MEMBER >> IS_MEMBER))
+async def on_chat_member_update(event: ChatMemberUpdated):
+    print(f'new member: {event.from_user.id}')
+
 
