@@ -1,16 +1,19 @@
-from aiogram.types import Message
+from typing import Union, Dict, Any
+
 from aiogram.filters import BaseFilter
+from aiogram.types import Message
 
 
 class HasLinkFilter(BaseFilter):
-    async def __call__(self, message: Message):
+    async def __call__(self, message: Message) -> Union[bool, Dict[str, Any]]:
         entities = message.entities or []
 
-        found_link = [
-            item.extract_from(message.text) for item in message.entities
-            if item.url is not None
+        found_links = [
+            item.extract_from(message.text) for item in entities
+            if item.type == "url"
         ]
+        print(f'found_links: {found_links}')
 
-        if len(found_link) > 0:
-            return {'find link': found_link}
+        if len(found_links) > 0:
+            return {"links": found_links}
         return False
