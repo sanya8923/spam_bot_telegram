@@ -7,5 +7,4 @@ router = Router()
 
 @router.message()
 async def posting_too_often(message: Message):
-    pass
-
+    print(message.json(indent=4))
