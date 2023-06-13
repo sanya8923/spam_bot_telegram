@@ -6,7 +6,7 @@ import config_reader
 from aiogram import Bot, Dispatcher, types
 from aiogram.types import Message
 
-from handlers import bot_start, ban_new_user_for_links, save_chat_member_updated
+from handlers import bot_start, ban_new_user_for_links, save_chat_member_updated, posting_too_often
 
 
 async def main():
@@ -17,7 +17,8 @@ async def main():
     dp.include_routers(
         bot_start.router,
         ban_new_user_for_links.router,
-        save_chat_member_updated.router
+        save_chat_member_updated.router,
+        posting_too_often.router
     )
 
     await bot.delete_webhook(drop_pending_updates=True)
