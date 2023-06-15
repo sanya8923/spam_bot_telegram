@@ -6,7 +6,7 @@ import config_reader
 from aiogram import Bot, Dispatcher, types
 from aiogram.types import Message
 
-from handlers import bot_start, ban_new_user_for_links, save_chat_member_updated, posting_too_often, message_fields
+from handlers import bot_start, ban_new_user_for_links, save_message_update, posting_too_often, message_fields
 
 
 async def main():
