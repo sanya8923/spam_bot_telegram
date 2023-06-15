@@ -13,7 +13,7 @@ class MessageUpdate(BaseFilter):
     chat_id: int
     message_id: int
     date_message: datetime
-    join_message: Optional[bool]
+    join_message: Optional[bool] = False
 
     async def __call__(self, message: Message) -> List[Dict]:
         members_data = []
@@ -24,16 +24,16 @@ class MessageUpdate(BaseFilter):
         item.date_message = message.date
 
         data_join = message.new_chat_members
-        data_join_flag = False
         if data_join is not None:
-            data_join_flag = True
-
-        item.join_message = data_join_flag
+            item.join_message = True
 
         members_data.append(item)
 
         for line in members_data:
-            print(line)
+            print(line.message_id)
+            print(line.chat_id)
+            print(line.join_message)
+            print(line.date_message)
 
         return members_data
 

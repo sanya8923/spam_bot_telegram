@@ -10,9 +10,12 @@ router = Router()
 
 
 @router.message(F.text, HasLinkFilter(), MessageUpdate())
-async def ban_new_user_for_link(message: Message, links: list[str], message_list: list):
+async def ban_new_user_for_link(message: Message, links: list[str], message_list: list[MessageUpdate]):
+    if links:
+        await message.reply(f"Thanks for link {', '.join(links)}"
+                            f"Message list {message_list}")
+    else:
+        await message.reply(f"Message list {message_list}")
 
-    await message.reply(f"Thanks for link {', '.join(links)}"
-                        f"Message list {message_list}")
 
 
