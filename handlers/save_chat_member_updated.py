@@ -7,11 +7,11 @@ router = Router()
 
 
 @router.message()
-async def on_chat_member_update(message: Message):
+async def save_message_update(message: Message):
     members_data = []
     member_data = {'user_id': message.from_user.id,
                    'chat_id': message.chat.id,
-                   'data_message': message.date
+                   'date_message': message.date
                    }
 
     data_join = message.new_chat_members
@@ -21,10 +21,10 @@ async def on_chat_member_update(message: Message):
 
     member_data['join_message'] = data_join_flag
 
-    # for keys, value in member_data.items():
-    #     print(keys, value)
-
     members_data.append(member_data)
 
     for line in members_data:
-        print(line)
+        print(line['data_message'])
+
+
+# on_chat_member_update
