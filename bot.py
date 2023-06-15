@@ -17,9 +17,9 @@ async def main():
     dp.include_routers(
         bot_start.router,
         ban_new_user_for_links.router,
-        save_chat_member_updated.router,
+        # save_message_update.router,
         # posting_too_often.router
-        message_fields.router
+        # message_fields.router
     )
 
     await bot.delete_webhook(drop_pending_updates=True)
