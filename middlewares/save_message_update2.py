@@ -33,6 +33,7 @@ class SaveMessageUpdateMiddleware(BaseMiddleware):
             item.join_message = True
 
         members_data.append(item)
+        print("IT'S MIDDLEWARE")
         for line in members_data:
             print(f'user_id: {line.user_id}'
                   f'\nchat_id: {line.chat_id}'

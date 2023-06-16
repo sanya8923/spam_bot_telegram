@@ -4,7 +4,6 @@ import asyncio
 import config_reader
 
 from aiogram import Bot, Dispatcher
-import tracemalloc  # TODO: подчисти
 
 import processing_message
 from handlers import bot_start, ban_new_user_for_links, save_message_update
@@ -17,7 +16,7 @@ async def main():
 
     dp.include_routers(
         bot_start.router,
-        save_message_update.router,
+        # save_message_update.router,
         # processing_message.router,
         ban_new_user_for_links.router,
         # save_message_update.router,
