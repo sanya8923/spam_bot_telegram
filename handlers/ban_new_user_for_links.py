@@ -2,7 +2,7 @@ from aiogram import Router, F
 from aiogram.types import Message
 
 from filter.find_link import HasLinkFilter
-from handlers.save_message_update2 import members_data
+from handlers.save_message_update import members_data
 
 router = Router()
 

@@ -16,17 +16,23 @@ class MessageUpdate:
     date_message: datetime
     join_message: Optional[bool] = False
 
-    @router.message()
-    async def save_mes_up(self, message: Message):
-        item = MessageUpdate
-        item.user_id = message.from_user.id
-        item.chat_id = message.chat.id
-        item.message_id = message.message_id
-        item.date_message = message.date
 
-        data_join = message.new_chat_members
-        if data_join is not None:
-            item.join_message = True
+@router.message()
+async def save_message_update(message: Message):
+    item = MessageUpdate()
+    item.user_id = message.from_user.id
+    item.chat_id = message.chat.id
+    item.message_id = message.message_id
+    item.date_message = message.date
 
-        members_data.append(item)
+    data_join = message.new_chat_members
+    if data_join is not None:
+        item.join_message = True
+
+    members_data.append(item)
+    for line in members_data:
+        print(f'user_id: {line.user_id}'
+              f'\nchat_id: {line.chat_id}'
+              f'\nmessage_id: {line.message_id}'
+              f'\ndate_message: {line.date_message}')
 
