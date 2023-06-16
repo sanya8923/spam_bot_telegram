@@ -1,21 +1,20 @@
 from aiogram import Router, F
 from aiogram.types import Message
-from aiogram.filters import Command
 
 from filter.find_link import HasLinkFilter
-from handlers.save_message_update import MessageUpdate
-
+from handlers.save_message_update2 import members_data
 
 router = Router()
 
 
-@router.message(F.text, HasLinkFilter(), MessageUpdate())
-async def ban_new_user_for_link(message: Message, links: list[str], message_list: list[MessageUpdate]):
+@router.message(F.text, HasLinkFilter())
+async def ban_new_user_for_link(message: Message, links: list[str]):
+
     if links:
         await message.reply(f"Thanks for link {', '.join(links)}"
-                            f"Message list {message_list}")
+                            f"Message list {members_data}")
     else:
-        await message.reply(f"Message list {message_list}")
+        await message.reply(f"Message list {members_data}")
 
 
 

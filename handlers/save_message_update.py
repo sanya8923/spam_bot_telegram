@@ -6,17 +6,18 @@ import datetime
 
 
 router = Router()
+members_data = []
 
 
-class MessageUpdate(BaseFilter):
+class MessageUpdate:
     user_id: int
     chat_id: int
     message_id: int
     date_message: datetime
     join_message: Optional[bool] = False
 
-    async def __call__(self, message: Message) -> List[Dict]:
-        members_data = []
+    @router.message()
+    async def save_mes_up(self, message: Message):
         item = MessageUpdate
         item.user_id = message.from_user.id
         item.chat_id = message.chat.id
@@ -29,16 +30,3 @@ class MessageUpdate(BaseFilter):
 
         members_data.append(item)
 
-        for line in members_data:
-            print(line.message_id)
-            print(line.chat_id)
-            print(line.join_message)
-            print(line.date_message)
-
-        return members_data
-
-
-
-
-
-# on_chat_member_update
