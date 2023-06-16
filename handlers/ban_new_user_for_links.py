@@ -6,7 +6,6 @@ from handlers.save_message_update import members_data
 from middlewares.save_message_update2 import SaveMessageUpdateMiddleware
 
 router = Router()
-router.message.middleware(SaveMessageUpdateMiddleware())
 
 
 @router.message(F.text, HasLinkFilter())
