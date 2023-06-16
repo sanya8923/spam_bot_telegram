@@ -2,6 +2,7 @@ from aiogram import BaseMiddleware, F
 from aiogram.types import Message
 from aiogram.methods.delete_message import DeleteMessage
 from typing import Callable, Dict, Any, Awaitable
+from handlers.add_stop_words import stop_words
 
 
 class DeleteMessageForStopWords(BaseMiddleware):
@@ -11,7 +12,6 @@ class DeleteMessageForStopWords(BaseMiddleware):
             event: Message,
             data: Dict[str, Any]
     ) -> Any:
-        stop_words = ['трава', 'ганжа', 'трахаться']
         if F.text.contains(stop_words):
             return DeleteMessage(chat_id=event.chat.id, message_id=event.message_id)
         else:
