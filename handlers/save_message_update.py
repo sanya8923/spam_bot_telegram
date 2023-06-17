@@ -12,7 +12,7 @@ class MessageUpdate:
     user_id: int
     chat_id: int
     message_id: int
-    date_message: datetime
+    date_message: int
     join_message: Optional[bool] = False
 
 
