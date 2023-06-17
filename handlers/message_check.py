@@ -1,9 +1,11 @@
-from aiogram import Router
+from aiogram import Router, F
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from handlers.save_message_update import MessageUpdate
 from check_process import check_members_data
+from filter.find_link import HasLinkFilter
+
 
 
 router = Router()
@@ -54,7 +56,19 @@ async def get_status_member(message: Message, state: FSMContext):
             await state.set_state(MessageCheck.normal_user)
 
 
-
+@router.message(F.text, HasLinkFilter())
+async def ban_new_user_for_link(message: Message, links: list[str]):
+    print("IT'S HANDLER")
+    for line in members_data:
+        print(f'user_id: {line.user_id}'
+              f'\nchat_id: {line.chat_id}'
+              f'\nmessage_id: {line.message_id}'
+              f'\ndate_message: {line.date_message}')
+    if links:
+        await message.reply(f"Thanks for link {', '.join(links)}"
+                            f"Message list {members_data}")
+    else:
+        await message.reply(f"Message list {members_data}")
 
 
 
