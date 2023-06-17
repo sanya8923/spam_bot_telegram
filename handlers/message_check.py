@@ -9,6 +9,9 @@ from check_process import check_members_data
 router = Router()
 
 
+DURATION_OF_NEW_USER_STATUS = 86400
+
+
 class MessageCheck(StatesGroup):
     membership_term_not_defined = State()
     new_user = State()
@@ -34,6 +37,24 @@ async def save_message_update(message: Message, state: FSMContext) -> None:
 
     members_data.append(item)
     check_members_data(members_data)
+
+
+@router.message()
+async def get_status_member(message: Message, state: FSMContext):
+    date_join = [line['date_message'] for line in members_data if
+                 line['user_id'] == message.from_user.id and
+                 line['join_message'] is True]
+
+    if len(date_join) > 0:
+        duration_of_membership = message.date - date_join
+
+        if duration_of_membership <= DURATION_OF_NEW_USER_STATUS:
+            await state.set_state(MessageCheck.new_user)
+        else:
+            await state.set_state(MessageCheck.normal_user)
+
+
+
 
 
 
