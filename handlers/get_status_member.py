@@ -22,11 +22,10 @@ async def new_member_checkin(message: Message) -> bool:
 
     if date_join is not None:
         duration_of_membership = message.date - date_join
-        if (message.from_user.id == user_id) and (duration_of_membership.total_seconds() <= DURATION_OF_NEW_USER_STATUS):
-            print(f'New user: True')
+        if (message.from_user.id == user_id) and \
+                (duration_of_membership.total_seconds() <= DURATION_OF_NEW_USER_STATUS):
             return True
         else:
-            print(f'New user: False')
             return False
 
 
