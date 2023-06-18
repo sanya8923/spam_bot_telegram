@@ -10,9 +10,9 @@ router = Router()
 
 
 @router.message()
-async def ban_member(bot, message: Message, ban_duration: int) -> None:
+async def ban_member(bot, message: Message, ban_duration_min: int) -> None:
     current_date = datetime.datetime.now()
-    next_day = current_date + datetime.timedelta(days=ban_duration)
+    next_day = current_date + datetime.timedelta(minutes=ban_duration_min)
 
     await bot.ban_chat_member(message.chat.id,
                               message.from_user.id,
