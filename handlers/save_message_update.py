@@ -29,9 +29,10 @@ async def save_message_update(message: Message):
         item.join_message = True
 
     members_data.append(item)
-    for line in members_data:
-        print(f'user_id: {line.user_id}'
-              f'\nchat_id: {line.chat_id}'
-              f'\nmessage_id: {line.message_id}'
-              f'\ndate_message: {line.date_message}')
+    # for line in members_data:
+    #     print(f'user_id: {line.user_id}'
+    #           f'\nchat_id: {line.chat_id}'
+    #           f'\nmessage_id: {line.message_id}'
+    #           f'\ndate_message: {line.date_message}'
+    #           f'\njoin_message: {line.join_message}')
 
