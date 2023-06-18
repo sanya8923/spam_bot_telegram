@@ -33,9 +33,7 @@ async def main():
 
         if new_member and url_presence:
             await message.delete()
-            await ban_member(message, bot)
-        else:
-            print(f'user_check: False')
+            await ban_member(bot, message, ban_duration=1)
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)

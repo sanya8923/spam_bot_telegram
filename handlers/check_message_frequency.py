@@ -6,6 +6,6 @@ router = Router()
 
 
 @router.message()
-async def posting_too_often(message: Message):
+async def check_message_frequency(message: Message):
     pass
 
