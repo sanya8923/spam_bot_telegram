@@ -10,7 +10,7 @@ from aiogram.types import Message
 from handlers import bot_start
 from handlers.get_status_member import new_member_checkin
 from handlers.save_message_update import save_message_update
-from handlers.ban_member import ban_new_user_for_link
+from handlers.ban_member import ban_member
 from handlers.checking_for_url import checking_for_url
 
 
@@ -28,20 +28,12 @@ async def main():
     @dp.message()
     async def message_check(message: Message):
         await save_message_update(message)
-        user_check = await new_member_checkin(message)
+        new_member = await new_member_checkin(message)
+        url_presence = await checking_for_url(message)
 
-        if user_check is True:
-            url_presence = await checking_for_url(message)
-            if url_presence is True:
-                await message.delete()
-
-                current_date = datetime.datetime.now()
-                next_day = current_date + datetime.timedelta(days=1)
-
-                await bot.ban_chat_member(message.chat.id,
-                                          message.from_user.id,
-                                          until_date=next_day,
-                                          revoke_messages=False)
+        if new_member and url_presence:
+            await message.delete()
+            await ban_member(message, bot)
         else:
             print(f'user_check: False')
 
