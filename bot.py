@@ -10,7 +10,7 @@ from handlers import bot_start
 from handlers.get_status_member import new_member_checkin
 from handlers.save_message_update import save_message_update
 from handlers.ban_new_user_for_links import ban_new_user_for_link
-from filter.find_link import HasLinkFilter
+from handlers.checking_for_url import checking_for_url
 
 
 async def main():
@@ -30,7 +30,9 @@ async def main():
         user_check = await new_member_checkin(message)
 
         if user_check is True:
-            await ban_new_user_for_link(message)
+            url_presence = await checking_for_url(message)
+            if url_presence is True:
+                print(f'link: True')
         else:
             print(f'user_check: False')
 
