@@ -25,7 +25,12 @@ async def main():
     @dp.message()
     async def message_check(message: Message):
         await save_message_update(message)
-        await new_member_checkin(message)
+        user_check = await new_member_checkin(message)
+
+        if user_check is True:
+            print(f'user_check: True')
+        else:
+            print(f'user_check: False')
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
