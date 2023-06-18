@@ -16,7 +16,7 @@ class HasLinkFilter(BaseFilter):
         print(f'found_links: {found_links}')
 
         if len(found_links) > 0:
-            return {"links": found_links}
+            return True
         return False
 
 

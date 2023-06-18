@@ -3,12 +3,14 @@ import asyncio
 
 import config_reader
 
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, F
 from aiogram.types import Message
 
 from handlers import bot_start
 from handlers.get_status_member import new_member_checkin
 from handlers.save_message_update import save_message_update
+from handlers.ban_new_user_for_links import ban_new_user_for_link
+from filter.find_link import HasLinkFilter
 
 
 async def main():
@@ -28,7 +30,7 @@ async def main():
         user_check = await new_member_checkin(message)
 
         if user_check is True:
-            print(f'user_check: True')
+            await ban_new_user_for_link(message)
         else:
             print(f'user_check: False')
 

@@ -8,19 +8,28 @@ from middlewares.save_message_update2 import SaveMessageUpdateMiddleware
 router = Router()
 
 
-@router.message(F.text, HasLinkFilter())
-async def ban_new_user_for_link(message: Message, links: list[str]):
-    print("IT'S HANDLER")
-    for line in members_data:
-        print(f'user_id: {line.user_id}'
-              f'\nchat_id: {line.chat_id}'
-              f'\nmessage_id: {line.message_id}'
-              f'\ndate_message: {line.date_message}')
-    if links:
-        await message.reply(f"Thanks for link {', '.join(links)}"
-                            f"Message list {members_data}")
-    else:
-        await message.reply(f"Message list {members_data}")
+# @router.message(F.text, HasLinkFilter())
+# async def ban_new_user_for_link(message: Message, links: list[str]):
+#     print(f'links: {links}')
+    # if links:
+    #     await message.reply(f"Thanks for link {links}")
+    # else:
+    #     await message.reply(f"Message list {members_data}")
+
+
+@router.message()
+async def ban_new_user_for_link(message: Message):
+    entities = message.entities or []
+
+    found_links = [
+        item.extract_from(message.text) for item in entities
+        if item.type == "url"
+    ]
+
+    print(f'found_links: {found_links}')
+
+    if len(found_links) > 0:
+        print('link_founded')
 
 
 
