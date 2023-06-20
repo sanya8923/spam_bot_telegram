@@ -1,19 +1,18 @@
-import datetime
 import logging
 import asyncio
 
 import config_reader
 
-from aiogram import Bot, Dispatcher, F
+from aiogram import Bot, Dispatcher
 from aiogram.types import Message
 
-from handlers import bot_start
-from handlers.get_status_member import new_member_checkin
+from handlers_message_check import bot_start
+from handlers_message_check.get_status_member import new_member_checkin
 from handlers.save_message_update import save_message_update
-from handlers.ban_member import ban_member
-from handlers.checking_for_url import checking_for_url
-from handlers.check_message_frequency import check_message_frequency
-from handlers.restrict_member import restrict_member
+from handlers_user_management.ban_member import ban_member
+from handlers_message_check.checking_for_url import checking_for_url
+from handlers_message_check.check_message_frequency import check_message_frequency
+from handlers_user_management.restrict_member import restrict_member
 
 
 async def main():
