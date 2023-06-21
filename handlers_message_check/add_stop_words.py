@@ -4,7 +4,7 @@ from aiogram.filters import CommandObject, Command
 
 
 router = Router()
-router.message.filter(F.chat.type == 'private')
+# router.message.filter(chat.type == 'private')
 
 stop_words = []
 

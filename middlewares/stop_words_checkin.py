@@ -12,8 +12,7 @@ class DeleteMessageForStopWords(BaseMiddleware):
             event: Message,
             data: Dict[str, Any]
     ) -> Any:
-        if F.text.contains(stop_words):
-            print(stop_words)
+        if F.text == 'гашиш':
             return DeleteMessage(chat_id=event.chat.id, message_id=event.message_id)
         else:
             return await handler(event, data)
