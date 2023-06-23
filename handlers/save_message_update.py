@@ -3,9 +3,10 @@ from aiogram.types import Message
 from typing import Optional
 import datetime
 
+from lists import members_data
+
 
 router = Router()
-members_data = []
 
 
 class MessageUpdate:

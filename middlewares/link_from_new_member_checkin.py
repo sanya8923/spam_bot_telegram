@@ -2,8 +2,8 @@ from aiogram import BaseMiddleware
 from aiogram.types import Message
 from typing import Callable, Dict, Any, Awaitable
 
-from handlers_message_check.new_member_checkin import new_member_checkin
-from handlers_message_check.checking_for_url import checking_for_url
+from handlers_user_management.new_member_checkin import new_member_checkin
+from handlers_message_management.checking_for_url import checking_for_url
 from handlers_user_management.ban_member import ban_member
 
 from bot import bot

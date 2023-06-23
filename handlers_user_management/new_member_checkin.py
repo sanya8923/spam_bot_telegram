@@ -1,13 +1,11 @@
 from aiogram import Router, F
 from aiogram.types import Message
-from handlers.save_message_update import members_data
+from lists import members_data
 import datetime
+from constants import DURATION_OF_NEW_USER_STATUS
 
 
 router = Router()
-
-
-DURATION_OF_NEW_USER_STATUS = 86400  # 24 hours
 
 
 @router.message()

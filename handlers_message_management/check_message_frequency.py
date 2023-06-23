@@ -1,7 +1,7 @@
 from aiogram import Router
 from aiogram.types import Message
 import datetime
-from handlers.save_message_update import members_data
+from lists import members_data
 from constants import TIME_SPAN_TO_CHECK_NUMBER_OF_MESSAGES_MIN, ALLOWED_NUMBER_OF_MESSAGE_FOR_PERIOD
 
 router = Router()
