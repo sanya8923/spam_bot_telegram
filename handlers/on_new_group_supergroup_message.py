@@ -7,6 +7,7 @@ from handlers_user_management.get_member_status_group_supergroup import get_memb
 from handlers.on_new_message_from_creator import on_new_message_from_creator
 from handlers.on_new_message_from_admin import on_new_message_from_admin
 from handlers.on_new_message_from_member import on_new_message_from_member
+from handlers_user_management.member_unban import unban_members
 
 
 router = Router()
@@ -16,12 +17,9 @@ router = Router()
 async def on_new_group_supergroup_message(message: Message) -> Coroutine:
     chat_member_status = await get_member_status_group_supergroup(message)
     if chat_member_status == 'creator':
-        print('creator')
         return await on_new_message_from_creator(message)
     elif chat_member_status == 'administrator':
-        print('administrator')
         return await on_new_message_from_admin(message)
     elif chat_member_status == 'member':
-        print('member')
         return await on_new_message_from_member(message)
 
