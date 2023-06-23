@@ -4,9 +4,9 @@ from typing import Coroutine
 
 from handlers_message_management.check_message_frequency import check_message_frequency
 
-from handlers_user_management.restrict_member import restrict_member
+from handlers_user_management.member_restrict import restrict_member
 
-from handlers.save_message_update import save_message_update
+from handlers_message_management.save_message_update import save_message_update
 
 
 router = Router()

@@ -6,7 +6,7 @@ router = Router()
 
 
 @router.message()
-async def checking_for_url(message: Message) -> bool:
+async def check_for_url(message: Message) -> bool:
     entities = message.entities or []
 
     found_links = [

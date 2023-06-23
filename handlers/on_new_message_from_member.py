@@ -7,8 +7,8 @@ from handlers.on_new_message_from_ordinary_member import on_new_message_from_ord
 
 from handlers_message_management.check_ban_words import check_ban_words
 
-from handlers_user_management.ban_member import ban_member
-from handlers_user_management.new_member_checkin import new_member_checkin
+from handlers_user_management.member_ban import ban_member
+from handlers_user_management.check_new_member import check_new_member
 
 
 router = Router()
@@ -22,7 +22,7 @@ async def on_new_message_from_member(message: Message) -> Coroutine:
         await message.delete()
         await ban_member(message)
     else:
-        new_member = await new_member_checkin(message)
+        new_member = await check_new_member(message)
         if new_member:
             return await on_new_message_from_new_member(message)
         else:

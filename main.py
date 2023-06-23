@@ -1,11 +1,10 @@
 import logging
 import asyncio
 
-import config_reader
 from bot import bot
 
 from aiogram import Dispatcher
-from handlers import save_message_update
+from handlers_message_management import save_message_update
 
 from middlewares.get_chat_type_middleware_outer import GetChatTypeMiddlewareOuter
 

@@ -1,12 +1,12 @@
 from aiogram import Router
 from aiogram.types import Message
 
-from handlers_user_management.new_member_checkin import new_member_checkin
-from handlers.save_message_update import save_message_update
-from handlers_user_management.ban_member import ban_member
-from handlers_message_management.checking_for_url import checking_for_url
+from handlers_user_management.check_new_member import check_new_member
+from handlers_message_management.save_message_update import save_message_update
+from handlers_user_management.member_ban import ban_member
+from handlers_message_management.check_message_for_url import check_for_url
 from handlers_message_management.check_message_frequency import check_message_frequency
-from handlers_user_management.restrict_member import restrict_member
+from handlers_user_management.member_restrict import restrict_member
 
 
 router = Router()
@@ -15,8 +15,8 @@ router = Router()
 @router.message()
 async def message_check(message: Message):
     await save_message_update(message)
-    new_member = await new_member_checkin(message)
-    url_presence = await checking_for_url(message)
+    new_member = await check_new_member(message)
+    url_presence = await check_for_url(message)
 
     if new_member and url_presence:
         await message.delete()

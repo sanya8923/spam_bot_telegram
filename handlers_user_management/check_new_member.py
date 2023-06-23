@@ -9,7 +9,7 @@ router = Router()
 
 
 @router.message()
-async def new_member_checkin(message: Message) -> bool:
+async def check_new_member(message: Message) -> bool:
 
     date_join = None
     user_id = None
