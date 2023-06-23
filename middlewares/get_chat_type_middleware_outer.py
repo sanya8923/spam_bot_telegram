@@ -4,12 +4,23 @@ from typing import Callable, Dict, Any, Awaitable
 from bot import bot
 from aiogram.methods.get_chat_member import GetChatMember
 from middlewares.stop_words_checkin import DeleteMessageForStopWords
-from handlers_user_management.ban_member import ban_member]
+from handlers_user_management.ban_member import ban_member
 from handlers_message_check.new_member_checkin import new_member_checkin
+from handlers_message_check.checking_for_url import checking_for_url
+from handlers_message_check.check_message_frequency import check_message_frequency
 
 
 async def on_new_message_from_new_member(message: Message):
-    pass
+    presence_url = await checking_for_url(message)
+    if presence_url:
+        await message.delete()
+        await ban_member(message)
+    else:
+        posting_too_often = await check_message_frequency(message,
+                                                          duration_of_check_min=60,
+                                                          number_of_messages=5)
+
+
 
 
 async def on_new_message_from_ordinary_member(message: Message):
