@@ -16,6 +16,7 @@ router = Router()
 
 @router.message()
 async def on_new_message_from_new_member(message: Message) -> Coroutine:
+    print('on_new_message_from_new_member')
     presence_url = await check_for_url(message)
     if presence_url:
         await message.delete()

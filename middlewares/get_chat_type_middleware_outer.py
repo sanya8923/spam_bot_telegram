@@ -13,7 +13,6 @@ class GetChatTypeMiddlewareOuter(BaseMiddleware):
             event: Message,
             data: Dict[str, Any]
     ):
-
         if event.chat.type == 'private':
             return await on_new_private_message(event)
         elif event.chat.type == 'group':

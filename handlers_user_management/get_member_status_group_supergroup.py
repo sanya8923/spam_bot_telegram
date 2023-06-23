@@ -15,4 +15,5 @@ async def get_member_status_group_supergroup(message: Message) -> Coroutine:
         chat_id=message.chat.id,
         user_id=message.from_user.id
     )
-    return await bot.__call__(get_chat_member)
+    chat_status = await bot.__call__(get_chat_member)
+    return chat_status.status
