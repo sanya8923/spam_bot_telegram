@@ -51,13 +51,9 @@ async def main():
         #
         # if new_member and url_presence:
         #     await message.delete()
-        #     await ban_member(bot,
-        #                      message,
-        #                      ban_duration_min=1440)
+        #     await ban_member(bot, message)
         #
-        # posting_too_often = await check_message_frequency(message,
-        #                                                   duration_of_check_min=60,
-        #                                                   number_of_messages=5)
+        # posting_too_often = await check_message_frequency(message)
         #
         # if posting_too_often:
         #     await restrict_member(bot,

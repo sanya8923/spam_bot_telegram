@@ -2,13 +2,14 @@ from aiogram import Router, F
 from aiogram.types import Message
 import json
 import datetime
+from constants import RESTRICT_DURATION_MIN
 
 
 router = Router()
 
 
 @router.message()
-async def restrict_member(bot, message: Message, restrict_duration_min: int) -> None:
+async def restrict_member(bot, message: Message) -> None:
     permissions = {
                     "can_send_messages": False,
                     "can_send_media_messages": False,
@@ -22,7 +23,7 @@ async def restrict_member(bot, message: Message, restrict_duration_min: int) -> 
 
     permissions_json = json.dumps(permissions)
     current_date = datetime.datetime.now()
-    next_day = current_date + datetime.timedelta(minutes=restrict_duration_min)
+    next_day = current_date + datetime.timedelta(minutes=RESTRICT_DURATION_MIN)
 
     await bot.restrict_chat_member(message.chat.id,
                                    message.from_user.id,
