@@ -3,12 +3,12 @@ from aiogram.types import Message
 from typing import Callable, Dict, Any, Awaitable
 from bot import bot
 from aiogram.methods.get_chat_member import GetChatMember
-from middlewares.stop_words_checkin import DeleteMessageForStopWords
 from handlers_user_management.ban_member import ban_member
 from handlers_user_management.restrict_member import restrict_member
 from handlers_message_check.new_member_checkin import new_member_checkin
 from handlers_message_check.checking_for_url import checking_for_url
 from handlers_message_check.check_message_frequency import check_message_frequency
+from handlers.save_message_update import save_message_update
 
 
 async def on_new_message_from_new_member(message: Message):
@@ -20,8 +20,8 @@ async def on_new_message_from_new_member(message: Message):
         posting_too_often = await check_message_frequency(message)
         if posting_too_often:
             await restrict_member(message)
-
-
+        else:
+            await save_message_update(message)
 
 
 async def on_new_message_from_ordinary_member(message: Message):
