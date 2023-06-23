@@ -9,7 +9,7 @@ from aiogram.types import Message
 from aiogram.filters import Command
 
 from handlers_message_check.bot_start import cmd_start
-from handlers_message_check.get_status_member import new_member_checkin
+from handlers_message_check.new_member_checkin import new_member_checkin
 from handlers.save_message_update import save_message_update
 from handlers_user_management.ban_member import ban_member
 from handlers_message_check.checking_for_url import checking_for_url

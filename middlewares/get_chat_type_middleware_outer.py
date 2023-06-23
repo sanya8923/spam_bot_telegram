@@ -4,7 +4,16 @@ from typing import Callable, Dict, Any, Awaitable
 from bot import bot
 from aiogram.methods.get_chat_member import GetChatMember
 from middlewares.stop_words_checkin import DeleteMessageForStopWords
-from handlers_user_management.ban_member import ban_member
+from handlers_user_management.ban_member import ban_member]
+from handlers_message_check.new_member_checkin import new_member_checkin
+
+
+async def on_new_message_from_new_member(message: Message):
+    pass
+
+
+async def on_new_message_from_ordinary_member(message: Message):
+    pass
 
 
 async def check_ban_words(message: Message) -> bool:
@@ -20,10 +29,21 @@ async def on_new_message_from_admin(message: Message):
 
 
 async def on_new_message_from_member(message: Message):
+    # check ban_words
     presence_ban_word = await check_ban_words(message)
     if presence_ban_word:
         await message.delete()
-        await ban_member(message, ban_duration_min=)
+        await ban_member(message)
+    else:
+    # check duration membership
+        new_member = await new_member_checkin(message)
+        if new_member:
+            result = await on_new_message_from_new_member(message)
+        else:
+            result = await on_new_message_from_ordinary_member(message)
+    return result
+
+
 
 
 async def check_member_status(message: Message):
