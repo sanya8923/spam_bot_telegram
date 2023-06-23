@@ -25,7 +25,11 @@ async def on_new_message_from_new_member(message: Message):
 
 
 async def on_new_message_from_ordinary_member(message: Message):
-    pass
+    posting_too_often = await check_message_frequency(message)
+    if posting_too_often:
+        await restrict_member(message)
+    else:
+        await save_message_update(message)
 
 
 async def check_ban_words(message: Message) -> bool:
