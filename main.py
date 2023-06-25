@@ -4,7 +4,7 @@ import asyncio
 from bot import bot
 
 from aiogram import Dispatcher
-from handlers_message_management import save_message_update
+from handlers_management_message import save_message_update
 
 from middlewares.get_chat_type_middleware_outer import GetChatTypeMiddlewareOuter
 

@@ -5,10 +5,10 @@ from typing import Coroutine
 from handlers.on_new_message_from_new_member import on_new_message_from_new_member
 from handlers.on_new_message_from_ordinary_member import on_new_message_from_ordinary_member
 
-from handlers_message_management.check_ban_words import check_ban_words
+from handlers_management_message.check_ban_words import check_ban_words
 
-from handlers_user_management.member_ban import ban_member
-from handlers_user_management.check_new_member import check_new_member
+from handlers_management_user.member_ban import ban_member
+from handlers_management_user.check_new_member import check_new_member
 
 
 router = Router()

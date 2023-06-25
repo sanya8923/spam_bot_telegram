@@ -2,11 +2,11 @@ from aiogram import Router
 from aiogram.types import Message
 from typing import Coroutine
 
-from handlers_message_management.check_message_frequency import check_message_frequency
+from handlers_management_message.check_message_frequency import check_message_frequency
 
-from handlers_user_management.member_restrict import restrict_member
+from handlers_management_user.member_restrict import restrict_member
 
-from handlers_message_management.save_message_update import save_message_update
+from handlers_management_message.save_message_update import save_message_update
 
 from bot import bot
 
