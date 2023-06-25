@@ -16,7 +16,9 @@ router = Router()
 @router.message()
 async def on_new_group_supergroup_message(message: Message) -> Coroutine:
     chat_member_status = await get_member_status_group_supergroup(message)
+    print('on_new_group_supergroup_message: working')
     if chat_member_status == 'creator':
+        print('creator')
         return await on_new_message_from_creator(message)
     elif chat_member_status == 'administrator':
         return await on_new_message_from_admin(message)

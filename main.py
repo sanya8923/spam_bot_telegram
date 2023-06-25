@@ -5,6 +5,8 @@ from bot import bot
 
 from aiogram import Dispatcher
 from handlers_management_message import save_message_update
+from handlers import on_new_private_message, on_new_group_supergroup_message
+
 
 from middlewares.get_chat_type_middleware_outer import GetChatTypeMiddlewareOuter
 
@@ -16,7 +18,8 @@ async def main():
     dp.message.middleware(GetChatTypeMiddlewareOuter())
 
     dp.include_routers(
-        save_message_update.router
+        on_new_private_message.router,
+        on_new_group_supergroup_message.router
     )
 
     await bot.delete_webhook(drop_pending_updates=True)

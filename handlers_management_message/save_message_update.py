@@ -4,6 +4,7 @@ from typing import Optional
 import datetime
 
 from lists import members_data
+from db.db import add_message_update2, get_message_data2
 
 
 router = Router()
@@ -26,8 +27,17 @@ async def save_message_update(message: Message):
     item.date_message = message.date
 
     data_join = message.new_chat_members
+    print('save_message_update: working')
     if data_join is not None:
         item.join_message = True
 
     members_data.append(item)
+    print('before add_message')
+    await add_message_update2(item)
+    print('before add_message')
+    data = await get_message_data2(message.chat.id)
+    print(data)
+    # chat_id = str(message.chat.id)
+    # data = get_data(chat_id[message.message_id])
+    # print(data)
     # print(message.json(indent=4))
