@@ -33,7 +33,7 @@ async def save_message_update(message: Message):
 
     members_data.append(item)
     print('before db')
-    await add_message_update_to_collection(message)
+    await add_message_update_to_collection(item)
     print('after db')
     # chat_id = str(message.chat.id)
     # data = get_data(chat_id[message.message_id])
