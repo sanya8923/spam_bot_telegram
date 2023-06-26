@@ -3,3 +3,5 @@ python-dotenv==1.0.0
 config~=0.5.1
 pydantic~=1.10.9
 redis>=4.2.0rc1
+motor>=3.2
+pymongo==4.4.0

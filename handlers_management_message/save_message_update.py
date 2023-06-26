@@ -4,7 +4,7 @@ from typing import Optional
 import datetime
 
 from lists import members_data
-from db.db import add_message_update2, get_message_data2
+from db.db_mongodb import add_to_collection
 
 
 router = Router()
@@ -32,11 +32,9 @@ async def save_message_update(message: Message):
         item.join_message = True
 
     members_data.append(item)
-    print('before add_message')
-    await add_message_update2(item)
-    print('before add_message')
-    data = await get_message_data2(message.chat.id)
-    print(data)
+    print('before db')
+    await add_to_collection()
+    print('after db')
     # chat_id = str(message.chat.id)
     # data = get_data(chat_id[message.message_id])
     # print(data)
