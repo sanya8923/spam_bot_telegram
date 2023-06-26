@@ -4,7 +4,6 @@ from typing import Coroutine
 
 from handlers_management_message.check_message_for_url import check_for_url
 from handlers_management_message.check_message_frequency import check_message_frequency
-# from db.db_mongodb import check_message_frequency
 
 from handlers_management_user.member_ban import ban_member
 from handlers_management_user.member_restrict import restrict_member
@@ -12,10 +11,6 @@ from handlers_management_user.member_restrict import restrict_member
 from handlers_management_message.save_message_update import save_message_update
 
 
-router = Router()
-
-
-@router.message()
 async def on_new_message_from_new_member(message: Message) -> Coroutine:
     print('on_new_message_from_new_member')
     presence_url = await check_for_url(message)

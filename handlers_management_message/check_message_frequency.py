@@ -1,14 +1,9 @@
-from aiogram import Router
 from aiogram.types import Message
 import datetime
-from lists import members_data
 from constants import TIME_SPAN_TO_CHECK_NUMBER_OF_MESSAGES_MIN, ALLOWED_NUMBER_OF_MESSAGE_FOR_PERIOD
 from db.db_mongodb import db
 
-router = Router()
 
-
-@router.message()
 async def check_message_frequency(message: Message) -> bool:
     time_span_to_check = datetime.timedelta(minutes=TIME_SPAN_TO_CHECK_NUMBER_OF_MESSAGES_MIN)
     date_run_checking = message.date - time_span_to_check

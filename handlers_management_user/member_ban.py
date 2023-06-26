@@ -1,14 +1,13 @@
-from aiogram import Router, F
 from aiogram.types import Message, ChatMemberOwner
 import datetime
 from constants import BAN_DURATION_MIN
+from bot import bot
 
-router = Router()
+
 banned_members = []
 
 
-@router.message()
-async def ban_member(bot, message: Message) -> None:
+async def ban_member(message: Message) -> None:
     current_date = datetime.datetime.now()
     next_day = current_date + datetime.timedelta(minutes=BAN_DURATION_MIN)
 

@@ -1,4 +1,3 @@
-from aiogram import Router, F
 from aiogram.types import Message
 import json
 import datetime
@@ -6,10 +5,6 @@ from constants import RESTRICT_DURATION_MIN
 from bot import bot
 
 
-router = Router()
-
-
-@router.message()
 async def restrict_member(message: Message) -> None:
     permissions = {
                     "can_send_messages": False,

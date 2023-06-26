@@ -1,14 +1,8 @@
-from aiogram import Router, F
 from aiogram.types import Message
 from lists import members_data
-import datetime
 from constants import DURATION_OF_NEW_USER_STATUS
 
 
-router = Router()
-
-
-@router.message()
 async def check_new_member(message: Message) -> bool:
 
     date_join = None

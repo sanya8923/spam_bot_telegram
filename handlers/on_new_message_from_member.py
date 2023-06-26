@@ -1,4 +1,3 @@
-from aiogram import Router
 from aiogram.types import Message
 from typing import Coroutine
 
@@ -11,10 +10,6 @@ from handlers_management_user.member_ban import ban_member
 from handlers_management_user.check_new_member import check_new_member
 
 
-router = Router()
-
-
-@router.message()
 async def on_new_message_from_member(message: Message) -> Coroutine:
 
     presence_ban_word = await check_ban_words(message)

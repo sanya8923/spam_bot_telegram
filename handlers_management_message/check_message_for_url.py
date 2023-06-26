@@ -1,11 +1,6 @@
-from aiogram import Router, F
 from aiogram.types import Message
 
 
-router = Router()
-
-
-@router.message()
 async def check_for_url(message: Message) -> bool:
     entities = message.entities or []
 

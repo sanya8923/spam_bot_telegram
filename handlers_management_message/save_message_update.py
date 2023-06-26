@@ -1,13 +1,8 @@
-from aiogram import Router
 from aiogram.types import Message
 from typing import Optional
-import datetime
 
 from lists import members_data
 from db.db_mongodb import add_message_update_to_collection
-
-
-router = Router()
 
 
 class MessageUpdate:
@@ -18,7 +13,6 @@ class MessageUpdate:
     join_message: Optional[bool] = False
 
 
-@router.message()
 async def save_message_update(message: Message):
     item = MessageUpdate()
     item.user_id = message.from_user.id
