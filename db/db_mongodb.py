@@ -1,4 +1,6 @@
 import motor.motor_asyncio
+import datetime
+from constants import TIME_SPAN_TO_CHECK_NUMBER_OF_MESSAGES_MIN, ALLOWED_NUMBER_OF_MESSAGE_FOR_PERIOD
 
 
 cluster = motor.motor_asyncio.AsyncIOMotorClient('mongodb+srv://sanya8923:17XS7eoFcAtELvlx@cluster0.lzxiped.mongodb.net/db?retryWrites=true&w=majority')
@@ -20,7 +22,6 @@ async def add_message_update_to_collection(message_update):
         'join_message': message_update.join_message
     }
     collection.insert_one(data)
-
 
 
 
