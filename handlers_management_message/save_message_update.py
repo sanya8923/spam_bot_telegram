@@ -1,8 +1,8 @@
 from aiogram.types import Message
 from typing import Optional
 
-from lists import members_data
 from db.db_mongodb import add_message_update_to_collection
+from handlers_management_user.member_unban import member_unban
 
 
 class MessageUpdate:
@@ -25,11 +25,5 @@ async def save_message_update(message: Message):
     if data_join is not None:
         item.join_message = True
 
-    members_data.append(item)
-    print('before db')
     await add_message_update_to_collection(item)
-    print('after db')
-    # chat_id = str(message.chat.id)
-    # data = get_data(chat_id[message.message_id])
-    # print(data)
-    # print(message.json(indent=4))
+

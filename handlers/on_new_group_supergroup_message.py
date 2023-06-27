@@ -7,7 +7,7 @@ from handlers_management_user.get_member_status_group_supergroup import get_memb
 from handlers.on_new_message_from_creator import on_new_message_from_creator
 from handlers.on_new_message_from_admin import on_new_message_from_admin
 from handlers.on_new_message_from_member import on_new_message_from_member
-from handlers_management_user.member_unban import unban_members
+from handlers_management_user.member_unban import member_unban
 
 
 router = Router()

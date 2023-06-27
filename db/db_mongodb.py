@@ -14,7 +14,7 @@ async def print_list_collection_names():
 
 
 async def add_message_update_to_collection(message_update):
-    collection = db[str(message_update.chat_id)]
+    collection = db[f'{message_update.chat_id} - message updates']
     data = {
         'date_message': message_update.date_message,
         'message_id': message_update.message_id,
@@ -23,6 +23,14 @@ async def add_message_update_to_collection(message_update):
     }
     collection.insert_one(data)
 
+
+async def add_banned_member_to_collection(chat_id, user_id, date):
+    collection = db[f'{chat_id} - banned members']
+    data = {
+        'user_id': user_id,
+        'date_ban': date
+    }
+    collection.insert_one(data)
 
 
 
