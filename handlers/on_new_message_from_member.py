@@ -17,6 +17,7 @@ async def on_new_message_from_member(message: Message) -> Coroutine:
         await message.delete()
         await ban_member(message)
     else:
+        print('before new_member')
         new_member = await check_new_member(message)
         if new_member:
             return await on_new_message_from_new_member(message)

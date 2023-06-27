@@ -21,7 +21,6 @@ async def save_message_update(message: Message):
     item.date_message = message.date
 
     data_join = message.new_chat_members
-    print('save_message_update: working')
     if data_join is not None:
         item.join_message = True
 

@@ -14,6 +14,7 @@ from handlers_management_message.save_message_update import save_message_update
 async def on_new_message_from_new_member(message: Message) -> Coroutine:
     print('on_new_message_from_new_member')
     presence_url = await check_for_url(message)
+    print(f'Url: {presence_url}')
     if presence_url:
         await message.delete()
         await ban_member(message)
