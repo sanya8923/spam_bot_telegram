@@ -25,7 +25,7 @@ async def add_message_update_to_collection(message_update):
     collection.insert_one(data)
 
 
-async def add_banned_member_to_collection(chat_id, user_id, date):
+async def add_banned_member_to_collection(chat_id: int, user_id: int, date: datetime):
     collection = db[f'{chat_id} - banned members']
     data = {
         'user_id': user_id,
@@ -34,17 +34,12 @@ async def add_banned_member_to_collection(chat_id, user_id, date):
     collection.insert_one(data)
 
 
-async def check_ban_words(message: Message) -> bool:
-    collection = db['ban_words']
-    banned_words = (await collection.find_one())['words']
-
-    words_in_message = message.text.lower().split()
-
-    for banned_word in banned_words:
-        if banned_word in words_in_message:
-            return True
-        else:
-            return False
+async def add_group_where_bot_is_member(chat_id: int):
+    collection = db['group_where_bot_is_member']
+    data = {
+        'chat_id': chat_id
+    }
+    collection.insert_one(data)
 
 
 
