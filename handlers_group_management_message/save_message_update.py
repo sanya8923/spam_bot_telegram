@@ -2,7 +2,7 @@ from aiogram.types import Message
 from typing import Optional
 
 from db.db_mongodb import add_message_update_to_collection
-from handlers_management_user.member_unban import member_unban
+from handlers_group_management_user.member_unban import member_unban
 
 
 class MessageUpdate:

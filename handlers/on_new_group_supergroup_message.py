@@ -2,12 +2,12 @@ from aiogram import Router
 from aiogram.types import Message
 from typing import Coroutine
 
-from handlers_management_user.get_member_status_group_supergroup import get_member_status_group_supergroup
+from handlers_group_management_user.get_member_status_group_supergroup import get_member_status_group_supergroup
 
 from handlers.on_new_message_from_creator import on_new_message_from_creator
 from handlers.on_new_message_from_admin import on_new_message_from_admin
 from handlers.on_new_message_from_member import on_new_message_from_member
-from handlers_management_user.member_unban import member_unban
+from handlers_group_management_user.member_unban import member_unban
 
 
 router = Router()
