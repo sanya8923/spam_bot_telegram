@@ -1,8 +1,8 @@
 from aiogram.types import Message
 from typing import Coroutine
 
-from handlers.on_new_message_from_new_member import on_new_message_from_new_member
-from handlers.on_new_message_from_ordinary_member import on_new_message_from_ordinary_member
+from handlers_group.on_new_message_from_new_member import on_new_message_from_new_member
+from handlers_group.on_new_message_from_ordinary_member import on_new_message_from_ordinary_member
 
 from handlers_group_management_message.check_ban_words import check_ban_words
 

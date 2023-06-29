@@ -1,7 +1,7 @@
 from aiogram import Router
 from aiogram.types import Message, Update, update
 
-from handlers_private_chat.check_membership_groups import check_membership_groups
+from handlers_private.check_membership_groups import check_membership_groups
 
 
 router = Router()

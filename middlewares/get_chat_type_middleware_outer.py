@@ -2,8 +2,8 @@ from aiogram import BaseMiddleware
 from aiogram.types import Message
 from typing import Callable, Dict, Any, Awaitable
 
-from handlers.on_new_group_supergroup_message import on_new_group_supergroup_message
-from handlers.on_new_private_message import on_new_private_message
+from handlers_group.on_new_group_supergroup_message import on_new_group_supergroup_message
+from handlers_group.on_new_private_message import on_new_private_message
 
 
 class GetChatTypeMiddlewareOuter(BaseMiddleware):
