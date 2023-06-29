@@ -34,8 +34,16 @@ async def add_banned_member_to_collection(chat_id: int, user_id: int, date: date
     collection.insert_one(data)
 
 
-async def add_group_where_bot_is_member(chat_id: int):
+async def add_group_id_where_bot_is_member(chat_id: int):
     collection = db['group_where_bot_is_member']
+    data = {
+        'chat_id': chat_id
+    }
+    collection.insert_one(data)
+
+
+async def add_group_id_where_bot_is_admin(chat_id: int):
+    collection = db['group_where_bot_is_admin']
     data = {
         'chat_id': chat_id
     }
