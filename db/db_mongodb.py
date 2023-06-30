@@ -16,7 +16,6 @@ async def print_list_collection_names():
 
 async def add_data_to_db(collection_name, message_update):
     collection = db[collection_name]
-    print(f'type message update: {type(message_update)}')
     collection.insert_one(message_update)
 
 

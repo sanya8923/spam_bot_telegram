@@ -25,6 +25,5 @@ async def save_message_update(message: Message):
         data['join_message'] = True
 
     collection_name = f'{message.chat.id} - message updates'
-    print('in save_message_update')
     await add_data_to_db(collection_name, data)
 

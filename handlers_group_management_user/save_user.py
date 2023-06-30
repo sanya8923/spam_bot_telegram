@@ -13,11 +13,10 @@ class User:
 async def save_user(message: Message):
     collection_name = 'users'
     collection = db[collection_name]
-    count = await collection.count_documents({'id': message.from_user.id})
-    print(f'count in save_user: {count}')
+    count = await collection.count_documents({'user_id': message.from_user.id})
     if count == 0:
         user = {
-            'id': message.from_user.id,
+            'user_id': message.from_user.id,
             'username': message.from_user.username,
             'first_name': message.from_user.first_name,
             'last_name': message.from_user.last_name

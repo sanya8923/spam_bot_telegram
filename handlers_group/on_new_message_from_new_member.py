@@ -21,5 +21,3 @@ async def on_new_message_from_new_member(message: Message) -> Coroutine:
         posting_too_often = await check_message_frequency(message)
         if posting_too_often:
             await restrict_member(message)
-        else:
-            return await save_message_update(message)
