@@ -14,15 +14,14 @@ async def print_list_collection_names():
         print(name)
 
 
-async def add_message_update_to_collection(message_update):
-    collection = db[f'{message_update.chat_id} - message updates']
-    data = {
-        'date_message': message_update.date_message,
-        'message_id': message_update.message_id,
-        'user_id': message_update.user_id,
-        'join_message': message_update.join_message
-    }
-    collection.insert_one(data)
+async def add_data_to_db(collection_name, message_update):
+    collection = db[collection_name]
+    print(f'type message update: {type(message_update)}')
+    collection.insert_one(message_update)
+
+
+async def check_user_exists_in_db(user_id: int) -> bool:
+    pass
 
 
 async def add_banned_member_to_collection(chat_id: int, user_id: int, date: datetime):
@@ -34,20 +33,10 @@ async def add_banned_member_to_collection(chat_id: int, user_id: int, date: date
     collection.insert_one(data)
 
 
-async def add_group_id_where_bot_is_member(chat_id: int):
-    collection = db['group_where_bot_is_member']
-    data = {
-        'chat_id': chat_id
-    }
-    collection.insert_one(data)
+async def remove_group_id_where_bot_is_no_longer_member(chat_id: int):
+    collection = db['groups']
+    collection.delete_one({'member': chat_id})
 
-
-async def add_group_id_where_bot_is_admin(chat_id: int):
-    collection = db['group_where_bot_is_admin']
-    data = {
-        'chat_id': chat_id
-    }
-    collection.insert_one(data)
 
 
 

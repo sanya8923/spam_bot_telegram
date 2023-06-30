@@ -7,7 +7,7 @@ from handlers_group_management_user.get_member_status_group_supergroup import ge
 from handlers_group.on_new_message_from_creator import on_new_message_from_creator
 from handlers_group.on_new_message_from_admin import on_new_message_from_admin
 from handlers_group.on_new_message_from_member import on_new_message_from_member
-from handlers_group_management_user.member_unban import member_unban
+from handlers_group_management_user.save_user import save_user
 
 
 router = Router()
@@ -15,6 +15,7 @@ router = Router()
 
 @router.message()
 async def on_new_group_supergroup_message(message: Message) -> Coroutine:
+    await save_user(message)
     chat_member_status = await get_member_status_group_supergroup(message)
     if chat_member_status == 'creator':
         print('creator')
