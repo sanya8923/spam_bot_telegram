@@ -10,6 +10,7 @@ from handlers_group.on_new_message_from_member import on_new_message_from_member
 from handlers_group_management_user.save_user import save_user
 from handlers_group_management_message.save_message_update import save_message_update
 from handlers_group.save_group import save_group
+from handlers_group_management_user.test import print_chat_member
 
 
 router = Router()
@@ -20,10 +21,10 @@ async def on_new_group_supergroup_message(message: Message) -> Coroutine:
     await save_group(message)
     await save_user(message)
     await save_message_update(message)
+    await print_chat_member(message)
 
     chat_member_status = await get_member_status_group_supergroup(message)
     if chat_member_status == 'creator':
-        print('creator')
         return await on_new_message_from_creator(message)
     elif chat_member_status == 'administrator':
         return await on_new_message_from_admin(message)

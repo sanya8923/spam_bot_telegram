@@ -23,7 +23,6 @@ async def on_my_chat_member_update(update: ChatMemberUpdated):
     elif update.old_chat_member.status == 'administrator' and update.new_chat_member.status == 'member':
         return await on_demote_bot_from_admin_to_member(update)
     elif update.old_chat_member.status == 'administrator' and update.new_chat_member.status == 'kicked':
-        print(update.json(indent=4))
         return await on_kicking_bot_admin(update)
     elif update.old_chat_member.status == 'member' and update.new_chat_member.status == 'left':
         return await on_left_bot_member_from_group(update)

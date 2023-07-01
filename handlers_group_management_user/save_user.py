@@ -3,13 +3,6 @@ from aiogram.types import Message
 from db.db_mongodb import add_data_to_db, check_user_exists_in_db, db
 
 
-class User:
-    id: int
-    username: str
-    first_name: str
-    last_name: str
-
-
 async def save_user(message: Message):
     collection_name = 'users'
     collection = db[collection_name]
