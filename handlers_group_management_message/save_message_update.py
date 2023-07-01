@@ -1,5 +1,4 @@
 from aiogram.types import Message
-from typing import Optional
 
 from db.db_mongodb import add_data_to_db
 
