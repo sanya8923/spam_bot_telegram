@@ -4,14 +4,6 @@ from typing import Optional
 from db.db_mongodb import add_data_to_db
 
 
-class MessageUpdate:
-    user_id: int
-    chat_id: int
-    message_id: int
-    date_message: int
-    join_message: Optional[bool] = False
-
-
 async def save_message_update(message: Message):
     data = {
         'date_message': message.date,
