@@ -13,7 +13,6 @@ from handlers_group_management_user.check_new_member import check_new_member
 async def on_new_message_from_member(message: Message) -> Coroutine:
 
     presence_ban_word = await check_ban_words(message)
-    print(presence_ban_word)
     if presence_ban_word:
         await message.delete()
         await ban_member(message)

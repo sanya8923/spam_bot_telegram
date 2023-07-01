@@ -9,16 +9,17 @@ router = Router()
 
 @router.chat_member()
 async def on_chat_member_update(update: ChatMemberUpdated):
+    print('on_chat_member_update')
 
     if update.old_chat_member.status == 'left' and update.new_chat_member.status == 'member':
         return await on_new_member(update)
     elif update.old_chat_member.status == 'member' and update.new_chat_member.status == 'administrator':
         return await on_new_admin(update)
     elif update.old_chat_member.status == 'administrator' and update.new_chat_member.status == 'member':
-        pass
+        return 0
     elif update.old_chat_member.status == 'administrator' and update.new_chat_member.status == 'kicked':
-        pass
+        return 0
     elif update.old_chat_member.status == 'member' and update.new_chat_member.status == 'left':
-        pass
+        return 0
     else:
         print("You haven't considered all the options")

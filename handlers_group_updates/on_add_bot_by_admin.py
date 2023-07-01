@@ -9,4 +9,4 @@ async def on_add_bot_by_admin(update: ChatMemberUpdated):
 
     await save_group_admins(update.chat.id)
     await save_group(update)
-    await remove_group_id_where_bot_is_no_longer_member(chat_id)
+    # await remove_group_id_where_bot_is_no_longer_member(chat_id)
