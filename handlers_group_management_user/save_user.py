@@ -3,7 +3,7 @@ from aiogram.types import Message
 from db.db_mongodb import add_data_to_db, check_user_exists_in_db, db
 
 
-async def save_user_from_message(message: Message):
+async def save_user(message: Message):
     collection_name = 'users'
     collection = db[collection_name]
     count = await collection.count_documents({'user_id': message.from_user.id})
