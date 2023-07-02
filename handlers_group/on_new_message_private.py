@@ -8,5 +8,5 @@ router = Router()
 
 
 @router.message()
-async def on_new_private_message(message: Message):
+async def on_new_message_private(message: Message):
     await check_membership_groups()

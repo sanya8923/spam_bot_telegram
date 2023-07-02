@@ -2,8 +2,8 @@ from aiogram import BaseMiddleware
 from aiogram.types import Message
 from typing import Callable, Dict, Any, Awaitable
 
-from handlers_group.on_new_group_supergroup_message import on_new_group_supergroup_message
-from handlers_group.on_new_private_message import on_new_private_message
+from handlers_group.on_new_message_group_supergroup import on_new_message_group_supergroup
+from handlers_group.on_new_message_private import on_new_message_private
 
 
 class GetChatTypeMiddlewareOuter(BaseMiddleware):
@@ -14,9 +14,9 @@ class GetChatTypeMiddlewareOuter(BaseMiddleware):
             data: Dict[str, Any]
     ):
         if event.chat.type == 'private':
-            return await on_new_private_message(event)
+            return await on_new_message_private(event)
         elif event.chat.type == 'group':
-            return await on_new_group_supergroup_message(event)
+            return await on_new_message_group_supergroup(event)
         elif event.chat.type == 'supergroup':
-            return await on_new_group_supergroup_message(event)
+            return await on_new_message_group_supergroup(event)
 
