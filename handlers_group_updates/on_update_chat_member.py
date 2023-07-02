@@ -21,14 +21,14 @@ async def on_chat_member_update(update: ChatMemberUpdated):
     elif update.old_chat_member.status == 'member' and update.new_chat_member.status == 'administrator':
         return await on_admin_new(update)
     elif update.old_chat_member.status == 'administrator' and update.new_chat_member.status == 'member':
-        return on_admin_restrict_to_member(update)
+        return await on_admin_restrict_to_member(update)
     elif update.old_chat_member.status == 'administrator' and update.new_chat_member.status == 'kicked':
-        return on_admin_kick(update)
+        return await on_admin_kick(update)
     elif update.old_chat_member.status == 'member' and update.new_chat_member.status == 'left':
-        return on_member_left(update)
+        return await on_member_left(update)
     elif update.old_chat_member.status == 'administrator' and update.new_chat_member.status == 'left':
-        return on_admin_left(update)
+        return await on_admin_left(update)
     elif update.old_chat_member.status == 'member' and update.new_chat_member.status == 'kicked':
-        return on_member_kick(update)
+        return await on_member_kick(update)
     else:
         print("You haven't considered all the options")
