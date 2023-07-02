@@ -1,6 +1,5 @@
 from aiogram.types import ChatMemberUpdated
-from db.db_mongodb import db
-from db.db_mongodb import add_data_to_db
+from db.db_mongodb import db, add_data_to_db
 
 
 async def update_group_user_role_db(update: ChatMemberUpdated):
