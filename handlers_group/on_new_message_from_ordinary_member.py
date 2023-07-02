@@ -5,8 +5,6 @@ from handlers_group_management_message.check_message_frequency import check_mess
 
 from handlers_group_management_user.member_restrict import restrict_member
 
-from handlers_group_management_message.save_message_update import save_message_update
-
 
 async def on_new_message_from_ordinary_member(message: Message) -> Coroutine:
     print('on_new_message_from_ordinary_member')

@@ -7,9 +7,9 @@ from handlers_group_management_user.get_member_status_group_supergroup import ge
 from handlers_group.on_new_message_from_creator import on_new_message_from_creator
 from handlers_group.on_new_message_from_admin import on_new_message_from_admin
 from handlers_group.on_new_message_from_member import on_new_message_from_member
-from handlers_group_management_user.update_users_db_from_message import update_users_db_from_message
-from handlers_group_management_message.save_message_update import save_message_update
-from handlers_group.save_group_to_db import save_group_to_db
+from db.update_users_db_from_message import update_users_db_from_message
+from db.save_message_update import save_message_update
+from db.save_group_to_db import save_group_to_db
 
 
 router = Router()
