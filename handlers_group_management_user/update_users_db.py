@@ -1,6 +1,5 @@
 from aiogram.types import ChatMemberUpdated
-
-from db.db_mongodb import add_data_to_db, check_user_exists_in_db, db
+from db.db_mongodb import add_data_to_db, db
 
 
 async def update_users_db(update: ChatMemberUpdated):
