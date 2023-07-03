@@ -7,14 +7,14 @@ async def check_membership_groups(update: Message):
     print('check_membership_groups')
 
     collection = db['group_user_role']
-    documents = collection.find({'user_id': update.from_user.idd})
+    documents = collection.find({'user_id': update.from_user.id})
     documents_as_list = await documents.to_list(length=100)
 
     chat_names = []
     for document in documents_as_list:
         if document['role'] == 'creator' or 'administrator':
             chat_names.append(document['chat_name'])
-    return await choice_groups_keyboard(chat_names)
+    return await choice_groups_keyboard(update, chat_names)
 
 
 
