@@ -1,12 +1,12 @@
 from aiogram import Router
 from aiogram.types import Message
-from aiogram.filters import Command
+from handlers_private.check_membership_groups import check_membership_groups
 
 
 router = Router()
 
 
-@router.message()
 async def cmd_start(message: Message):
     await message.answer('Welcome')
+    await check_membership_groups(message)
 
