@@ -14,7 +14,7 @@ async def save_admins_to_db(update: ChatMemberUpdated):
             admin = {'user_id': line.user.id,
                      'username': line.user.username,
                      'chat_id': update.chat.id,
-                     'chat_name': update.chat.username,
+                     'chat_name': update.chat.title,
                      'role': 'administrator'
                      }
             await add_data_to_db('group_user_role', admin)
@@ -22,7 +22,7 @@ async def save_admins_to_db(update: ChatMemberUpdated):
             creator = {'user_id': line.user.id,
                        'username': line.user.username,
                        'chat_id': update.chat.id,
-                       'chat_name': update.chat.username,
+                       'chat_name': update.chat.title,
                        'role': 'creator'
                        }
             await add_data_to_db('group_user_role', creator)
