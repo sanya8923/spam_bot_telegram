@@ -10,7 +10,7 @@ async def update_group_user_role_db(update: ChatMemberUpdated):
     group_user_role = {'user_id': update.new_chat_member.user.id,
                        'username': update.new_chat_member.user.username,
                        'chat_id': update.chat.id,
-                       'chat_name': update.chat.username,
+                       'chat_name': update.chat.title,
                        'role': update.new_chat_member.status
                        }
 
