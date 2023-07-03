@@ -11,10 +11,12 @@ router = Router()
 
 @router.my_chat_member()
 async def on_my_chat_member_update(update: ChatMemberUpdated):
-
+    print('on_my_chat_member_update')
     if update.old_chat_member.status == 'left' and update.new_chat_member.status == 'member':
+        print('on_add_bot_by_member')
         return await on_add_bot_by_member(update)
     elif update.old_chat_member.status == 'member' and update.new_chat_member.status == 'administrator':
+        print('on_bot_add_by_admin')
         return await on_bot_add_by_admin(update)
     elif update.old_chat_member.status == 'administrator' and update.new_chat_member.status == 'member':
         return await on_bot_admin_to_member_restrict(update)

@@ -1,6 +1,6 @@
 from aiogram.types import Message
-
 from db.db_mongodb import add_data_to_db
+from bot import bot
 
 
 async def save_message_update(message: Message):
@@ -17,4 +17,5 @@ async def save_message_update(message: Message):
 
     collection_name = f'{message.chat.id} - message updates'
     await add_data_to_db(collection_name, data)
+
 

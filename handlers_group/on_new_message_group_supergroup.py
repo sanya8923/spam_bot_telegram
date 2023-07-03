@@ -17,6 +17,7 @@ router = Router()
 
 @router.message()
 async def on_new_message_group_supergroup(message: Message) -> Coroutine:
+    print('on_new_message_group_supergroup')
     await save_group_to_db(message)
     await update_users_db_from_message(message)
     await save_message_update(message)

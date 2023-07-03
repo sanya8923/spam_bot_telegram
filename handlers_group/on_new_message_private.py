@@ -8,5 +8,6 @@ router = Router()
 
 @router.message()
 async def on_new_message_private(message: Message):
-    if message == '/start':
+    print('on_new_message_private')
+    if message.text == '/start':
         await cmd_start(message)

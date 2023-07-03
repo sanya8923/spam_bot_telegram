@@ -4,6 +4,7 @@ from db.db_mongodb import db, add_data_to_db
 
 
 async def save_admins_to_db(update: ChatMemberUpdated):
+    print('save_admins_to_db')
     admins_data = await bot.get_chat_administrators(update.chat.id)
 
     collection_user = db['users']
@@ -13,6 +14,7 @@ async def save_admins_to_db(update: ChatMemberUpdated):
             admin = {'user_id': line.user.id,
                      'username': line.user.username,
                      'chat_id': update.chat.id,
+                     'chat_name': update.chat.username,
                      'role': 'administrator'
                      }
             await add_data_to_db('group_user_role', admin)
@@ -20,6 +22,7 @@ async def save_admins_to_db(update: ChatMemberUpdated):
             creator = {'user_id': line.user.id,
                        'username': line.user.username,
                        'chat_id': update.chat.id,
+                       'chat_name': update.chat.username,
                        'role': 'creator'
                        }
             await add_data_to_db('group_user_role', creator)
