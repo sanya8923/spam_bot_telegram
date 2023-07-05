@@ -10,7 +10,9 @@ async def save_group_to_db(update: ChatMemberUpdated):
     count = await collection.count_documents({'group_id': update.chat.id})
     if count == 0:
         group = {
-            'group_id': update.chat.id
+            'chat_id': update.chat.id,
+            'chat_username': update.chat.username,
+            'chat_name': update.chat.title
         }
         await add_data_to_db(collection_name, group)
 
