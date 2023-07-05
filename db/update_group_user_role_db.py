@@ -8,9 +8,9 @@ async def update_group_user_role_db(update: ChatMemberUpdated):
     collection = db[collection_name]
     count = await collection.count_documents({'user_id': update.new_chat_member.user.id, 'chat_id': update.chat.id})
     group_user_role = {'user_id': update.new_chat_member.user.id,
-                       'username': update.new_chat_member.user.username,
+                       'username': update.new_chat_member.user.username,  # TODO: delete
                        'chat_id': update.chat.id,
-                       'chat_name': update.chat.title,
+                       'chat_name': update.chat.title,  # TODO: delete
                        'role': update.new_chat_member.status
                        }
 
