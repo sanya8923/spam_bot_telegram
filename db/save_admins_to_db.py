@@ -4,6 +4,7 @@ from db.db_mongodb import db, add_data_to_db
 
 
 async def save_admins_to_db(update: ChatMemberUpdated):
+    # TODO: проверь возможно задваивает админа (или что-то типа того)
     print('save_admins_to_db')
     admins_data = await bot.get_chat_administrators(update.chat.id)
 

@@ -7,9 +7,11 @@ from handlers_group_updates.on_admin_kick import on_admin_kick
 from handlers_group_updates.on_member_left import on_member_left
 from handlers_group_updates.on_admin_left import on_admin_left
 from handlers_group_updates.on_member_kick import on_member_kick
+from filter.chat_type_filter import ChatTypeFilter
 
 
 router = Router()
+router.message.filter(ChatTypeFilter(chat_type=['group', 'supergroup']))
 
 
 @router.chat_member()

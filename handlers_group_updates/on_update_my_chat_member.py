@@ -5,8 +5,10 @@ from handlers_group_updates.on_bot_add_by_admin import on_bot_add_by_admin
 from handlers_group_updates.on_bot_admin_to_member_restrict import on_bot_admin_to_member_restrict
 from handlers_group_updates.on_bot_admin_kick import on_bot_admin_kick
 from handlers_group_updates.on_bot_member_left import on_bot_member_left
+from filter.chat_type_filter import ChatTypeFilter
 
 router = Router()
+router.message.filter(ChatTypeFilter(chat_type=['group', 'supergroup']))
 
 
 @router.my_chat_member()

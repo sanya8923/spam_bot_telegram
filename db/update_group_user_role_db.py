@@ -3,7 +3,7 @@ from db.db_mongodb import db, add_data_to_db
 
 
 async def update_group_user_role_db(update: ChatMemberUpdated):
-
+    # TODO: проверь возможно задваивает админа (или что-то типа того)
     collection_name = 'group_user_role'
     collection = db[collection_name]
     count = await collection.count_documents({'user_id': update.new_chat_member.user.id, 'chat_id': update.chat.id})

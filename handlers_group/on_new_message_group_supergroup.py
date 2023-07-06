@@ -10,9 +10,11 @@ from handlers_group.on_new_message_from_member import on_new_message_from_member
 from db.update_users_db_from_message import update_users_db_from_message
 from db.save_message_update import save_message_update
 from db.save_group_to_db import save_group_to_db
+from filter.chat_type_filter import ChatTypeFilter
 
 
 router = Router()
+router.message.filter(ChatTypeFilter(chat_type=['group', 'supergroup']))
 
 
 @router.message()
