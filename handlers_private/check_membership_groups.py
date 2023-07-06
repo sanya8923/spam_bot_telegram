@@ -16,7 +16,7 @@ async def check_membership_groups(update: Message):
     collection_groups = db['groups']
     chat_data = []
 
-    for chat_id in chat_id_list:
+    for chat_id in set(chat_id_list):
         documents_groups = collection_groups.find({f'chat_id': chat_id})
         async for document in documents_groups:
             chat_data.append((document['chat_name'], document['chat_username']))
