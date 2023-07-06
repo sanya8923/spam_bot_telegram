@@ -15,7 +15,6 @@ class UserRoleFilter(BaseFilter):
             user_id=message.from_user.id
         )
         chat_status = await bot.__call__(get_chat_member)
-        print(f'status: {chat_status.status}')
 
         if isinstance(self.user_role, str):
             return chat_status.status == self.user_role
