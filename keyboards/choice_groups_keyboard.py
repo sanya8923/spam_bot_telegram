@@ -4,6 +4,7 @@ from texts_of_message import text_choice_group
 
 
 async def choice_groups_keyboard(message: Message, chat_names: list):
+    print('choice_groups_keyboard')
     builder = ReplyKeyboardBuilder()
     chat_name = 0
     username = 1

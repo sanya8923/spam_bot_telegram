@@ -20,7 +20,7 @@ async def check_membership_groups(update: Message):
         documents_groups = collection_groups.find({f'chat_id': chat_id})
         async for document in documents_groups:
             chat_data.append((document['chat_name'], document['chat_username']))
-            await choice_groups_keyboard(update, chat_data)
+    await choice_groups_keyboard(update, chat_data)
 
 
 
