@@ -1,7 +1,6 @@
 from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import Command
-from handlers_private.bot_start import cmd_start
 from handlers_private.check_membership_groups import check_membership_groups
 from filter.chat_type_filter import ChatTypeFilter
 

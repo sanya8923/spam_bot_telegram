@@ -20,10 +20,6 @@ async def add_data_to_db(collection_name, message_update):
     collection.insert_one(message_update)
 
 
-async def check_user_exists_in_db(user_id: int) -> bool:
-    pass
-
-
 async def add_banned_member_to_collection(chat_id: int, user_id: int, date: datetime):
     collection = db[f'{chat_id} - banned members']
     data = {
