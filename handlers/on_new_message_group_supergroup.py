@@ -7,11 +7,11 @@ from filter.user_role_filter import UserRoleFilter
 from db.update_users_db_from_message import update_users_db_from_message
 from db.save_message_update import save_message_update
 
-from handlers_group.on_new_message_from_new_member import on_new_message_from_new_member
-from handlers_group.on_new_message_from_ordinary_member import on_new_message_from_ordinary_member
-from handlers_group_management_message.check_ban_words import check_ban_words
-from handlers_group_management_user.member_ban import ban_member
-from handlers_group_management_user.check_new_member import check_new_member
+from handlers.check_message_from_new_member import check_message_from_new_member
+from handlers.check_message_from_ordinary_member import check_message_from_ordinary_member
+from handlers.check_ban_words import check_ban_words
+from handlers.member_ban import ban_member
+from handlers.check_new_member import check_new_member
 
 router = Router()
 router.message.filter(ChatTypeFilter(chat_type=['group', 'supergroup']))
@@ -47,8 +47,8 @@ async def on_new_message_from_member_group(message: Message):
     else:
         new_member = await check_new_member(message)
         if new_member:
-            return await on_new_message_from_new_member(message)
+            return await check_message_from_new_member(message)
         else:
-            return await on_new_message_from_ordinary_member(message)
+            return await check_message_from_ordinary_member(message)
 
 

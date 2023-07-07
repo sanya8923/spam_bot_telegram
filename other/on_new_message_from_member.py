@@ -1,13 +1,13 @@
 from aiogram.types import Message
 from aiogram import Router
 
-from handlers_group.on_new_message_from_new_member import on_new_message_from_new_member
-from handlers_group.on_new_message_from_ordinary_member import on_new_message_from_ordinary_member
+from handlers.check_message_from_new_member import on_new_message_from_new_member
+from handlers.check_message_from_ordinary_member import on_new_message_from_ordinary_member
 
-from handlers_group_management_message.check_ban_words import check_ban_words
+from handlers.check_ban_words import check_ban_words
 
-from handlers_group_management_user.member_ban import ban_member
-from handlers_group_management_user.check_new_member import check_new_member
+from handlers.member_ban import ban_member
+from handlers.check_new_member import check_new_member
 
 
 from filter.chat_type_filter import ChatTypeFilter

@@ -4,9 +4,8 @@ import asyncio
 from bot import bot
 
 from aiogram import Dispatcher
-from handlers_group import on_new_message_group_supergroup, on_update_my_chat_member
-from handlers_private import on_new_message_private
-from handlers_group_updates import on_update_chat_member
+from handlers import on_new_message_group_supergroup, on_update_my_chat_member, on_update_chat_member, \
+    on_new_message_private
 
 
 async def main():
