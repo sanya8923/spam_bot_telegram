@@ -16,7 +16,4 @@ async def cmd_start(message: Message):
     await check_membership_groups(message)
 
 
-@router.message(Command('trututu'))
-async def cmd_trututu(message: Message):
-    print('cmd_trututu')
-    await message.answer('cmd_trututu')
+# @router.message(Command(f'{docurututu')
