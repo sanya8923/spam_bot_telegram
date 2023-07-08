@@ -21,7 +21,8 @@ async def check_membership_groups(update: Message):
         documents_groups = collection_groups.find({f'chat_id': chat_id})
         async for document in documents_groups:
             chat_data.append((document['chat_name'], document['chat_username'], document['chat_id']))
-    await update.answer(text_choice_group, reply_markup=choice_groups_inline_keyboard(update.from_user.id, chat_data))
+
+    return chat_data
 
 
 
