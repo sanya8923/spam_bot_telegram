@@ -1,8 +1,6 @@
 from aiogram.utils.keyboard import InlineKeyboardMarkup
 from aiogram.types import InlineKeyboardButton
 
-user_data = {}
-
 
 def choice_groups_inline_keyboard(user_id, chat_names: list):
     print('choice_group_inline_keyboard')
