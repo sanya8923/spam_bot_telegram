@@ -21,7 +21,8 @@ async def main():
     )
 
     await bot.delete_webhook(drop_pending_updates=True)
-    await dp.start_polling(bot, allowed_updates=['message', 'inline_query', 'chat_member', 'my_chat_member'])
+    await dp.start_polling(bot, allowed_updates=['message', 'inline_query', 'chat_member', 'my_chat_member',
+                                                 'inline_result', 'chosen_inline_result', 'callback_query'])
 
 
 if __name__ == '__main__':
