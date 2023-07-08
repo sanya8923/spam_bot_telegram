@@ -4,11 +4,11 @@ from texts_of_message import text_choice_group
 from keyboards.choice_groups_inline_keyboard import choice_groups_inline_keyboard
 
 
-async def check_membership_groups(update: Message):
+async def check_membership_groups(message: Message):
     print('check_membership_groups')
 
     collection_group_user_role = db['group_user_role']
-    documents_group_user_role = collection_group_user_role.find({'user_id': update.from_user.id})
+    documents_group_user_role = collection_group_user_role.find({'user_id': message.from_user.id})
 
     chat_id_list = []
     async for document in documents_group_user_role:
