@@ -35,5 +35,5 @@ async def update_membership_groups(callback: CallbackQuery):
     with suppress(TelegramBadRequest):
         print('update_membership_groups')
         pattern = 'update_membership_groups'
-        await update_text_inline_keyboard(callback.message, pattern)
+        await update_text_inline_keyboard(callback.message, callback.message.chat.id, pattern)  # TODO: add args
 
