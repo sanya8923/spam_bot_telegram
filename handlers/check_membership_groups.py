@@ -1,6 +1,7 @@
 from aiogram.types import Message
 from db.db_mongodb import db
-from keyboards.choice_groups_inline_keyboard import choice_groups
+from texts_of_message import text_choice_group
+from keyboards.choice_groups_inline_keyboard import choice_groups_inline_keyboard
 
 
 async def check_membership_groups(update: Message):
@@ -20,7 +21,7 @@ async def check_membership_groups(update: Message):
         documents_groups = collection_groups.find({f'chat_id': chat_id})
         async for document in documents_groups:
             chat_data.append((document['chat_name'], document['chat_username'], document['chat_id']))
-    await choice_groups(update, chat_data)
+    await update.answer(text_choice_group, reply_markup=choice_groups_inline_keyboard(update.from_user.id, chat_data))
 
 
 
