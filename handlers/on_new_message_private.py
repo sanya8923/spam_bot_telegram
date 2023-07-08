@@ -6,8 +6,9 @@ from handlers.update_text_inline_keyboard import update_text_inline_keyboard
 from filter.chat_type_filter import ChatTypeFilter
 from contextlib import suppress
 from aiogram.exceptions import TelegramBadRequest
-from texts_of_message import text_choice_group
+from texts_of_message import text_choice_group, text_not_group
 from keyboards.choice_groups_inline_keyboard import choice_groups_inline_keyboard
+from keyboards.button_update_groups_list import button_update_groups_list
 
 router = Router()
 router.message.filter(ChatTypeFilter(chat_type='private'))
@@ -18,7 +19,12 @@ async def cmd_start(message: Message):
     print('cmd_start')
     await message.answer('Welcome')
     chat_data = await check_membership_groups(message)
-    await message.answer(text_choice_group, reply_markup=choice_groups_inline_keyboard(message.from_user.id, chat_data))
+    if len(chat_data) > 0:
+        await message.answer(text_choice_group,
+                             reply_markup=choice_groups_inline_keyboard(message.from_user.id, chat_data))
+    else:
+        await message.answer(text_not_group,
+                             reply_markup=button_update_groups_list(message.from_user.id))
 
 
 @router.callback_query(Text(startswith='cid_'))
