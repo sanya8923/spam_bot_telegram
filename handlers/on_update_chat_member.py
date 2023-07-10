@@ -20,6 +20,7 @@ async def on_new_member(update: ChatMemberUpdated):
 @router.chat_member(ChatMemberUpdatedFilter(member_status_changed=PROMOTED_TRANSITION))
 async def on_admin_new(update: ChatMemberUpdated):
     print('on_new_admin')
+    await update_users_db_from_member_update(update)
     await update_group_user_role_db(update)
 
 
