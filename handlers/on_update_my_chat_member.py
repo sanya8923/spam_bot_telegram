@@ -5,6 +5,7 @@ from aiogram.types import ChatMemberUpdated
 
 from db.save_admins_to_db import save_admins_to_db
 from db.save_group_to_db import save_group_to_db
+from db.update_group_user_role_db_from_member_update import update_group_user_role_db_from_member_update
 
 from filter.chat_type_filter import ChatTypeFilter
 
@@ -27,14 +28,13 @@ async def on_add_bot_by_member(update: ChatMemberUpdated):
 @router.my_chat_member(ChatMemberUpdatedFilter(member_status_changed=PROMOTED_TRANSITION))
 async def on_add_bot_by_admin(update: ChatMemberUpdated):
     print('bot added to group - admin')
-
     await save_admins_to_db(update)
-
 
 
 @router.my_chat_member(ChatMemberUpdatedFilter(IS_ADMIN >> MEMBER))
 async def on_downgrade_bot(update: ChatMemberUpdated):
     print('bot downgrade from admin to member')
+    await update_group_user_role_db_from_member_update(update)
 
 
 @router.my_chat_member(ChatMemberUpdatedFilter(member_status_changed=LEAVE_TRANSITION))
