@@ -36,7 +36,7 @@ async def group_management(callback: CallbackQuery):
         print('group_management')
         chat_id = int(callback.data.split('_')[1])
         pattern = 'group_management'
-        await update_text_inline_keyboard(callback.message, chat_id, pattern)
+        await update_text_inline_keyboard(callback.message, chat_id, callback.message.from_user.id, pattern)
 
 
 @router.callback_query(Text(startswith='uid_'))
@@ -47,4 +47,4 @@ async def update_membership_groups(callback: CallbackQuery):
 
         pattern = 'update_membership_groups'
         await update_text_inline_keyboard(callback.message, callback.message.chat.id, user_id, pattern)
-        # TODO: add args
+
