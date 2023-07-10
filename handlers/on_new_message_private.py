@@ -16,7 +16,7 @@ router.message.filter(ChatTypeFilter(chat_type='private'))
 
 @router.message(Command('start'))
 async def cmd_start(message: Message):
-    with suppress(TelegramBadRequest)
+    with suppress(TelegramBadRequest):
         print('cmd_start')
         await message.answer('Welcome')
         chat_data = await check_membership_groups(message)
