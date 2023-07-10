@@ -19,7 +19,9 @@ async def cmd_start(message: Message):
     with suppress(TelegramBadRequest):
         print('cmd_start')
         await message.answer('Welcome')
-        chat_data = await check_membership_groups(message)
+
+        user_id = message.from_user.id
+        chat_data = await check_membership_groups(user_id)
         if len(chat_data) > 0:
             await message.answer(text_choice_group,
                                  reply_markup=choice_groups_inline_keyboard(message.from_user.id, chat_data))
@@ -41,6 +43,8 @@ async def group_management(callback: CallbackQuery):
 async def update_membership_groups(callback: CallbackQuery):
     with suppress(TelegramBadRequest):
         print('update_membership_groups')
-        pattern = 'update_membership_groups'
-        await update_text_inline_keyboard(callback.message, callback.message.chat.id, pattern)  # TODO: add args
+        user_id = int(callback.data.split('_')[1])
 
+        pattern = 'update_membership_groups'
+        await update_text_inline_keyboard(callback.message, callback.message.chat.id, user_id, pattern)
+        # TODO: add args
