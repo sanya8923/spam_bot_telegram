@@ -21,6 +21,7 @@ router.message.filter(ChatTypeFilter(chat_type=['group', 'supergroup']))
 @router.my_chat_member(ChatMemberUpdatedFilter(member_status_changed=JOIN_TRANSITION))
 async def on_add_bot_by_member(update: ChatMemberUpdated):
     print('bot added to group - member')
+    await save_group_to_db(update)
 
 
 @router.my_chat_member(ChatMemberUpdatedFilter(member_status_changed=PROMOTED_TRANSITION))
@@ -28,7 +29,7 @@ async def on_add_bot_by_admin(update: ChatMemberUpdated):
     print('bot added to group - admin')
 
     await save_admins_to_db(update)
-    await save_group_to_db(update)
+
 
 
 @router.my_chat_member(ChatMemberUpdatedFilter(IS_ADMIN >> MEMBER))
