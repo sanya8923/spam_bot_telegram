@@ -7,13 +7,13 @@ from texts_of_message import text_check_membership, text_choice_group
 from handlers.check_membership_groups import check_membership_groups
 
 
-async def update_text_inline_keyboard(message: Message, chat_id: int, pattern):
+async def update_text_inline_keyboard(message: Message, chat_id: int, user_id: int, pattern: str):
     with suppress(TelegramBadRequest):
         print('text_inline_keyboard')
         if pattern == 'group_management':
             await message.edit_text(text_choice_group,
                                     reply_markup=group_management_inline_keyboard(chat_id))
         elif pattern == 'update_membership_groups':
-            chat_data = await check_membership_groups(message)
+            chat_data = await check_membership_groups(user_id)
             await message.edit_text(text_check_membership,
                                     reply_markup=choice_groups_inline_keyboard(message.from_user.id, chat_data))
