@@ -6,6 +6,7 @@ from filter.user_role_filter import UserRoleFilter
 
 from db.update_users_db_from_message import update_users_db_from_message
 from db.save_message_update import save_message_update
+from db.update_group_user_role_db import update_group_user_role_db
 
 from handlers.check_message_from_new_member import check_message_from_new_member
 from handlers.check_message_from_ordinary_member import check_message_from_ordinary_member
@@ -38,6 +39,7 @@ async def on_new_message_from_member_group(message: Message):
     print('on_new_message_from_member_group')
 
     await update_users_db_from_message(message)
+    await update_group_user_role_db(message)
     await save_message_update(message)
 
     presence_ban_word = await check_ban_words(message)
