@@ -16,15 +16,16 @@ router.message.filter(ChatTypeFilter(chat_type='private'))
 
 @router.message(Command('start'))
 async def cmd_start(message: Message):
-    print('cmd_start')
-    await message.answer('Welcome')
-    chat_data = await check_membership_groups(message)
-    if len(chat_data) > 0:
-        await message.answer(text_choice_group,
-                             reply_markup=choice_groups_inline_keyboard(message.from_user.id, chat_data))
-    else:
-        await message.answer(text_not_group,
-                             reply_markup=button_update_groups_list(message.from_user.id))
+    with suppress(TelegramBadRequest)
+        print('cmd_start')
+        await message.answer('Welcome')
+        chat_data = await check_membership_groups(message)
+        if len(chat_data) > 0:
+            await message.answer(text_choice_group,
+                                 reply_markup=choice_groups_inline_keyboard(message.from_user.id, chat_data))
+        else:
+            await message.answer(text_not_group,
+                                 reply_markup=button_update_groups_list(message.from_user.id))
 
 
 @router.callback_query(Text(startswith='cid_'))
