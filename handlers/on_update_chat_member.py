@@ -27,17 +27,20 @@ async def on_admin_new(update: ChatMemberUpdated):
 @router.chat_member(ChatMemberUpdatedFilter(IS_ADMIN >> MEMBER))
 async def on_admin_downgrade_to_member(update: ChatMemberUpdated):
     print('on_admin_downgrade_to_member')
+    await update_users_db_from_member_update(update)
     await update_group_user_role_db_from_member_update(update)
 
 
 @router.chat_member(ChatMemberUpdatedFilter(IS_MEMBER >> LEFT))
 async def on_admin_member_left(update: ChatMemberUpdated):
     print('on_admin_member_left')
+    await update_users_db_from_member_update(update)
     await update_group_user_role_db_from_member_update(update)
 
 
 @router.chat_member(ChatMemberUpdatedFilter(IS_MEMBER >> KICKED))
 async def on_admin_member_kick(update: ChatMemberUpdated):
     print('on_admin_member_kick')
+    await update_users_db_from_member_update(update)
     await update_group_user_role_db_from_member_update(update)
 
