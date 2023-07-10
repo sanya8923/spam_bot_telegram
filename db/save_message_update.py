@@ -4,6 +4,7 @@ from bot import bot
 
 
 async def save_message_update(message: Message):
+    print('save_message_update')
     data = {
         'date_message': message.date,
         'message_id': message.message_id,

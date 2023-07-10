@@ -4,6 +4,7 @@ from db.db_mongodb import db, add_data_to_db
 
 
 async def save_group_to_db(update: ChatMemberUpdated):
+    print('save_group_to_db')
     collection_name = 'groups'
     collection = db[collection_name]
 

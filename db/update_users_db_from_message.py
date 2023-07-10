@@ -3,6 +3,7 @@ from db.db_mongodb import add_data_to_db, db
 
 
 async def update_users_db_from_message(message: Message):
+    print('update_users_db_from_message')
     collection_name = 'users'
     collection = db[collection_name]
     count = await collection.count_documents({'user_id': message.from_user.id})
