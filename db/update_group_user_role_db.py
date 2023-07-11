@@ -21,10 +21,8 @@ async def update_group_user_role_db(message: Message):
                        }
 
     if count == 0:
-        print('new member add db')
         await add_data_to_db(collection_name, group_user_role)
     elif count == 1 and role != role_from_db:
-        print('update data in db')
         filter_update = {'user_id': message.from_user.id, 'chat_id': message.chat.id}
         update = {'$set': {'role': role}}
         collection.update_one(filter_update, update)
