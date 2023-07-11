@@ -36,7 +36,10 @@ async def group_management(callback: CallbackQuery):
         print('group_management')
         chat_id = int(callback.data.split('_')[1])
         pattern = 'group_management'
-        await update_text_inline_keyboard(callback.message, chat_id, callback.message.from_user.id, pattern)
+        await update_text_inline_keyboard(message=callback.message,
+                                          chat_id=chat_id,
+                                          user_id=callback.message.from_user.id,
+                                          pattern=pattern)
 
 
 @router.callback_query(Text(startswith='uid_'))
@@ -46,5 +49,17 @@ async def update_membership_groups(callback: CallbackQuery):
         user_id = int(callback.data.split('_')[1])
 
         pattern = 'update_membership_groups'
-        await update_text_inline_keyboard(callback.message, callback.message.chat.id, user_id, pattern)
+        await update_text_inline_keyboard(message=callback.message,
+                                          user_id=user_id,
+                                          pattern=pattern)
+
+
+@router.callback_query(Text('management_members'))
+async def management_members(callback: CallbackQuery):
+    with suppress(TelegramBadRequest):
+        print('management_members')
+
+        pattern = 'management_members'
+        await update_text_inline_keyboard(message=callback.message,
+                                          pattern=pattern)
 
