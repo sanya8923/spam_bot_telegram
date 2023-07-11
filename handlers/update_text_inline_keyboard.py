@@ -13,7 +13,7 @@ async def update_text_inline_keyboard(message: Message, chat_id: int, user_id: i
         print('text_inline_keyboard')
         if pattern == 'group_management':
             await message.edit_text(text_choice_group,
-                                    reply_markup=group_management_inline_keyboard(chat_id))
+                                    reply_markup=group_management_inline_keyboard(chat_id, user_id))
         elif pattern == 'update_membership_groups':
             chat_data = await check_membership_groups(user_id)
             if len(chat_data) > 0:
