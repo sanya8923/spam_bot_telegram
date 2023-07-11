@@ -9,7 +9,7 @@ from texts_of_message import text_check_membership, text_choice_group, text_not_
 from handlers.check_membership_groups import check_membership_groups
 
 
-async def update_text_inline_keyboard(**kwargs):  # TODO: add args
+async def update_text_inline_keyboard(**kwargs):
     pattern = kwargs.get('pattern')
     message = kwargs.get('message')
     chat_id = kwargs.get('chat_id')
