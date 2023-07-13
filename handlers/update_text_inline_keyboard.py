@@ -29,7 +29,7 @@ async def update_text_inline_keyboard(**kwargs):
 
         elif pattern == 'members_management':
             await message.edit_text(text_members_management,
-                                    reply_markup=members_management_inline_keyboard(user_id))
+                                    reply_markup=members_management_inline_keyboard(chat_id, user_id))
 
         else:
             await message.edit_text(text_not_group,
