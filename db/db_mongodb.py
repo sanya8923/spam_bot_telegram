@@ -38,7 +38,13 @@ async def get_membership_groups(user_id: int) -> list:
     for chat_id in set(chat_id_list):
         documents_groups = collection_groups.find({f'chat_id': chat_id})
         async for document in documents_groups:
-            chats_data.append((document['chat_name'], document['chat_username'], document['chat_id']))
+            chats_data.append(
+                {
+                    'chat_name': document['chat_name'],
+                    'chat_username': document['chat_username'],
+                    'chat_id': document['chat_id']
+                }
+            )
 
     return chats_data
 
