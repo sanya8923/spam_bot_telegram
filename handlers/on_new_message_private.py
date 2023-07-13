@@ -60,8 +60,13 @@ async def update_membership_groups(callback: CallbackQuery):
 async def members_management(callback: CallbackQuery):
     with suppress(TelegramBadRequest):
         print('members_management')
+        callback_data = callback.data.split('_')
+        user_id = int(callback_data[1])
+        chat_id = int(callback_data[2])
 
         pattern = 'members_management'
         await update_text_inline_keyboard(message=callback.message,
+                                          user_id=user_id,
+                                          chat_id=chat_id,
                                           pattern=pattern)
 
