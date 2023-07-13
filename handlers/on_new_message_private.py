@@ -56,7 +56,7 @@ async def update_membership_groups(callback: CallbackQuery):
                                           pattern=pattern)
 
 
-@router.callback_query(Text('Mmanagement'))
+@router.callback_query(Text('MembManag'))
 async def members_management(callback: CallbackQuery):
     with suppress(TelegramBadRequest):
         print('members_management')
