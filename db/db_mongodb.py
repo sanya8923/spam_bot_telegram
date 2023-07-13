@@ -1,17 +1,10 @@
 import motor.motor_asyncio
 import datetime
-from constants import TIME_SPAN_TO_CHECK_NUMBER_OF_MESSAGES_MIN, ALLOWED_NUMBER_OF_MESSAGE_FOR_PERIOD
-from aiogram.types import Message
+import config_reader
 
 
-cluster = motor.motor_asyncio.AsyncIOMotorClient('mongodb+srv://sanya8923:17XS7eoFcAtELvlx@cluster0.lzxiped.mongodb.net/db?retryWrites=true&w=majority')
+cluster = motor.motor_asyncio.AsyncIOMotorClient(config_reader.config.mongo_db.get_secret_value())
 db = cluster['db']
-
-
-async def print_list_collection_names():
-    collection_names = await db.list_collection_names()
-    for name in collection_names:
-        print(name)
 
 
 async def add_data_to_db(collection_name, message_update):
@@ -27,12 +20,3 @@ async def add_banned_member_to_collection(chat_id: int, user_id: int, date: date
         'date_ban': date
     }
     collection.insert_one(data)
-
-
-async def remove_group_id_where_bot_is_no_longer_member(chat_id: int):
-    collection = db['groups']
-    collection.delete_one({'member': chat_id})
-
-
-
-
