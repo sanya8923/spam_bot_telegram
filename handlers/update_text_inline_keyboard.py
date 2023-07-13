@@ -1,12 +1,9 @@
 from aiogram.types import Message
 from aiogram.exceptions import TelegramBadRequest
 from contextlib import suppress
-from keyboards.management_group_inline_keyboard import group_management_inline_keyboard
-from keyboards.choice_groups_inline_keyboard import choice_groups_inline_keyboard
-from keyboards.button_update_groups_list import button_update_groups_list
-from keyboards.management_members_inline_keyboard import members_management_inline_keyboard
-from keyboards.management_admins_inline_keyboard import management_admins_inline_keyboard
-from keyboards.setting_group_inline_keyboard import setting_group_inline_keyboard
+from keyboards.inline_keyboards import setting_group_inline_keyboard, management_admins_inline_keyboard, \
+    members_management_inline_keyboard, choice_groups_inline_keyboard, group_management_inline_keyboard, \
+    button_update_groups_list
 from texts_of_message import text_check_membership, text_choice_group, text_not_group, text_members_management, \
     text_admins_management, text_setting_group
 from handlers.check_membership_groups import check_membership_groups
