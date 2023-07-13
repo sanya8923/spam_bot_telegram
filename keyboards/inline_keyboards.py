@@ -2,7 +2,7 @@ from aiogram.utils.keyboard import InlineKeyboardMarkup
 from aiogram.types import InlineKeyboardButton
 
 
-def choice_groups_inline_keyboard(user_id, chat_names: list):
+def choice_groups_inline_keyboard(user_id, chat_data: list):
     print('choice_group_inline_keyboard')
     chat_name = 0
     username = 1
@@ -11,7 +11,7 @@ def choice_groups_inline_keyboard(user_id, chat_names: list):
     buttons = [
         [InlineKeyboardButton(text=f'{item[chat_name]} (@{item[username]})',
                               callback_data=f'GrMan_{user_id}_{item[chat_id]}')]
-        for item in chat_names
+        for item in chat_data
     ]
     buttons.append([InlineKeyboardButton(text='Обновить список групп',
                                          callback_data=f'UpdGr_{user_id}')])
