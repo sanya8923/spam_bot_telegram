@@ -5,7 +5,7 @@ from aiogram.exceptions import TelegramBadRequest
 
 from contextlib import suppress
 
-from handlers.checks import check_membership_groups
+from handlers.get_handlers import get_membership_groups
 from handlers.update_text_inline_keyboard import update_text_inline_keyboard
 
 from filter.chat_type_filter import ChatTypeFilter
@@ -24,7 +24,7 @@ async def cmd_start(message: Message):
         await message.answer('Welcome')
 
         user_id = message.from_user.id
-        chat_data = await check_membership_groups(user_id)
+        chat_data = await get_membership_groups(user_id)
         if len(chat_data) > 0:
             await message.answer(text_choice_group,
                                  reply_markup=choice_groups_inline_keyboard(message.from_user.id, chat_data))

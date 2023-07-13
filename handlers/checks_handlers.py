@@ -4,8 +4,7 @@ import datetime
 from datetime import timedelta
 from constants import TIME_SPAN_TO_CHECK_NUMBER_OF_MESSAGES_MIN, ALLOWED_NUMBER_OF_MESSAGE_FOR_PERIOD, \
     DURATION_OF_NEW_USER_STATUS
-from handlers.member_ban import ban_member
-from handlers.member_restrict import restrict_member
+from handlers.members_actions import ban_member, restrict_member
 
 
 async def check_ban_words(message: Message) -> bool:
@@ -21,27 +20,6 @@ async def check_ban_words(message: Message) -> bool:
         if banned_word in words_in_message:
             return True
     return False
-
-
-async def check_membership_groups(user_id: int):
-    print('check_membership_groups')
-
-    collection_group_user_role = db['group_user_role']
-    documents_group_user_role = collection_group_user_role.find({'user_id': user_id})
-
-    chat_id_list = []
-    async for document in documents_group_user_role:
-        chat_id_list.append(document['chat_id'])
-
-    collection_groups = db['groups']
-    chat_data = []
-
-    for chat_id in set(chat_id_list):
-        documents_groups = collection_groups.find({f'chat_id': chat_id})
-        async for document in documents_groups:
-            chat_data.append((document['chat_name'], document['chat_username'], document['chat_id']))
-
-    return chat_data
 
 
 async def check_for_url(message: Message) -> bool:
@@ -75,7 +53,7 @@ async def check_message_frequency(message: Message) -> bool:
     return False
 
 
-async def check_message_from_new_member(message: Message):
+async def check_message_from_new_member(message: Message) -> None:
     presence_url = await check_for_url(message)
     if presence_url:
         await message.delete()
@@ -86,7 +64,7 @@ async def check_message_from_new_member(message: Message):
             await restrict_member(message)
 
 
-async def check_message_from_ordinary_member(message: Message):
+async def check_message_from_ordinary_member(message: Message) -> None:
     print('on_new_message_from_ordinary_member')
     posting_too_often = await check_message_frequency(message)
     if posting_too_often:

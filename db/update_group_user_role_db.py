@@ -1,5 +1,5 @@
 from aiogram.types import Message
-from handlers.get_user_role import get_user_role
+from handlers.get_handlers import get_user_role
 from db.db_mongodb import db, add_data_to_db
 
 

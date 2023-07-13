@@ -8,8 +8,8 @@ from db.update_users_db_from_message import update_users_db_from_message
 from db.save_message_update import save_message_update
 from db.update_group_user_role_db import update_group_user_role_db
 
-from handlers.member_ban import ban_member
-from handlers.checks import check_message_from_new_member, check_message_from_ordinary_member, check_ban_words, \
+from handlers.members_actions import ban_member
+from handlers.checks_handlers import check_message_from_new_member, check_message_from_ordinary_member, check_ban_words, \
     check_new_member
 
 router = Router()
