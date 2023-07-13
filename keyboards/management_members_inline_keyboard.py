@@ -11,6 +11,7 @@ def members_management_inline_keyboard(user_id):
         [InlineKeyboardButton(text='Замьютить участника', callback_data='mute_user')],
         [InlineKeyboardButton(text='Размьютить участника', callback_data='unmute_user')],
         [InlineKeyboardButton(text='Назад', callback_data=f'UpdGr_{user_id}')],
+        [InlineKeyboardButton(text='К списку групп', callback_data=f'UpdGr_{user_id}')],
     ]
 
     return InlineKeyboardMarkup(inline_keyboard=buttons)
