@@ -94,7 +94,7 @@ async def setting_group(callback: CallbackQuery):
         user_id = int(callback_data[1])
         chat_id = int(callback_data[2])
 
-        pattern = 'admin_management'
+        pattern = 'setting_group'
         await update_text_inline_keyboard(message=callback.message,
                                           user_id=user_id,
                                           chat_id=chat_id,

@@ -35,7 +35,10 @@ async def update_text_inline_keyboard(**kwargs):
 
         elif pattern == 'admins_management':
             await message.edit_text(text_admins_management,
-                                    reply_markup=management_admins_inline_keyboard())
+                                    reply_markup=management_admins_inline_keyboard(chat_id, user_id))
+
+        elif pattern == 'setting_group':
+            await message.edit_text()
 
         else:
             await message.edit_text(text_not_group,
