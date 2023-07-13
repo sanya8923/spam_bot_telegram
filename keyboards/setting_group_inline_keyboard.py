@@ -12,6 +12,8 @@ def setting_group_inline_keyboard(chat_id: int, user_id: int):
         [InlineKeyboardButton(text='Разрешить ссылки', callback_data=f'Link_{user_id}_{chat_id}')],
         [InlineKeyboardButton(text='Разрешить пересылку сообщений из др. групп', callback_data=f'Forwarding_{user_id}_{chat_id}')],
         [InlineKeyboardButton(text='Слишком частый постинг', callback_data=f'TooOftenPost_{user_id}_{chat_id}')],
+        [InlineKeyboardButton(text='Назад', callback_data=f'GrMan_{user_id}_{chat_id}')],
+        [InlineKeyboardButton(text='К списку групп', callback_data=f'UpdGr_{user_id}')],
     ]
 
     return InlineKeyboardMarkup(inline_keyboard=buttons)
