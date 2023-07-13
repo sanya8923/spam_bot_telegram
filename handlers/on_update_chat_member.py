@@ -1,7 +1,9 @@
 from aiogram import Router
 from aiogram.filters.chat_member_updated import ChatMemberUpdatedFilter, ChatMemberUpdated, JOIN_TRANSITION, \
     PROMOTED_TRANSITION, IS_ADMIN, MEMBER, IS_MEMBER, LEFT, KICKED
+
 from filter.chat_type_filter import ChatTypeFilter
+
 from db.update_users_db_from_member_update import update_users_db_from_member_update
 from db.update_group_user_role_db_from_member_update import update_group_user_role_db_from_member_update
 

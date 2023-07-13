@@ -8,11 +8,9 @@ from db.update_users_db_from_message import update_users_db_from_message
 from db.save_message_update import save_message_update
 from db.update_group_user_role_db import update_group_user_role_db
 
-from handlers.check_message_from_new_member import check_message_from_new_member
-from handlers.check_message_from_ordinary_member import check_message_from_ordinary_member
-from handlers.check_ban_words import check_ban_words
 from handlers.member_ban import ban_member
-from handlers.check_new_member import check_new_member
+from handlers.checks import check_message_from_new_member, check_message_from_ordinary_member, check_ban_words, \
+    check_new_member
 
 router = Router()
 router.message.filter(ChatTypeFilter(chat_type=['group', 'supergroup']))

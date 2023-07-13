@@ -2,17 +2,16 @@ from aiogram import Router
 from aiogram.filters.chat_member_updated import ChatMemberUpdatedFilter, JOIN_TRANSITION, PROMOTED_TRANSITION, \
     LEAVE_TRANSITION, IS_ADMIN, MEMBER
 from aiogram.types import ChatMemberUpdated
+from aiogram.exceptions import TelegramForbiddenError
+
+from contextlib import suppress
 
 from db.save_admins_to_db import save_admins_to_db
 from db.save_group_to_db import save_group_to_db
 from db.update_group_user_role_db_from_member_update import update_group_user_role_db_from_member_update
-
-from filter.chat_type_filter import ChatTypeFilter
-
 from db.delete_chat_id_from_groups_db import delete_chat_id_from_groups_db
 
-from aiogram.exceptions import TelegramForbiddenError
-from contextlib import suppress
+from filter.chat_type_filter import ChatTypeFilter
 
 
 router = Router()

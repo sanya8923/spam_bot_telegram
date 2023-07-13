@@ -1,14 +1,17 @@
 from aiogram import Router
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command, Text
-from handlers.check_membership_groups import check_membership_groups
-from handlers.update_text_inline_keyboard import update_text_inline_keyboard
-from filter.chat_type_filter import ChatTypeFilter
-from contextlib import suppress
 from aiogram.exceptions import TelegramBadRequest
+
+from contextlib import suppress
+
+from handlers.checks import check_membership_groups
+from handlers.update_text_inline_keyboard import update_text_inline_keyboard
+
+from filter.chat_type_filter import ChatTypeFilter
+
 from texts_of_message import text_choice_group, text_not_group
-from keyboards.choice_groups_inline_keyboard import choice_groups_inline_keyboard
-from keyboards.button_update_groups_list import button_update_groups_list
+from keyboards.inline_keyboards import choice_groups_inline_keyboard, button_update_groups_list
 
 router = Router()
 router.message.filter(ChatTypeFilter(chat_type='private'))
