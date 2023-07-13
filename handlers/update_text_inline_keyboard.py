@@ -9,7 +9,7 @@ from keyboards.inline_keyboards import setting_group_inline_keyboard, management
 from texts_of_message import text_check_membership, text_choice_group, text_not_group, text_members_management, \
     text_admins_management, text_setting_group
 
-from handlers.get_handlers import get_membership_groups
+from db.db_mongodb import get_membership_groups
 
 
 async def update_text_inline_keyboard(**kwargs):

@@ -5,7 +5,7 @@ from aiogram.exceptions import TelegramBadRequest
 
 from contextlib import suppress
 
-from handlers.get_handlers import get_membership_groups
+from db.db_mongodb import get_membership_groups
 from handlers.update_text_inline_keyboard import update_text_inline_keyboard
 
 from filter.chat_type_filter import ChatTypeFilter
