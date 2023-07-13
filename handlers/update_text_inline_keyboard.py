@@ -5,7 +5,9 @@ from keyboards.management_group_inline_keyboard import group_management_inline_k
 from keyboards.choice_groups_inline_keyboard import choice_groups_inline_keyboard
 from keyboards.button_update_groups_list import button_update_groups_list
 from keyboards.management_members_inline_keyboard import members_management_inline_keyboard
-from texts_of_message import text_check_membership, text_choice_group, text_not_group, text_members_management
+from keyboards.management_admins_inline_keyboard import management_admins_inline_keyboard
+from texts_of_message import text_check_membership, text_choice_group, text_not_group, text_members_management, \
+    text_admins_management
 from handlers.check_membership_groups import check_membership_groups
 
 
@@ -30,6 +32,10 @@ async def update_text_inline_keyboard(**kwargs):
         elif pattern == 'members_management':
             await message.edit_text(text_members_management,
                                     reply_markup=members_management_inline_keyboard(chat_id, user_id))
+
+        elif pattern == 'admins_management':
+            await message.edit_text(text_admins_management,
+                                    reply_markup=management_admins_inline_keyboard())
 
         else:
             await message.edit_text(text_not_group,
