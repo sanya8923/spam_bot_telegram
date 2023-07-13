@@ -30,19 +30,21 @@ async def cmd_start(message: Message):
                                  reply_markup=button_update_groups_list(message.from_user.id))
 
 
-@router.callback_query(Text(startswith='cid_'))
+@router.callback_query(Text(startswith='GrMan_'))
 async def group_management(callback: CallbackQuery):
     with suppress(TelegramBadRequest):
         print('group_management')
-        chat_id = int(callback.data.split('_')[1])
+        callback_data = callback.data.split('_')
+        user_id = int(callback_data[1])
+        chat_id = int(callback_data[2])
         pattern = 'group_management'
         await update_text_inline_keyboard(message=callback.message,
                                           chat_id=chat_id,
-                                          user_id=callback.message.from_user.id,
+                                          user_id=user_id,
                                           pattern=pattern)
 
 
-@router.callback_query(Text(startswith='uid_'))
+@router.callback_query(Text(startswith='UpdGr_'))
 async def update_membership_groups(callback: CallbackQuery):
     with suppress(TelegramBadRequest):
         print('update_membership_groups')
@@ -54,12 +56,12 @@ async def update_membership_groups(callback: CallbackQuery):
                                           pattern=pattern)
 
 
-@router.callback_query(Text('management_members'))
-async def management_members(callback: CallbackQuery):
+@router.callback_query(Text('Mmanagement'))
+async def members_management(callback: CallbackQuery):
     with suppress(TelegramBadRequest):
-        print('management_members')
+        print('members_management')
 
-        pattern = 'management_members'
+        pattern = 'members_management'
         await update_text_inline_keyboard(message=callback.message,
                                           pattern=pattern)
 
