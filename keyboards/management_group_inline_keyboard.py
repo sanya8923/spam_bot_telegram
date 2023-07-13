@@ -5,12 +5,12 @@ from aiogram.types import InlineKeyboardButton
 def group_management_inline_keyboard(chat_id: int, user_id: int):
     print('group_management_inline_keyboard')
     buttons = [
-        [InlineKeyboardButton(text='Управление участниками', callback_data='management_members')],
-        [InlineKeyboardButton(text='Управление администраторами', callback_data='management_admins')],
-        [InlineKeyboardButton(text='Управление группой', callback_data='management_group')],
-        [InlineKeyboardButton(text='Быстрая настройка группы', callback_data='quick_setting_group')],
+        [InlineKeyboardButton(text='Управление участниками', callback_data='Mmanagement')],
+        [InlineKeyboardButton(text='Управление администраторами', callback_data='Amanagement')],
+        [InlineKeyboardButton(text='Управление группой', callback_data='setting')],
+        [InlineKeyboardButton(text='Быстрая настройка группы', callback_data='Qsetting')],
         [InlineKeyboardButton(text='Обратная связь', callback_data='feedback')],
-        [InlineKeyboardButton(text='Назад', callback_data=f'uid_{user_id}')],
+        [InlineKeyboardButton(text='Назад', callback_data=f'UpdGr_{user_id}')],
     ]
 
     return InlineKeyboardMarkup(inline_keyboard=buttons)
