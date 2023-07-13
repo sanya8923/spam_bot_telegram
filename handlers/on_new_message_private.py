@@ -86,3 +86,18 @@ async def admin_management(callback: CallbackQuery):
                                           pattern=pattern)
 
 
+@router.callback_query(Text(startswith='setting_'))
+async def setting_group(callback: CallbackQuery):
+    with suppress(TelegramBadRequest):
+        print('setting_group')
+        callback_data = callback.data.split('_')
+        user_id = int(callback_data[1])
+        chat_id = int(callback_data[2])
+
+        pattern = 'admin_management'
+        await update_text_inline_keyboard(message=callback.message,
+                                          user_id=user_id,
+                                          chat_id=chat_id,
+                                          pattern=pattern)
+
+
