@@ -4,3 +4,4 @@ text_not_group = '''Ботелло не добавлен ни в одну ваш
 text_choice_group = 'Выберите действие:'
 text_members_management = 'Выберите действие:'
 text_admins_management = 'Выберите действие:'
+text_setting_group = 'Выберите действие:'
