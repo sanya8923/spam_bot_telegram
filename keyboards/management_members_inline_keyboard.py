@@ -2,7 +2,7 @@ from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardMarkup
 
 
-def members_management_inline_keyboard(user_id):
+def members_management_inline_keyboard(chat_id: int, user_id: int):
     print('members_management_inline_keyboard')
 
     buttons = [
