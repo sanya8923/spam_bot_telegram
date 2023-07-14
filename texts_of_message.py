@@ -9,3 +9,5 @@ text_ban_user_from_private = 'Введите username пользователя, 
 text_user_banned_from_private = 'user is banned'
 text_admin_try_ban_admin = '''Этот пользователь является администратором группы. Администраторов имеет право банить 
 только владелец группы'''
+text_banned_user_already_kicked = 'Этот пользователь уже забанен'
+
