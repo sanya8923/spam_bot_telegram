@@ -3,19 +3,22 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command, Text
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.fsm.context import FSMContext
-from aiogram.filters.state import StatesGroup, State
 
 from contextlib import suppress
 
-from db.db_mongodb import get_membership_groups, add_banned_member_to_collection, get_user_role
+from db.db_mongodb import get_membership_groups, add_banned_member_to_collection, get_user_role, get_user_data
 
 from handlers.update_text_inline_keyboard import update_text_inline_keyboard
 
 from filter.chat_type_filter import ChatTypeFilter
 from filter.state import MyState
 
-from texts_of_message import text_choice_group, text_not_group, text_ban_user_from_private
-from keyboards.inline_keyboards import choice_groups_inline_keyboard, button_update_groups_list
+from texts_of_message import text_choice_group, text_not_group, text_ban_user_from_private, \
+    text_user_banned_from_private
+from keyboards.inline_keyboards import choice_groups_inline_keyboard, button_update_groups_list, \
+    members_management_inline_keyboard
+
+from bot import bot
 
 
 router = Router()
@@ -121,6 +124,25 @@ async def ban_member_from_private(callback: CallbackQuery, state: FSMContext):
     await state.update_data(user_id=user_id, chat_id=chat_id)
     await callback.message.answer(text_ban_user_from_private)
     await state.set_state(MyState.waiting_message_for_ban_user)
+
+
+@router.message(MyState.waiting_message_for_ban_user)
+async def ban_member_from_private_message(message: Message, state: FSMContext):
+    data = await state.get_data()
+    user_id = data.get('user_id')
+    chat_id = data.get('chat_id')
+
+    entities = message.entities or []
+    found_username = [item.extract_from(message.text) for item in entities if item.type == 'mention'][0]
+
+    if len(found_username) > 0:
+        user_id_for_ban = int((await get_user_data('username', found_username[1:]))['user_id'])
+        role = await get_user_role(user_id_for_ban, chat_id)
+        if role == 'member':
+            await bot.ban_chat_member(chat_id, user_id_for_ban)
+            await message.answer(text_user_banned_from_private,
+                                 reply_markup=members_management_inline_keyboard(chat_id, user_id))
+
 
 
 
