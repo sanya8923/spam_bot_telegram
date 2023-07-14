@@ -115,7 +115,10 @@ async def setting_group(callback: CallbackQuery):
 @router.callback_query(Text(startswith='BanUser_'))
 async def ban_member_from_private(callback: CallbackQuery, state: FSMContext):
     print('ban_member_private')
+    user_id = int(callback.data.split('_')[1])
+    chat_id = int(callback.data.split('_')[2])
 
+    await state.update_data(user_id=user_id, chat_id=chat_id)
     await callback.message.answer(text_ban_user_from_private)
     await state.set_state(MyState.waiting_message_for_ban_user)
 
