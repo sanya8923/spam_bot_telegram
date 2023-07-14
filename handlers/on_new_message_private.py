@@ -1,7 +1,9 @@
 from aiogram import Router
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message, CallbackQuery, ChatMemberOwner
 from aiogram.filters import Command, Text
 from aiogram.exceptions import TelegramBadRequest
+
+from bot import bot
 
 from contextlib import suppress
 
@@ -108,10 +110,13 @@ async def setting_group(callback: CallbackQuery):
                                           pattern=pattern)
 
 
-@router.callback_query(Text(startswith='ban_user_'))
+@router.callback_query(Text(startswith='BanUser_'))
 async def ban_member_from_private(callback: CallbackQuery):
     print('ban_member_private')
-    user_id = callback.data.split('_')[1]
-    chat_id = callback.data.split('_')[2]
+    user_id = int(callback.data.split('_')[1])
+    chat_id = int(callback.data.split('_')[2])
+    chat = await bot.get_chat(chat_id)
+    member = chat.get_member(user_id)
+    print(f'member: {member}')
 
 
