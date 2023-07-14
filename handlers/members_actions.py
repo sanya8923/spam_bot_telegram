@@ -17,6 +17,8 @@ async def ban_member_from_group(message: Message) -> None:
                                   message.from_user.id,
                                   until_date=next_day,
                                   revoke_messages=False)
+    else:
+        pass  # TODO: добавь всплывающее окно, что админа удалить нельзя (или исключение) Посмотри как реагирует телега на удаление владельца и там реши
 
 
 async def restrict_member(message: Message) -> None:

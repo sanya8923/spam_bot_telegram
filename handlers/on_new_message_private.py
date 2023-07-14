@@ -5,7 +5,8 @@ from aiogram.exceptions import TelegramBadRequest
 
 from contextlib import suppress
 
-from db.db_mongodb import get_membership_groups, get_user_data
+from db.db_mongodb import get_membership_groups, add_banned_member_to_collection
+
 from handlers.update_text_inline_keyboard import update_text_inline_keyboard
 
 from filter.chat_type_filter import ChatTypeFilter
@@ -105,3 +106,12 @@ async def setting_group(callback: CallbackQuery):
                                           user_id=user_id,
                                           chat_id=chat_id,
                                           pattern=pattern)
+
+
+@router.callback_query(Text(startswith='ban_user_'))
+async def ban_member_from_private(callback: CallbackQuery):
+    print('ban_member_private')
+    user_id = callback.data.split('_')[1]
+    chat_id = callback.data.split('_')[2]
+
+
