@@ -54,5 +54,5 @@ async def get_user_role(user_id: int, chat_id: int) -> str:
     return (await db['group_user_role'].find_one({'user_id': user_id, 'chat_id': chat_id}))['role']
 
 
-async def get_user_data(user_data_key: str, user_data_value: Optional[int, str]) -> dict:
+async def get_user_data(user_data_key: str, user_data_value) -> dict:
     return await db['users'].find_one({user_data_key: user_data_value})
