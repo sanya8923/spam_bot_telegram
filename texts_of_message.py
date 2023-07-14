@@ -8,6 +8,7 @@ text_setting_group = 'Выберите действие:'
 
 # TEXTS BAN USER FROM PRIVATE
 text_ban_user_from_private = 'Введите username пользователя, которого вы хотите забанить'
+text_ban_user_not_found = 'Пользователь не найден. Попробуйте еще раз'
 text_user_banned_from_private = 'User is banned'
 text_admin_try_ban_admin = '''Этот пользователь является администратором группы. Администраторов имеет право банить 
 только владелец группы'''
