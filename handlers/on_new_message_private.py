@@ -1,20 +1,22 @@
 from aiogram import Router
-from aiogram.types import Message, CallbackQuery, ChatMemberOwner
+from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command, Text
 from aiogram.exceptions import TelegramBadRequest
-
-from bot import bot
+from aiogram.fsm.context import FSMContext
+from aiogram.filters.state import StatesGroup, State
 
 from contextlib import suppress
 
-from db.db_mongodb import get_membership_groups, add_banned_member_to_collection
+from db.db_mongodb import get_membership_groups, add_banned_member_to_collection, get_user_role
 
 from handlers.update_text_inline_keyboard import update_text_inline_keyboard
 
 from filter.chat_type_filter import ChatTypeFilter
+from filter.state import MyState
 
-from texts_of_message import text_choice_group, text_not_group
+from texts_of_message import text_choice_group, text_not_group, text_ban_user_from_private
 from keyboards.inline_keyboards import choice_groups_inline_keyboard, button_update_groups_list
+
 
 router = Router()
 router.message.filter(ChatTypeFilter(chat_type='private'))
@@ -111,12 +113,15 @@ async def setting_group(callback: CallbackQuery):
 
 
 @router.callback_query(Text(startswith='BanUser_'))
-async def ban_member_from_private(callback: CallbackQuery):
+async def ban_member_from_private(callback: CallbackQuery, state: FSMContext):
     print('ban_member_private')
     user_id = int(callback.data.split('_')[1])
     chat_id = int(callback.data.split('_')[2])
-    chat = await bot.get_chat(chat_id)
-    member = chat.get_member(user_id)
-    print(f'member: {member}')
+
+    await callback.message.answer(text_ban_user_from_private)
+    await state.set_state(MyState.waiting_message_for_ban_user)
+
+
+
 
 
