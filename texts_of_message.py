@@ -7,12 +7,12 @@ text_admins_management = 'Выберите действие:'
 text_setting_group = 'Выберите действие:'
 
 # TEXTS BAN USER FROM PRIVATE
-text_ban_user_from_private = 'Введите username пользователя, которого вы хотите забанить'
-text_ban_user_not_found = 'Пользователь не найден. Попробуйте еще раз'
+text_ban_user_from_private = 'Введите username пользователя, которого вы хотите забанить или нажмите "Отмена"'
+text_ban_user_not_found = 'Пользователь не найден. Попробуйте еще раз или нажмите "Отмена"'
 text_user_banned_from_private = 'User is banned'
 text_admin_try_ban_admin = '''Этот пользователь является администратором группы. Администраторов имеет право банить 
-только владелец группы'''
-text_banned_user_already_kicked = 'Этот пользователь уже забанен'
-text_banned_user_left = 'Этот пользователь вышел из группы'
-text_banned_user_is_creator = 'Вы не можете забанить владельца группы'
+только владелец группы. Попробуйте еще раз или нажмите "Отмена"'''
+text_banned_user_already_kicked = 'Этот пользователь уже забанен. Попробуйте еще раз или нажмите "Отмена"'
+text_banned_user_left = 'Этот пользователь вышел из группы. Попробуйте еще раз или нажмите "Отмена"'
+text_banned_user_is_creator = 'Вы не можете забанить владельца группы. Попробуйте еще раз или нажмите "Отмена"'
 
