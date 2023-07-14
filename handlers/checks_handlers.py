@@ -4,7 +4,7 @@ import datetime
 from datetime import timedelta
 from constants import TIME_SPAN_TO_CHECK_NUMBER_OF_MESSAGES_MIN, ALLOWED_NUMBER_OF_MESSAGE_FOR_PERIOD, \
     DURATION_OF_NEW_USER_STATUS
-from handlers.members_actions import ban_member, restrict_member
+from handlers.members_actions import ban_member_from_group, restrict_member
 
 
 async def check_ban_words(message: Message) -> bool:
@@ -57,7 +57,7 @@ async def check_message_from_new_member(message: Message) -> None:
     presence_url = await check_for_url(message)
     if presence_url:
         await message.delete()
-        await ban_member(message)
+        await ban_member_from_group(message)
     else:
         posting_too_often = await check_message_frequency(message)
         if posting_too_often:
