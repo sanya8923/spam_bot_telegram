@@ -1,17 +1,18 @@
-from aiogram.types import Message, ChatMemberOwner
+from aiogram.types import Message
 import datetime
 import json
 from constants import BAN_DURATION_MIN, RESTRICT_DURATION_MIN
 from bot import bot
-from db.db_mongodb import add_banned_member_to_collection
+from db.db_mongodb import add_banned_member_to_collection, get_user_role
 
 
 async def ban_member_from_group(message: Message) -> None:
     current_date = datetime.datetime.now()
     next_day = current_date + datetime.timedelta(minutes=BAN_DURATION_MIN)
 
-    if bot.get_chat(message.chat.id) != 'private' and not isinstance(message.chat.get_member(message.from_user.id),
-                                                                     ChatMemberOwner):
+    role = await get_user_role(message.from_user.id, message.chat.id)
+
+    if bot.get_chat(message.chat.id) != 'private' and role != 'creator':
         await add_banned_member_to_collection(message.chat.id, message.from_user.id, message.date)
         await bot.ban_chat_member(message.chat.id,
                                   message.from_user.id,
