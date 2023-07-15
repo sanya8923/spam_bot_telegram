@@ -6,7 +6,7 @@ from aiogram.fsm.context import FSMContext
 
 from contextlib import suppress
 
-from db.db_mongodb import get_membership_groups, add_banned_member_to_collection, get_user_role, get_user_data
+from db.db_mongodb import get_membership_groups, get_user_role, get_user_data
 
 from handlers.update_text_inline_keyboard import update_text_inline_keyboard
 
@@ -134,56 +134,54 @@ async def ban_member_from_private_message(message: Message, state: FSMContext):
     chat_id = data.get('chat_id')
 
     entities = message.entities or []
-    user_id_for_ban: int
 
-    if len(entities) > 0:
-        found_username = [item.extract_from(message.text) for item in entities if item.type == 'mention'][0]
-        username = found_username[1:]
-        user_id_for_ban = int((await get_user_data('username', username))['user_id'])
-    else:
-        username = message.text
-        if username[0] == '@':
-            username = username[1:]
+    with suppress(TelegramBadRequest):
+        if len(entities) > 0:
+            found_username = [item.extract_from(message.text) for item in entities if item.type == 'mention'][0]
+            username = found_username[1:]
             user_id_for_ban = int((await get_user_data('username', username))['user_id'])
+        else:
+            username = message.text
+            user_data = await get_user_data('username', username)
+            user_id_for_ban = int(user_data['user_id']) if user_data is not None else None
 
-    if user_id_for_ban:
-        role_banned_user = await get_user_role(user_id_for_ban, chat_id)
-        if role_banned_user == 'member':
+        if user_id_for_ban is not None:
+            print(f'user_id_for_ban2: {user_id_for_ban}')
+            role_banned_user = await get_user_role(user_id_for_ban, chat_id)
+            if role_banned_user == 'member':
 
-            await bot.ban_chat_member(chat_id, user_id_for_ban)
-            await add_banned_member_to_collection(chat_id, user_id_for_ban)
-            await state.clear()
-            await message.answer(text_user_banned_from_private,
-                                 reply_markup=members_management_inline_keyboard(chat_id, user_id_who_ban))
-
-        elif role_banned_user == 'administrator':
-            role_user_who_ban = await get_user_role(user_id_who_ban, chat_id)
-
-            if role_user_who_ban == 'administrator':
-                await message.answer(text_admin_try_ban_admin,
-                                     reply_markup=button_abolition_ban(chat_id, user_id_who_ban))
-
-            else:
                 await bot.ban_chat_member(chat_id, user_id_for_ban)
-                await add_banned_member_to_collection(chat_id, user_id_for_ban)
                 await state.clear()
                 await message.answer(text_user_banned_from_private,
                                      reply_markup=members_management_inline_keyboard(chat_id, user_id_who_ban))
 
-        elif role_banned_user == 'kicked':
-            await message.answer(text_banned_user_already_kicked,
-                                 reply_markup=button_abolition_ban(chat_id, user_id_who_ban))
+            elif role_banned_user == 'administrator':
+                role_user_who_ban = await get_user_role(user_id_who_ban, chat_id)
 
-        elif role_banned_user == 'left':
-            await message.answer(text_banned_user_left,
-                                 reply_markup=button_abolition_ban(chat_id, user_id_who_ban))
+                if role_user_who_ban == 'administrator':
+                    await message.answer(text_admin_try_ban_admin,
+                                         reply_markup=button_abolition_ban(chat_id, user_id_who_ban))
 
-        elif role_banned_user == 'creator':
-            await message.answer(text_banned_user_is_creator,
-                                 reply_markup=button_abolition_ban(chat_id, user_id_who_ban))
+                else:
+                    await bot.ban_chat_member(chat_id, user_id_for_ban)
+                    await state.clear()
+                    await message.answer(text_user_banned_from_private,
+                                         reply_markup=members_management_inline_keyboard(chat_id, user_id_who_ban))
 
+            elif role_banned_user == 'kicked':
+                await message.answer(text_banned_user_already_kicked,
+                                     reply_markup=button_abolition_ban(chat_id, user_id_who_ban))
+
+            elif role_banned_user == 'left':
+                await message.answer(text_banned_user_left,
+                                     reply_markup=button_abolition_ban(chat_id, user_id_who_ban))
+
+            elif role_banned_user == 'creator':
+                await message.answer(text_banned_user_is_creator,
+                                     reply_markup=button_abolition_ban(chat_id, user_id_who_ban))
+
+            else:
+                print('Ты что-то не предусмотрел')  # TODO: поменяй
         else:
-            print('Ты что-то не предусмотрел')  # TODO: поменяй
-    else:
-        await message.answer(text_ban_user_not_found,
-                             reply_markup=button_abolition_ban(chat_id, user_id_who_ban))  # TODO: add button 'ОТМЕНА'
+            await message.answer(text_ban_user_not_found,
+                                 reply_markup=button_abolition_ban(chat_id, user_id_who_ban))  # TODO: add button 'ОТМЕНА'
