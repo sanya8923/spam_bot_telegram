@@ -3,7 +3,7 @@ import datetime
 import json
 from constants import BAN_DURATION_MIN, RESTRICT_DURATION_MIN
 from bot import bot
-from db.db_mongodb import add_banned_member_to_collection, get_user_role
+from db.db_mongodb import get_user_role
 
 
 async def ban_member_from_group(message: Message) -> None:
@@ -13,7 +13,6 @@ async def ban_member_from_group(message: Message) -> None:
     role = await get_user_role(message.from_user.id, message.chat.id)
 
     if bot.get_chat(message.chat.id) != 'private' and role != 'creator':
-        await add_banned_member_to_collection(message.chat.id, message.from_user.id, message.date)
         await bot.ban_chat_member(message.chat.id,
                                   message.from_user.id,
                                   until_date=next_day,
@@ -45,5 +44,6 @@ async def restrict_member(message: Message) -> None:
 
 
 async def member_unban(message: Message):
+    print('member_unban')
     if message.text == 'unban':
-        await message.chat.unban(195902353)
+        await message.chat.unban(5430126145)

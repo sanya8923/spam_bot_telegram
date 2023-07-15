@@ -14,15 +14,6 @@ async def add_data_to_db(collection_name, message_update):
     collection.insert_one(message_update)
 
 
-async def add_banned_member_to_collection(chat_id: int, user_id: int, date: datetime):
-    collection = db[f'{chat_id} - banned members']
-    data = {
-        'user_id': user_id,
-        'date_ban': date
-    }
-    collection.insert_one(data)
-
-
 async def get_membership_groups(user_id: int) -> list:
     print('check_membership_groups')
 

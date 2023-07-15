@@ -12,6 +12,9 @@ from handlers.members_actions import ban_member_from_group
 from handlers.checks_handlers import check_message_from_new_member, check_message_from_ordinary_member, check_ban_words, \
     check_new_member
 
+from handlers.members_actions import member_unban
+
+
 router = Router()
 router.message.filter(ChatTypeFilter(chat_type=['group', 'supergroup']))
 
@@ -22,6 +25,7 @@ async def on_new_message_from_creator_group(message: Message):
 
     await update_users_db_from_message(message)
     await save_message_update(message)
+    await member_unban(message)
 
 
 @router.message(UserRoleFilter(user_role='administrator'))
