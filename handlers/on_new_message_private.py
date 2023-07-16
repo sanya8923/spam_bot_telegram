@@ -9,6 +9,7 @@ from contextlib import suppress
 from db.db_mongodb import get_membership_groups, get_user_role, get_user_data
 
 from handlers.update_text_inline_keyboard import update_text_inline_keyboard
+from handlers.members_actions import restrict_admin_to_member
 
 from filter.chat_type_filter import ChatTypeFilter
 from filter.state import MyState
@@ -159,10 +160,14 @@ async def ban_member_from_private_message(message: Message, state: FSMContext):
                 role_user_who_ban = await get_user_role(user_id_who_ban, chat_id)
 
                 if role_user_who_ban == 'administrator':
+                    print('role_user_who_ban - administrator')
                     await message.answer(text_admin_try_ban_admin,
                                          reply_markup=button_abolition_ban(chat_id, user_id_who_ban))
 
                 else:
+                    print('role_user_who_ban - creator')
+                    await restrict_admin_to_member(chat_id, user_id_for_ban)
+                    print(f'role3: {await bot.get_chat_member(chat_id, user_id_who_ban)}')
                     await bot.ban_chat_member(chat_id, user_id_for_ban)
                     await state.clear()
                     await message.answer(text_user_banned_from_private,
