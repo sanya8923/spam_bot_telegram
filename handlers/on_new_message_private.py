@@ -212,7 +212,7 @@ async def banned_users_list(callback: CallbackQuery, state: FSMContext):
 
     for user in banned_users:
         message_banned_users += f'''{count}) Имя: {user["first_name"]} {user["last_name"]}\n
-        USERNAME: <code>{user["username"]}</code>\n\n'''
+        USERNAME: <code>@{user["username"]}</code>\n\n'''
         count += 1
 
     await state.update_data(user_id=user_id, chat_id=chat_id)
