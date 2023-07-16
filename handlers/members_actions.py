@@ -44,9 +44,15 @@ async def restrict_member(message: Message) -> None:
 
 
 async def member_unban_from_group(message: Message, user_id: int):
-    print('member_unban')
+    print('member_unban_from_group')
     if message.text == 'unban':
         await message.chat.unban(user_id)
+
+
+async def member_unban_from_private(chat_id: int, user_id: int):
+    print('member_unban_from_private')
+    chat = bot.get_chat(chat_id)
+    await chat.unban(user_id)
 
 
 async def restrict_admin_to_member(chat_id: int, user_id: int):
