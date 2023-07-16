@@ -53,7 +53,6 @@ async def get_user_data(user_data_key: str, user_data_value: Union[str, list]) -
         for data in user_data_value:
             user = (await db['users'].find_one({user_data_key: data}))
             users_data.append(user)
-        print(f'users_data: {users_data}')
         return users_data
 
 
