@@ -1,7 +1,7 @@
 import motor.motor_asyncio
 import datetime
 import config_reader
-from typing import Optional
+from typing import Optional, Union
 
 
 cluster = motor.motor_asyncio.AsyncIOMotorClient(config_reader.config.mongo_db.get_secret_value())
@@ -45,8 +45,16 @@ async def get_user_role(user_id: int, chat_id: int) -> str:
     return (await db['group_user_role'].find_one({'user_id': user_id, 'chat_id': chat_id}))['role']
 
 
-async def get_user_data(user_data_key: str, user_data_value) -> dict:
-    return await db['users'].find_one({user_data_key: user_data_value})
+async def get_user_data(user_data_key: str, user_data_value: Union[str, list]) -> Union[dict, list]:
+    if type(user_data_value) == str:
+        return await db['users'].find_one({user_data_key: user_data_value})
+    else:
+        users_data = []
+        for data in user_data_value:
+            user = (await db['users'].find_one({user_data_key: data}))
+            users_data.append(user)
+        print(f'users_data: {users_data}')
+        return users_data
 
 
 async def get_users_by_role(chat_id: int, role) -> list:
