@@ -56,7 +56,7 @@ def members_management_inline_keyboard(chat_id: int, user_id: int):
 
     buttons = [
         [InlineKeyboardButton(text='Забанить участника', callback_data=f'BanUser_{user_id}_{chat_id}')],
-        [InlineKeyboardButton(text='Разбанить участника', callback_data=f'unban_user_{user_id}_{chat_id}')],
+        [InlineKeyboardButton(text='Разбанить участника', callback_data=f'UnbanUser_{user_id}_{chat_id}')],
         [InlineKeyboardButton(text='Замьютить участника', callback_data=f'mute_user_{user_id}_{chat_id}')],
         [InlineKeyboardButton(text='Размьютить участника', callback_data=f'unmute_user_{user_id}_{chat_id}')],
         [InlineKeyboardButton(text='Назад', callback_data=f'GrMan_{user_id}_{chat_id}')],
