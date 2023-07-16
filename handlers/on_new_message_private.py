@@ -6,7 +6,7 @@ from aiogram.fsm.context import FSMContext
 
 from contextlib import suppress
 
-from db.db_mongodb import get_membership_groups, get_user_role, get_user_data
+from db.db_mongodb import get_membership_groups, get_user_role, get_user_data, get_users_by_role
 
 from handlers.update_text_inline_keyboard import update_text_inline_keyboard
 from handlers.members_actions import restrict_admin_to_member
@@ -192,3 +192,15 @@ async def ban_member_from_private_message(message: Message, state: FSMContext):
         else:
             await message.answer(text_ban_user_not_found,
                                  reply_markup=button_abolition_ban(chat_id, user_id_who_ban))  # TODO: add button 'ОТМЕНА'
+
+
+@router.callback_query(Text(startswith='UnbanUser_'))
+async def unban_member(callback: CallbackQuery):
+    print('unban_member')
+    user_id = int(callback.data.split('_')[1])
+    chat_id = int(callback.data.split('_')[2])
+
+    banned_users = await get_users_by_role(chat_id, 'kicked')
+    print(f'banned_users: {banned_users}')
+
+

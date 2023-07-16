@@ -47,3 +47,9 @@ async def get_user_role(user_id: int, chat_id: int) -> str:
 
 async def get_user_data(user_data_key: str, user_data_value) -> dict:
     return await db['users'].find_one({user_data_key: user_data_value})
+
+
+async def get_users_by_role(chat_id: int, role):
+    cursor = db['group_user_role'].find({'chat_id': chat_id, 'role': role})
+    return await cursor.to_list(length=100)
+
