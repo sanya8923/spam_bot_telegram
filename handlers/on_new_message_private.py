@@ -178,10 +178,12 @@ async def ban_member_from_private_message(message: Message, state: FSMContext):
                                      reply_markup=button_abolition_ban(chat_id, user_id_who_ban))
 
             elif role_banned_user == 'left':
+                print('user role - left')
                 await message.answer(text_banned_user_left,
                                      reply_markup=button_abolition_ban(chat_id, user_id_who_ban))
 
             elif role_banned_user == 'creator':
+                print('user role - creator')
                 await message.answer(text_banned_user_is_creator,
                                      reply_markup=button_abolition_ban(chat_id, user_id_who_ban))
 
