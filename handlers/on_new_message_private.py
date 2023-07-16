@@ -195,7 +195,7 @@ async def ban_member_from_private_message(message: Message, state: FSMContext):
 
 
 @router.callback_query(Text(startswith='UnbanUser_'))
-async def unban_member(callback: CallbackQuery, state: FSMContext):
+async def banned_users_list(callback: CallbackQuery, state: FSMContext):
     print('unban_member')
     user_id = int(callback.data.split('_')[1])
     chat_id = int(callback.data.split('_')[2])
@@ -218,6 +218,9 @@ async def unban_member(callback: CallbackQuery, state: FSMContext):
     await state.update_data(user_id=user_id, chat_id=chat_id)
     await state.set_state(MyState.waiting_message_for_unban_user)
     await callback.message.edit_text(message_banned_users)
+
+
+
 
 
 
