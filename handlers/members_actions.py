@@ -43,10 +43,10 @@ async def restrict_member(message: Message) -> None:
                                    until_date=next_day)
 
 
-async def member_unban(message: Message):
+async def member_unban_from_group(message: Message, user_id: int):
     print('member_unban')
     if message.text == 'unban':
-        await message.chat.unban(5430126145)
+        await message.chat.unban(user_id)
 
 
 async def restrict_admin_to_member(chat_id: int, user_id: int):
