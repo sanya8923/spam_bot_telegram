@@ -16,7 +16,7 @@ from filter.state import MyState
 
 from texts_of_message import text_choice_group, text_not_group, text_ban_user_from_private, \
     text_user_banned_from_private, text_admin_try_ban_admin, text_banned_user_already_kicked, text_banned_user_left, \
-    text_banned_user_is_creator, text_ban_user_not_found
+    text_banned_user_is_creator, text_ban_user_not_found, text_unban_user
 from keyboards.inline_keyboards import choice_groups_inline_keyboard, button_update_groups_list, \
     members_management_inline_keyboard, button_abolition_ban
 
@@ -195,12 +195,30 @@ async def ban_member_from_private_message(message: Message, state: FSMContext):
 
 
 @router.callback_query(Text(startswith='UnbanUser_'))
-async def unban_member(callback: CallbackQuery):
+async def unban_member(callback: CallbackQuery, state: FSMContext):
     print('unban_member')
     user_id = int(callback.data.split('_')[1])
     chat_id = int(callback.data.split('_')[2])
+    banned_users_id = []
 
-    banned_users = await get_users_by_role(chat_id, 'kicked')
-    print(f'banned_users: {banned_users}')
+    banned_users = (await get_users_by_role(chat_id, 'kicked'))
+    for user in banned_users:
+        banned_users_id.append(user["user_id"])
+        print(f'banned_users: {user["user_id"]}')
+
+    banned_users = await get_user_data('user_id', banned_users_id)
+    message_banned_users = text_unban_user
+
+    count = 1
+
+    for user in banned_users:
+        message_banned_users += f'''{count}) Имя: {user["first_name"]} {user["last_name"]}\n
+        USERNAME: <code>{user["username"]}</code>\n\n'''
+        count += 1
+
+    await state.update_data(user_id=user_id, chat_id=chat_id)
+    await state.set_state(MyState.waiting_message_for_unban_user)
+    await callback.message.edit_text(message_banned_users)
+
 
 
