@@ -204,7 +204,6 @@ async def unban_member(callback: CallbackQuery, state: FSMContext):
     banned_users = (await get_users_by_role(chat_id, 'kicked'))
     for user in banned_users:
         banned_users_id.append(user["user_id"])
-        print(f'banned_users: {user["user_id"]}')
 
     banned_users = await get_user_data('user_id', banned_users_id)
     message_banned_users = text_unban_user
