@@ -9,14 +9,14 @@ from contextlib import suppress
 from db.db_mongodb import get_membership_groups, get_user_role, get_user_data, get_users_by_role
 
 from handlers.update_text_inline_keyboard import update_text_inline_keyboard
-from handlers.members_actions import restrict_admin_to_member
+from handlers.members_actions import restrict_admin_to_member, unban_member
 
 from filter.chat_type_filter import ChatTypeFilter
 from filter.state import MyState
 
 from texts_of_message import text_choice_group, text_not_group, text_ban_user_from_private, \
     text_user_banned_from_private, text_admin_try_ban_admin, text_banned_user_already_kicked, text_banned_user_left, \
-    text_banned_user_is_creator, text_ban_user_not_found, text_unban_user
+    text_banned_user_is_creator, text_ban_user_not_found, text_unban_user, text_user_unbanned_from_private
 from keyboards.inline_keyboards import choice_groups_inline_keyboard, button_update_groups_list, \
     members_management_inline_keyboard, button_abolition_ban
 
@@ -220,7 +220,27 @@ async def banned_users_list(callback: CallbackQuery, state: FSMContext):
     await callback.message.edit_text(message_banned_users)
 
 
+@router.message(MyState.waiting_message_for_unban_user)
+async def unban_member_from_private_message(message: Message, state: FSMContext):
+    data = await state.get_data()
+    user_id_who_unban = data.get('user_id')
+    chat_id = data.get('chat_id')
 
+    entities = message.entities or []
 
+    with suppress(TelegramBadRequest):
+        if len(entities) > 0:
+            found_username = [item.extract_from(message.text) for item in entities if item.type == 'mention'][0]
+            username = found_username[1:]
+            user_id_for_unban = int((await get_user_data('username', username))['user_id'])
+        else:
+            username = message.text
+            user_data = await get_user_data('username', username)
+            user_id_for_unban = int(user_data['user_id']) if user_data is not None else None
 
+        if user_id_for_unban is not None:
+            await unban_member(chat_id, user_id_for_unban)
+            await state.clear()
+            await message.edit_text(text_user_unbanned_from_private,
+                                    reply_markup=members_management_inline_keyboard(chat_id, user_id_who_unban))
 
