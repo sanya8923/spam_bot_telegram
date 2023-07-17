@@ -7,6 +7,7 @@ from filter.user_role_filter import UserRoleFilter
 from db.update_users_db_from_message import update_users_db_from_message
 from db.save_message_update import save_message_update
 from db.update_group_user_role_db import update_group_user_role_db
+from db.db_mongodb import update_role_to_db
 
 from handlers.members_actions import ban_member_from_group
 from handlers.checks_handlers import check_message_from_new_member, check_message_from_ordinary_member, check_ban_words, \
@@ -38,7 +39,7 @@ async def on_new_message_from_member_group(message: Message):
     print('on_new_message_from_member_group')
 
     await update_users_db_from_message(message)
-    await update_group_user_role_db(message)
+    await update_role_to_db(message.chat.id, message=message)
     await save_message_update(message)
 
     presence_ban_word = await check_ban_words(message)
