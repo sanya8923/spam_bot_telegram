@@ -6,7 +6,8 @@ from aiogram.fsm.context import FSMContext
 
 from contextlib import suppress
 
-from db.db_mongodb import get_membership_groups, get_user_role, get_user_data, get_users_by_role
+from db.db_mongodb import get_membership_groups, get_user_role, get_user_data_from_users, get_users_by_role, \
+    update_role_to_db
 
 from handlers.update_text_inline_keyboard import update_text_inline_keyboard
 from handlers.members_actions import restrict_admin_to_member, unban_member
@@ -140,10 +141,10 @@ async def ban_member_from_private_message(message: Message, state: FSMContext):
         if len(entities) > 0:
             found_username = [item.extract_from(message.text) for item in entities if item.type == 'mention'][0]
             username = found_username[1:]
-            user_id_for_ban = int((await get_user_data('username', username))['user_id'])
+            user_id_for_ban = int((await get_user_data_from_users('username', username))['user_id'])
         else:
             username = message.text
-            user_data = await get_user_data('username', username)
+            user_data = await get_user_data_from_users('username', username)
             user_id_for_ban = int(user_data['user_id']) if user_data is not None else None
 
         if user_id_for_ban is not None:
@@ -205,7 +206,7 @@ async def banned_users_list(callback: CallbackQuery, state: FSMContext):
     for user in banned_users:
         banned_users_id.append(user["user_id"])
 
-    banned_users = await get_user_data('user_id', banned_users_id)
+    banned_users = await get_user_data_from_users('user_id', banned_users_id)
     message_banned_users = text_unban_user
 
     count = 1
@@ -232,14 +233,15 @@ async def unban_member_from_private_message(message: Message, state: FSMContext)
         if len(entities) > 0:
             found_username = [item.extract_from(message.text) for item in entities if item.type == 'mention'][0]
             username = found_username[1:]
-            user_id_for_unban = int((await get_user_data('username', username))['user_id'])
+            user_id_for_unban = int((await get_user_data_from_users('username', username))['user_id'])
         else:
             username = message.text
-            user_data = await get_user_data('username', username)
+            user_data = await get_user_data_from_users('username', username)
             user_id_for_unban = int(user_data['user_id']) if user_data is not None else None
 
         if user_id_for_unban is not None:
             await unban_member(chat_id, user_id_for_unban)
+            await update_role_to_db(chat_id, user_id=user_id_for_unban)
             await state.clear()
             await message.edit_text(text_user_unbanned_from_private,
                                     reply_markup=members_management_inline_keyboard(chat_id, user_id_who_unban))
