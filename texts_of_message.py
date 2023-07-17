@@ -9,7 +9,7 @@ text_setting_group = 'Выберите действие:'
 # TEXTS BAN USER FROM PRIVATE
 text_ban_user_from_private = 'Введите username пользователя, которого вы хотите забанить или нажмите "Отмена"'
 text_ban_user_not_found = 'Пользователь не найден. Попробуйте еще раз или нажмите "Отмена"'
-text_user_banned_from_private = 'User is banned'
+text_user_banned_from_private = 'Пользователь заблокирован'
 text_admin_try_ban_admin = '''Этот пользователь является администратором группы. Администраторов имеет право банить 
 только владелец группы. Попробуйте еще раз или нажмите "Отмена"'''
 text_banned_user_already_kicked = 'Этот пользователь уже забанен. Попробуйте еще раз или нажмите "Отмена"'
@@ -24,4 +24,5 @@ text_unban_user = '''
 После этого отправьте его боту\n\n
 <b>ЗАБАНЕННЫЕ УЧАСТНИКИ:</b>\n
 '''
+text_user_unbanned_from_private = 'Пользователь разблокирован'
 
