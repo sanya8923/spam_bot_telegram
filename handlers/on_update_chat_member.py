@@ -5,7 +5,7 @@ from aiogram.filters.chat_member_updated import ChatMemberUpdatedFilter, ChatMem
 from filter.chat_type_filter import ChatTypeFilter
 
 from db.update_users_db_from_member_update import update_users_db_from_member_update
-from db.update_group_user_role_db_from_member_update import update_group_user_role_db_from_member_update
+from db.db_mongodb import update_role_to_db
 
 
 router = Router()
@@ -16,33 +16,33 @@ router.message.filter(ChatTypeFilter(chat_type=['group', 'supergroup']))
 async def on_new_member(update: ChatMemberUpdated):
     print('on_new_member')
     await update_users_db_from_member_update(update)
-    await update_group_user_role_db_from_member_update(update)
+    await update_role_to_db(update.chat.id, update=update)
 
 
 @router.chat_member(ChatMemberUpdatedFilter(member_status_changed=PROMOTED_TRANSITION))
 async def on_admin_new(update: ChatMemberUpdated):
     print('on_new_admin')
     await update_users_db_from_member_update(update)
-    await update_group_user_role_db_from_member_update(update)
+    await update_role_to_db(update.chat.id, update=update)
 
 
 @router.chat_member(ChatMemberUpdatedFilter(IS_ADMIN >> MEMBER))
 async def on_admin_downgrade_to_member(update: ChatMemberUpdated):
     print('on_admin_downgrade_to_member')
     await update_users_db_from_member_update(update)
-    await update_group_user_role_db_from_member_update(update)
+    await update_role_to_db(update.chat.id, update=update)
 
 
 @router.chat_member(ChatMemberUpdatedFilter(IS_MEMBER >> LEFT))
 async def on_admin_member_left(update: ChatMemberUpdated):
     print('on_admin_member_left')
     await update_users_db_from_member_update(update)
-    await update_group_user_role_db_from_member_update(update)
+    await update_role_to_db(update.chat.id, update=update)
 
 
 @router.chat_member(ChatMemberUpdatedFilter(IS_MEMBER >> KICKED))
 async def on_admin_member_kick(update: ChatMemberUpdated):
     print('on_admin_member_kick')
     await update_users_db_from_member_update(update)
-    await update_group_user_role_db_from_member_update(update)
+    await update_role_to_db(update.chat.id, update=update)
 

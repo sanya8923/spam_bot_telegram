@@ -6,10 +6,10 @@ from aiogram.exceptions import TelegramForbiddenError
 
 from contextlib import suppress
 
-from db.save_admins_to_db import save_admins_to_db
+from handlers.save_admins_to_db import save_admins_to_db
 from db.save_group_to_db import save_group_to_db
-from db.update_group_user_role_db_from_member_update import update_group_user_role_db_from_member_update
 from db.delete_chat_id_from_groups_db import delete_chat_id_from_groups_db
+from db.db_mongodb import update_role_to_db
 
 from filter.chat_type_filter import ChatTypeFilter
 
@@ -33,7 +33,7 @@ async def on_add_bot_by_admin(update: ChatMemberUpdated):
 @router.my_chat_member(ChatMemberUpdatedFilter(IS_ADMIN >> MEMBER))
 async def on_downgrade_bot(update: ChatMemberUpdated):
     print('bot downgrade from admin to member')
-    await update_group_user_role_db_from_member_update(update)
+    await update_role_to_db(update.chat.id, update=update)
 
 
 @router.my_chat_member(ChatMemberUpdatedFilter(member_status_changed=LEAVE_TRANSITION))
