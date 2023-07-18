@@ -54,7 +54,7 @@ async def get_membership_groups(user_id: int) -> list:
     return chats_data
 
 
-async def get_user_role(user_id: int, chat_id: int) -> str:
+async def get_user_role(user_id: int, chat_id: int) -> Union[int, None]:
     user = await db['group_user_role'].find_one({'user_id': user_id, 'chat_id': chat_id})
     if user:
         return user['role']
