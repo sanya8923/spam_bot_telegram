@@ -4,7 +4,6 @@ import config_reader
 from typing import Optional, Union
 from bot import bot
 
-
 cluster = motor.motor_asyncio.AsyncIOMotorClient(config_reader.config.mongo_db.get_secret_value())
 db = cluster['db']
 
@@ -19,11 +18,25 @@ async def get_membership_groups(user_id: int) -> list:
     print('check_membership_groups')
 
     collection_group_user_role = db['group_user_role']
-    documents_group_user_role = collection_group_user_role.find({'user_id': user_id})
+    documents_user = collection_group_user_role.find({'user_id': user_id, 'role':
+                                                     {'$in': ['administrator', 'creator']}})
+    documents_bot = collection_group_user_role.find({'user_id': bot.id, 'role': 'administrator'})
+
+    bot_chat_id_list = []
+    async for document_bot in documents_bot:
+        bot_chat_id_list.append(document_bot['chat_id'])
+    bot_chat_id_set = set(bot_chat_id_list)
+
+    user_chat_id_list = []
+    async for document_user in documents_user:
+        user_chat_id_list.append(document_user['chat_id'])
+    user_chat_id_set = set(user_chat_id_list)
 
     chat_id_list = []
-    async for document in documents_group_user_role:
-        chat_id_list.append(document['chat_id'])
+    for i in range(len(bot_chat_id_set)):
+        for m in range(len(user_chat_id_set)):
+            if list(bot_chat_id_set)[i] == list(user_chat_id_set)[m]:
+                chat_id_list.append(list(bot_chat_id_set)[i])
 
     collection_groups = db['groups']
     chats_data = []
@@ -38,7 +51,6 @@ async def get_membership_groups(user_id: int) -> list:
                     'chat_id': document['chat_id']
                 }
             )
-
     return chats_data
 
 
