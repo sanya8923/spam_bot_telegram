@@ -150,6 +150,7 @@ async def ban_member_from_private_message(message: Message, state: FSMContext):
         if user_id_for_ban is not None:
             print(f'user_id_for_ban2: {user_id_for_ban}')
             role_banned_user = await get_user_role(user_id_for_ban, chat_id)
+            print(f'role_banned_user: {role_banned_user}')
             if role_banned_user == 'member':
 
                 await bot.ban_chat_member(chat_id, user_id_for_ban)
@@ -187,6 +188,12 @@ async def ban_member_from_private_message(message: Message, state: FSMContext):
                 print('user role - creator')
                 await message.answer(text_banned_user_is_creator,
                                      reply_markup=button_abolition_ban(chat_id, user_id_who_ban))
+
+            elif role_banned_user is None:
+                print('role_user_who_ban - None')
+                role_banned_user_from_get_member = await bot.get_chat_member(chat_id, user_id_for_ban)
+                print(f'role_banned_user_from_get_member: {role_banned_user_from_get_member}')
+
 
             else:
                 print('Ты что-то не предусмотрел')  # TODO: поменяй

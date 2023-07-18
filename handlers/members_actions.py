@@ -51,7 +51,7 @@ async def unban_member(chat_id: int, user_id: int):
 
 async def restrict_admin_to_member(chat_id: int, user_id: int):
     print('restrict_admin_to_member')
-    role = await bot.get_chat_member(chat_id, user_id)
+    role = await bot.get_chat_member(chat_id, user_id)  # TODO: ОШИБКА
     print(f'role1: {role}')
     new_role = await bot.promote_chat_member(chat_id,
                                              user_id,
