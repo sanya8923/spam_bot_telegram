@@ -51,8 +51,6 @@ async def unban_member(chat_id: int, user_id: int):
 
 async def restrict_admin_to_member(chat_id: int, user_id: int):
     print('restrict_admin_to_member')
-    role = await bot.get_chat_member(chat_id, user_id)  # TODO: ОШИБКА
-    print(f'role1: {role}')
     new_role = await bot.promote_chat_member(chat_id,
                                              user_id,
                                              can_change_info=False,
@@ -64,6 +62,4 @@ async def restrict_admin_to_member(chat_id: int, user_id: int):
                                              can_pin_messages=False,
                                              can_promote_members=False)
     print(f'new_role: {new_role}')
-    role = await bot.get_chat_member(chat_id, user_id)
-    print(f'role2: {role}')
     # TODO: after promote all don't work
