@@ -6,8 +6,8 @@ from aiogram.fsm.context import FSMContext
 
 from contextlib import suppress
 
-from db.db_mongodb import get_membership_groups, get_user_role, get_user_data_from_users, get_users_by_role, \
-    update_role_to_db
+from db.db_mongodb import get_membership_groups, get_user_data_from_users, get_users_by_role, \
+    update_role_to_db, get_user_role_from_db
 
 from handlers.update_text_inline_keyboard import update_text_inline_keyboard
 from handlers.members_actions import restrict_admin_to_member, unban_member
@@ -149,7 +149,7 @@ async def ban_member_from_private_message(message: Message, state: FSMContext):
 
         if user_id_for_ban is not None:
             print(f'user_id_for_ban2: {user_id_for_ban}')
-            role_banned_user = await get_user_role(user_id_for_ban, chat_id)
+            role_banned_user = await get_user_role_from_db(user_id_for_ban, chat_id)
             print(f'role_banned_user: {role_banned_user}')
             if role_banned_user == 'member':
 
@@ -159,7 +159,7 @@ async def ban_member_from_private_message(message: Message, state: FSMContext):
                                      reply_markup=members_management_inline_keyboard(chat_id, user_id_who_ban))
 
             elif role_banned_user == 'administrator':
-                role_user_who_ban = await get_user_role(user_id_who_ban, chat_id)
+                role_user_who_ban = await get_user_role_from_db(user_id_who_ban, chat_id)
 
                 if role_user_who_ban == 'administrator':
                     print('role_user_who_ban - administrator')
@@ -191,8 +191,14 @@ async def ban_member_from_private_message(message: Message, state: FSMContext):
 
             elif role_banned_user is None:
                 print('role_user_who_ban - None')
-                role_banned_user_from_get_member = await bot.get_chat_member(chat_id, user_id_for_ban)
-                print(f'role_banned_user_from_get_member: {role_banned_user_from_get_member}')
+                banned_user_from_get_member = await bot.get_chat_member(chat_id, user_id_for_ban)
+                role_banned_user_from_get_member = banned_user_from_get_member.status
+
+                if role_banned_user_from_get_member == 'member':
+                    await bot.ban_chat_member(chat_id, user_id_for_ban)
+                    await state.clear()
+                    await message.answer(text_user_banned_from_private,
+                                         reply_markup=members_management_inline_keyboard(chat_id, user_id_who_ban))
 
 
             else:

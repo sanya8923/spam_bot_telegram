@@ -1,13 +1,12 @@
 from aiogram.types import Message
-from handlers.get_handlers import get_user_role
-from db.db_mongodb import db, add_data_to_db
+from db.db_mongodb import db, add_data_to_db, get_user_role_from_db
 
 
 async def update_group_user_role_db(message: Message):
     print('update_group_user_role_db')
     collection_name = 'group_user_role'
     collection = db[collection_name]
-    role = await get_user_role(message)
+    role = await get_user_role_from_db(message)
     count = await collection.count_documents({'user_id': message.from_user.id, 'chat_id': message.chat.id})
 
     if await collection.find_one({'user_id': message.from_user.id, 'chat_id': message.chat.id}):

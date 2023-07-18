@@ -3,14 +3,14 @@ import datetime
 import json
 from constants import BAN_DURATION_MIN, RESTRICT_DURATION_MIN
 from bot import bot
-from db.db_mongodb import get_user_role
+from db.db_mongodb import get_user_role_from_db
 
 
 async def ban_member_from_group(message: Message) -> None:
     current_date = datetime.datetime.now()
     next_day = current_date + datetime.timedelta(minutes=BAN_DURATION_MIN)
 
-    role = await get_user_role(message.from_user.id, message.chat.id)
+    role = await get_user_role_from_db(message.from_user.id, message.chat.id)
 
     if bot.get_chat(message.chat.id) != 'private' and role != 'creator':
         await bot.ban_chat_member(message.chat.id,
