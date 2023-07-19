@@ -123,8 +123,14 @@ async def ban_member_from_private(callback: CallbackQuery, state: FSMContext):
     print('ban_member_private')
     user_id = int(callback.data.split('_')[1])
     chat_id = int(callback.data.split('_')[2])
+    message_id = callback.message.message_id
+    chat_private_id = callback.message.chat.id
 
-    await state.update_data(user_id=user_id, chat_id=chat_id)
+    await state.update_data(user_id=user_id,
+                            chat_id=chat_id,
+                            message_id=message_id,
+                            chat_private_id=chat_private_id)
+
     await callback.message.edit_text(text_ban_user_from_private,
                                      reply_markup=button_abolition_ban(chat_id, user_id))
     await state.set_state(MyState.waiting_message_for_ban_user)
@@ -135,6 +141,8 @@ async def ban_member_from_private_message(message: Message, state: FSMContext):
     data = await state.get_data()
     user_id_who_ban = data.get('user_id')
     chat_id = data.get('chat_id')
+    message_id = data.get('message_id')
+    chat_private_id = data.get('chat_private_id')
 
     entities = message.entities or []
 
@@ -159,6 +167,7 @@ async def ban_member_from_private_message(message: Message, state: FSMContext):
                     await state.clear()
                     await message.answer(text_user_banned_from_private,
                                          reply_markup=members_management_inline_keyboard(chat_id, user_id_who_ban))
+                    await bot.delete_message(chat_private_id, message_id)
 
 
             else:
