@@ -175,6 +175,7 @@ async def banned_users_list(callback: CallbackQuery, state: FSMContext):
     banned_users_id = []
 
     banned_users = (await get_users_by_role(chat_id, 'kicked'))
+    print(f'banned_users: {banned_users}')
     for user in banned_users:
         banned_users_id.append(user["user_id"])
 
