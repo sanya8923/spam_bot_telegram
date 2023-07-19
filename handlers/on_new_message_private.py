@@ -141,24 +141,25 @@ async def ban_member_from_private_message(message: Message, state: FSMContext):
         if len(entities) > 0:
             found_username = [item.extract_from(message.text) for item in entities if item.type == 'mention'][0]
             username = found_username[1:]
-            user_id_for_ban = int((await get_user_data_from_users('username', username))['user_id'])
+            user_id_for_ban = int((await get_data_from_db('username', username, 'users'))['user_id'])
         else:
             username = message.text
-            user_data = await get_user_data_from_users('username', username)
+            user_data = await get_data_from_db('username', username, 'users')
             user_id_for_ban = int(user_data['user_id']) if user_data is not None else None
 
         if user_id_for_ban is not None:
             print(f'user_id_for_ban2: {user_id_for_ban}')
-            role_banned_user = await get_user_role_from_db(user_id_for_ban, chat_id)
-            print(f'role_banned_user: {role_banned_user}')
-            if role_banned_user == 'member':
+            banned_user_data = await get_user_role_from_db(user_id_for_ban, chat_id)
+            print(f'role_banned_user: {banned_user_data["role"]}')
 
+            if banned_user_data['role'] == 'member':
                 await bot.ban_chat_member(chat_id, user_id_for_ban)
+                await update_role_to_db(chat_id, user_id=user_id_for_ban)
                 await state.clear()
                 await message.answer(text_user_banned_from_private,
                                      reply_markup=members_management_inline_keyboard(chat_id, user_id_who_ban))
 
-            elif role_banned_user == 'administrator':
+            elif banned_user_data['role'] == 'administrator':
                 role_user_who_ban = await get_user_role_from_db(user_id_who_ban, chat_id)
 
                 if role_user_who_ban == 'administrator':
@@ -172,20 +173,26 @@ async def ban_member_from_private_message(message: Message, state: FSMContext):
                     print(f'role3: {await bot.get_chat_member(chat_id, user_id_who_ban)}')
                     await bot.ban_chat_member(chat_id, user_id_for_ban)
                     await state.clear()
+                    await update_role_to_db(chat_id, user_id=user_id_for_ban)
                     await message.answer(text_user_banned_from_private,
                                          reply_markup=members_management_inline_keyboard(chat_id, user_id_who_ban))
 
-            elif role_banned_user == 'kicked':
+            elif banned_user_data['role'] == 'kicked':
+                print(f'role_banned_user: {banned_user_data["role"]}')
+                await update_role_to_db(chat_id, user_id=user_id_for_ban)
                 await message.answer(text_banned_user_already_kicked,
                                      reply_markup=button_abolition_ban(chat_id, user_id_who_ban))
 
-            elif role_banned_user == 'left':
-                print('user role - left')
+            elif banned_user_data['role'] == 'left':
+                print(f'role_banned_user: {banned_user_data["role"]}')
+                await state.clear()
+                await update_role_to_db(chat_id, user_id=user_id_for_ban)
                 await message.answer(text_banned_user_left,
                                      reply_markup=button_abolition_ban(chat_id, user_id_who_ban))
 
-            elif role_banned_user == 'creator':
-                print('user role - creator')
+            elif banned_user_data['role'] == 'creator':
+                print(f'role_banned_user: {banned_user_data["role"]}')
+                await update_role_to_db(chat_id, user_id=user_id_for_ban)
                 await message.answer(text_banned_user_is_creator,
                                      reply_markup=button_abolition_ban(chat_id, user_id_who_ban))
 
@@ -219,7 +226,7 @@ async def banned_users_list(callback: CallbackQuery, state: FSMContext):
     for user in banned_users:
         banned_users_id.append(user["user_id"])
 
-    banned_users = await get_user_data_from_users('user_id', banned_users_id)
+    banned_users = await get_data_from_db('user_id', banned_users_id, 'users')
     message_banned_users = text_unban_user
 
     count = 1
@@ -246,10 +253,10 @@ async def unban_member_from_private_message(message: Message, state: FSMContext)
         if len(entities) > 0:
             found_username = [item.extract_from(message.text) for item in entities if item.type == 'mention'][0]
             username = found_username[1:]
-            user_id_for_unban = int((await get_user_data_from_users('username', username))['user_id'])
+            user_id_for_unban = int((await get_data_from_db('username', username, 'users'))['user_id'])
         else:
             username = message.text
-            user_data = await get_user_data_from_users('username', username)
+            user_data = await get_data_from_db('username', username, 'users')
             user_id_for_unban = int(user_data['user_id']) if user_data is not None else None
 
         if user_id_for_unban is not None:
