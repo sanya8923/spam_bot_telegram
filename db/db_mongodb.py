@@ -97,7 +97,9 @@ async def update_role_to_db(*args, **kwargs):
         count = await collection_group_user_role.count_documents({'user_id': user_id, 'chat_id': chat_id})
 
         user_role = {'user_id': user_id,
+                     'username': member.user.username, # TODO: delete
                      'chat_id': chat_id,
+                     'chat_name': 'chat_name',  # TODO: delete
                      'role': role
                      }
 
