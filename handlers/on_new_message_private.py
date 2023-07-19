@@ -191,7 +191,8 @@ async def banned_users_list(callback: CallbackQuery, state: FSMContext):
 
     await state.update_data(user_id=user_id, chat_id=chat_id)
     await state.set_state(MyState.waiting_message_for_unban_user)
-    await callback.message.edit_text(message_banned_users)
+    await callback.message.edit_text(message_banned_users,
+                                     reply_markup=button_abolition_ban(chat_id, user_id))
 
 
 @router.message(MyState.waiting_message_for_unban_user)
