@@ -97,7 +97,7 @@ async def update_role_to_db(*args, **kwargs):
         count = await collection_group_user_role.count_documents({'user_id': user_id, 'chat_id': chat_id})
 
         user_role = {'user_id': user_id,
-                     'username': member.user.username, # TODO: delete
+                     'username': member.user.username,  # TODO: delete
                      'chat_id': chat_id,
                      'chat_name': 'chat_name',  # TODO: delete
                      'role': role
@@ -107,7 +107,7 @@ async def update_role_to_db(*args, **kwargs):
             await add_data_to_db(collection_name_group_user_role, user_role)
         elif count == 1:
             filter_update = {'user_id': user_id, 'chat_id': chat_id}
-            update_role = {'$set': {'role': user_role}}
+            update_role = {'$set': {'role': role}}
             collection_group_user_role.update_one(filter_update, update_role)
         else:
             delete_filter = {'user_id': user_id, 'chat_id': chat_id}
