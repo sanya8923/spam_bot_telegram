@@ -7,6 +7,7 @@ text_admins_management = 'Выберите действие:'
 text_setting_group = 'Выберите действие:'
 
 # TEXTS BAN USER FROM PRIVATE
+
 text_ban_user_from_private = 'Введите username пользователя, которого вы хотите забанить или нажмите "Отмена"'
 text_ban_user_not_found = 'Пользователь не найден. Попробуйте еще раз или нажмите "Отмена"'
 text_user_banned_from_private = 'Пользователь заблокирован'
@@ -31,4 +32,7 @@ text_user_unbanned_from_private = 'Пользователь разблокиро
 text_unban_user_not_found = 'Пользователь не найден. Попробуйте еще раз или нажмите "Отмена"'
 text_incorrect_username_for_unban = 'Некорректный юзернейм пользователя. Попробуйте еще раз или нажмите "Отмена"'
 
+
+# TEXTS MUTE USER FROM PRIVATE
+text_mute_user_from_private = 'Введите username пользователя, которого вы хотите замьютить или нажмите "Отмена"'
 
