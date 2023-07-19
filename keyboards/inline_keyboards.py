@@ -91,25 +91,35 @@ def button_return_to_member_management(chat_id: int, user_id: int):
     return InlineKeyboardMarkup(inline_keyboard=button)
 
 
-def term_mute_inline_keyboard(chat_id: int, user_id: int):
+def term_mute_inline_keyboard(chat_id: int, user_id_for_mute: int, user_id_who_mute: int):
     print('term_mute_inline_keyboard')
     buttons = [
         [
-            InlineKeyboardButton(text='1 час', callback_data=f'hour_1_{user_id}_{chat_id}'),
-            InlineKeyboardButton(text='2 часа', callback_data=f'hour_2_{user_id}_{chat_id}'),
-            InlineKeyboardButton(text='3 час', callback_data=f'hour_3_{user_id}_{chat_id}')
+            InlineKeyboardButton(text='1 час',
+                                 callback_data=f'hour_1_{user_id_for_mute}_{chat_id}_{user_id_who_mute}'),
+            InlineKeyboardButton(text='2 часа',
+                                 callback_data=f'hour_2_{user_id_for_mute}_{chat_id}_{user_id_who_mute}'),
+            InlineKeyboardButton(text='3 час',
+                                 callback_data=f'hour_3_{user_id_for_mute}_{chat_id}_{user_id_who_mute}')
         ],
         [
-            InlineKeyboardButton(text='1 день', callback_data=f'day_1_{user_id}_{chat_id}'),
-            InlineKeyboardButton(text='2 дня', callback_data=f'day_2_{user_id}_{chat_id}'),
-            InlineKeyboardButton(text='3 дня', callback_data=f'day_3_{user_id}_{chat_id}')
+            InlineKeyboardButton(text='1 день',
+                                 callback_data=f'day_1_{user_id_for_mute}_{chat_id}_{user_id_who_mute}'),
+            InlineKeyboardButton(text='2 дня',
+                                 callback_data=f'day_2_{user_id_for_mute}_{chat_id}_{user_id_who_mute}'),
+            InlineKeyboardButton(text='3 дня',
+                                 callback_data=f'day_3_{user_id_for_mute}_{chat_id}_{user_id_who_mute}')
         ],
         [
-            InlineKeyboardButton(text='1 неделя', callback_data=f'week_1_{user_id}_{chat_id}'),
-            InlineKeyboardButton(text='2 недели', callback_data=f'week_2_{user_id}_{chat_id}'),
-            InlineKeyboardButton(text='3 недели', callback_data=f'week_3_{user_id}_{chat_id}'),
+            InlineKeyboardButton(text='1 неделя',
+                                 callback_data=f'week_1_{user_id_for_mute}_{chat_id}_{user_id_who_mute}'),
+            InlineKeyboardButton(text='2 недели',
+                                 callback_data=f'week_2_{user_id_for_mute}_{chat_id}_{user_id_who_mute}'),
+            InlineKeyboardButton(text='3 недели',
+                                 callback_data=f'week_3_{user_id_for_mute}_{chat_id}_{user_id_who_mute}'),
         ],
-        [InlineKeyboardButton(text='Выбрать свой вариант', callback_data=f'hour_UserValue_{user_id}_{chat_id}')],
-        [InlineKeyboardButton(text='Отмена', callback_data=f'MembManag_{user_id}_{chat_id}')],
+        [InlineKeyboardButton(text='Выбрать свой вариант',
+                              callback_data=f'hour_UserValue_{user_id_for_mute}_{chat_id}_{user_id_who_mute}')],
+        [InlineKeyboardButton(text='Отмена', callback_data=f'MembManag_{user_id_who_mute}_{chat_id}')],
     ]
     return InlineKeyboardMarkup(inline_keyboard=buttons)
