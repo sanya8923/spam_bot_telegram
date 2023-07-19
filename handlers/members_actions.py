@@ -70,6 +70,46 @@ async def restrict_admin_to_member(chat_id: int, user_id: int):
     # TODO: after promote all don't work
 
 
+async def convert_term(term: int, term_type_input: str, term_type_output: str) -> int:
+    print('convert_term')
+    if term_type_output == 'min':
+        if term_type_input == 'min':
+            return term
+        elif term_type_input == 'hour':
+            return term * 60
+        elif term_type_input == 'day':
+            return term * 60 * 24
+        elif term_type_input == 'week':
+            return term * 60 * 24 * 7
+
+    # TODO доделай оставшиеся условия или (лучше) перепиши на нормальный
+    if term_type_output == 'hour':
+        if term_type_input == 'min':
+            return 0
+        elif term_type_input == 'hour':
+            return term
+        elif term_type_input == 'day':
+            return 0
+        elif term_type_input == 'week':
+
+    if term_type_output == 'day':
+        if term_type_input == 'min':
+            return 0
+        elif term_type_input == 'hour':
+            return 0
+        elif term_type_input == 'day':
+            return term
+        elif term_type_input == 'week':
+
+    if term_type_output == 'week':
+        if term_type_input == 'min':
+            return 0
+        elif term_type_input == 'hour':
+            return 0
+        elif term_type_input == 'day':
+            return 0
+        elif term_type_input == 'week':
+            return term
 
 
 
