@@ -93,13 +93,14 @@ async def update_role_to_db(*args, **kwargs):
     if user_id:
         print('update_role_to_db FROM USER_ID')
         member = await bot.get_chat_member(chat_id, user_id)
-        print(f'member: {member}')
-        role = (await bot.get_chat_member(chat_id, user_id)).status
+        role = member.status
         count = await collection_group_user_role.count_documents({'user_id': user_id, 'chat_id': chat_id})
+
         user_role = {'user_id': user_id,
                      'chat_id': chat_id,
                      'role': role
                      }
+
         if count == 0:
             await add_data_to_db(collection_name_group_user_role, user_role)
         elif count == 1:
