@@ -256,3 +256,20 @@ async def unban_member_from_private_message(message: Message, state: FSMContext)
         await bot.delete_message(chat_private_id, message_id)
 
 
+@router.callback_query(Text(startswith='MuteUser_'))
+async def mute_member_from_private(callback: CallbackQuery, state: FSMContext):
+    print('ban_member_private')
+    user_id = int(callback.data.split('_')[1])
+    chat_id = int(callback.data.split('_')[2])
+    message_id = callback.message.message_id
+    chat_private_id = callback.message.chat.id
+
+    await state.update_data(user_id=user_id,
+                            chat_id=chat_id,
+                            message_id=message_id,
+                            chat_private_id=chat_private_id)
+
+    await callback.message.edit_text(text_mute_user_from_private,
+                                     reply_markup=button_return_to_member_management(chat_id, user_id))
+    await state.set_state(MyState.waiting_message_for_mute_user)
+
