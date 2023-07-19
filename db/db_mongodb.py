@@ -62,13 +62,14 @@ async def get_user_role_from_db(user_id: int, chat_id: int) -> Union[int, None]:
         return None
 
 
-async def get_user_data_from_users(user_data_key: str, user_data_value: Union[str, list]) -> Union[dict, list]:
-    if type(user_data_value) == str:
-        return await db['users'].find_one({user_data_key: user_data_value})
+async def get_data_from_db(data_key: str, data_value: Union[str, list], col_name: str) -> Union[dict, list]:
+    print('get_data_from_db')
+    if type(data_value) == str:
+        return await db[col_name].find_one({data_key: data_value})
     else:
         users_data = []
-        for data in user_data_value:
-            user = (await db['users'].find_one({user_data_key: data}))
+        for data in data_value:
+            user = (await db[col_name].find_one({data_key: data}))
             users_data.append(user)
         return users_data
 
@@ -91,6 +92,8 @@ async def update_role_to_db(*args, **kwargs):
 
     if user_id:
         print('update_role_to_db FROM USER_ID')
+        member = await bot.get_chat_member(chat_id, user_id)
+        print(f'member: {member}')
         role = (await bot.get_chat_member(chat_id, user_id)).status
         count = await collection_group_user_role.count_documents({'user_id': user_id, 'chat_id': chat_id})
         user_role = {'user_id': user_id,
