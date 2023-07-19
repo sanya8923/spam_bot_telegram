@@ -83,7 +83,7 @@ def setting_group_inline_keyboard(chat_id: int, user_id: int):
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
 
-def button_abolition_ban(chat_id: int, user_id: int):
+def button_return_to_member_management(chat_id: int, user_id: int):
     button = [
         [InlineKeyboardButton(text='Отмена', callback_data=f'MembManag_{user_id}_{chat_id}')]
     ]
