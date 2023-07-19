@@ -28,6 +28,7 @@ text_unban_user_false = '''
 В группе сейчас нет забаненных участников
 '''
 text_user_unbanned_from_private = 'Пользователь разблокирован'
-text_unban_user_not_found = 'Пользователь не найден'
+text_unban_user_not_found = 'Пользователь не найден. Попробуйте еще раз или нажмите "Отмена"'
+text_incorrect_username_for_unban = 'Некорректный юзернейм пользователя. Попробуйте еще раз или нажмите "Отмена"'
 
 
