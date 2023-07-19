@@ -21,7 +21,9 @@ async def ban_member_from_group(message: Message) -> None:
         pass  # TODO: добавь всплывающее окно, что админа удалить нельзя (или исключение) Посмотри как реагирует телега на удаление владельца и там реши
 
 
-async def restrict_member(message: Message) -> None:
+async def restrict_member(message: Message, *args: int) -> None:
+    print('restrict_member')
+    term = args[0]
     permissions = {
         "can_send_messages": False,
         "can_send_media_messages": False,
@@ -35,12 +37,15 @@ async def restrict_member(message: Message) -> None:
 
     permissions_json = json.dumps(permissions)
     current_date = datetime.datetime.now()
-    next_day = current_date + datetime.timedelta(minutes=RESTRICT_DURATION_MIN)
+    if term:
+        end_of_term = current_date + datetime.timedelta(minutes=term)
+    else:
+        end_of_term = current_date + datetime.timedelta(minutes=RESTRICT_DURATION_MIN)
 
     await bot.restrict_chat_member(message.chat.id,
                                    message.from_user.id,
                                    permissions=permissions_json,
-                                   until_date=next_day)
+                                   until_date=end_of_term)
 
 
 async def unban_member(chat_id: int, user_id: int):
@@ -63,3 +68,8 @@ async def restrict_admin_to_member(chat_id: int, user_id: int):
                                              can_promote_members=False)
     print(f'new_role: {new_role}')
     # TODO: after promote all don't work
+
+
+
+
+
