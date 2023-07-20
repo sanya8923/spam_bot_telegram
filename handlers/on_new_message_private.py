@@ -370,5 +370,31 @@ async def check_member_for_mute(message: Message, state: FSMContext):
             await bot.delete_message(chat_private_id, message_id)
 
 
+@router.callback_query(Text(startswith='term_'))
+async def mute_member(callback: CallbackQuery):
+    print('mute_member')
+    data = callback.data.split('_')
+    term_type = data[1]
+    term = int(data[2])
+    user_id_for_mute = int(data[3])
+    chat_id = int(data[4])
+    user_id_who_mute = int(data[5])
+
+    print(f'term_type: {term_type}')
+    print(f'term: {term}')
+    print(f'chat_id: {chat_id}')
+    print(f'user_id_for_mute: {user_id_for_mute}')
+    print(f'user_id_who_mute: {user_id_who_mute}')
+
+    term = await convert_term(term,
+                              term_type_input=term_type,
+                              term_type_output='min')
+    muted_user = await bot.get_chat_member(chat_id, user_id_for_mute)
+    print(f'muted_user_before: {muted_user.json(indent=4)}')
+    await restrict_member(callback.message, term)
+    muted_user = await bot.get_chat_member(chat_id, user_id_for_mute)
+    print(f'muted_user_after: {muted_user.json(indent=4)}')
+    await update_role_to_db(chat_id, user_id_for_mute, role='restricted')
+
 
 
