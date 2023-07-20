@@ -390,6 +390,10 @@ async def mute_member(callback: CallbackQuery):
         await callback.message.edit_text(text_member_is_muted,
                                          reply_markup=members_management_inline_keyboard(chat_id,
                                                                                          user_id_who_mute))
+        member = await bot.get_chat_member(chat_id, user_id_for_mute)
+        role = member.status
+        await delayed_update_role_to_db(term, user_id_for_mute, chat_id, role)
+
     else:
         print('ты что-то не предусмотрел')  # TODO: change
 
