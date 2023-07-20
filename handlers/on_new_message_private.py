@@ -20,7 +20,7 @@ from texts_of_message import text_choice_group, text_not_group, text_ban_user_fr
     text_banned_user_is_creator, text_user_not_found, text_unban_user_true, text_unban_user_false, \
     text_user_unbanned_from_private, text_unban_user_not_found, text_incorrect_username_for_unban, \
     text_mute_user_from_private, text_choice_term_mute_user, text_admin_try_mute_admin, text_muted_user_is_creator, \
-    text_member_is_muted
+    text_member_is_muted, text_muted_user_already_mute
 from keyboards.inline_keyboards import choice_groups_inline_keyboard, button_update_groups_list, \
     members_management_inline_keyboard, button_return_to_member_management, term_mute_inline_keyboard
 
@@ -262,7 +262,7 @@ async def unban_member_from_private_message(message: Message, state: FSMContext)
 
 @router.callback_query(Text(startswith='MuteUser_'))
 async def mute_member_from_private(callback: CallbackQuery, state: FSMContext):
-    print('ban_member_private')
+    print('mute_member_private')
     user_id = int(callback.data.split('_')[1])
     chat_id = int(callback.data.split('_')[2])
     message_id = callback.message.message_id
@@ -303,6 +303,7 @@ async def check_member_for_mute(message: Message, state: FSMContext):
             print('role_user_who_mute - not None')
             muted_user_data = await bot.get_chat_member(chat_id, user_id_for_mute)
             muted_role = muted_user_data.status
+            print(f'muted_role: {muted_role}')
 
             user_data = {'user_id': user_id_for_mute,
                          'username': muted_user_data.user.username,
@@ -360,6 +361,12 @@ async def check_member_for_mute(message: Message, state: FSMContext):
                 print(f'role_banned_user: {muted_role}')
                 await update_role_to_db(chat_id, user_id=user_id_for_mute)
                 await message.answer(text_user_left,
+                                     reply_markup=button_return_to_member_management(chat_id, user_id_who_mute))
+                await bot.delete_message(chat_private_id, message_id)
+
+            elif muted_role == 'restricted':
+                print(f'role_banned_user: {muted_role}')
+                await message.answer(text_muted_user_already_mute,
                                      reply_markup=button_return_to_member_management(chat_id, user_id_who_mute))
                 await bot.delete_message(chat_private_id, message_id)
 
