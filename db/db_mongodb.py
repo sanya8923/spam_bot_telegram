@@ -79,9 +79,8 @@ async def get_users_by_role(chat_id: int, role) -> list:
     return await cursor.to_list(length=100)
 
 
-async def update_role_to_db(*args, **kwargs):
+async def update_role_to_db(chat_id: int, **kwargs):
     print('update_role_to_db')
-    chat_id = args[0]
     user_id = kwargs.get('user_id')
     user_data = kwargs.get('users_data')
     update = kwargs.get('update')
@@ -92,104 +91,51 @@ async def update_role_to_db(*args, **kwargs):
     collection_group_user_role = db[collection_name_group_user_role]
 
     if user_id:
-        if new_role:
-            member = await bot.get_chat_member(chat_id, user_id)
-            role = new_role
-            count = await collection_group_user_role.count_documents({'user_id': user_id, 'chat_id': chat_id})
-        else:
-            member = await bot.get_chat_member(chat_id, user_id)
-            role = member.status
-            count = await collection_group_user_role.count_documents({'user_id': user_id, 'chat_id': chat_id})
-
-        user_role = {'user_id': user_id,
-                     'username': member.user.username,  # TODO: delete
-                     'chat_id': chat_id,
-                     'chat_name': 'chat_name',  # TODO: delete
-                     'role': role
-                     }
-
-        if count == 0:
-            await add_data_to_db(collection_name_group_user_role, user_role)
-        elif count == 1:
-            filter_update = {'user_id': user_id, 'chat_id': chat_id}
-            update_role = {'$set': {'role': role}}
-            collection_group_user_role.update_one(filter_update, update_role)
-        else:
-            delete_filter = {'user_id': user_id, 'chat_id': chat_id}
-            collection_group_user_role.delete_many(delete_filter)
-            await add_data_to_db(collection_name_group_user_role, user_role)
-
+        member = await bot.get_chat_member(chat_id, user_id)
+        username = member.user.username
+        chat_name = 'chat_name'
+        role = member.status
     elif update:
-        count = await collection_group_user_role.count_documents({'user_id': update.new_chat_member.user.id,
-                                                                  'chat_id': update.chat.id})
-        group_user_role = {'user_id': update.new_chat_member.user.id,
-                           'username': update.new_chat_member.user.username,  # TODO: delete
-                           'chat_id': update.chat.id,
-                           'chat_name': update.chat.title,  # TODO: delete
-                           'role': update.new_chat_member.status
-                           }
-
-        if count == 0:
-            await add_data_to_db(collection_name_group_user_role, group_user_role)
-        elif count == 1:
-            filter_update = {'user_id': update.new_chat_member.user.id, 'chat_id': update.chat.id}
-            update_role = {'$set': {'role': update.new_chat_member.status}}
-            collection_group_user_role.update_one(filter_update, update_role)
-        else:
-            delete_filter = {'user_id': update.new_chat_member.user.id,
-                             'chat_id': update.chat.id
-                             }
-            collection_group_user_role.delete_many(delete_filter)
-
-            await add_data_to_db(collection_name_group_user_role, group_user_role)
-
+        user_id = update.new_chat_member.user.id
+        username = update.new_chat_member.user.username
+        chat_name = update.chat.title
+        role = update.new_chat_member.status
     elif message:
-        count = await collection_group_user_role.count_documents({'user_id': message.from_user.id,
-                                                                  'chat_id': message.chat.id})
-
-        role = (await bot.get_chat_member(message.chat.id, message.from_user.id)).status
-        group_user_role = {'user_id': message.from_user.id,
-                           'username': message.from_user.username,  # TODO: delete
-                           'chat_id': message.chat.id,
-                           'chat_name': message.chat.title,  # TODO: delete
-                           'role': role
-                           }
-
-        if count == 0:
-            await add_data_to_db(collection_name_group_user_role, group_user_role)
-        elif count == 1:
-            filter_update = {'user_id': message.from_user.id, 'chat_id': message.chat.id}
-            update_db = {'$set': {'role': role}}
-            collection_group_user_role.update_one(filter_update, update_db)
-        else:
-            delete_filter = {'user_id': message.from_user.id,
-                             'chat_id': message.chat.id
-                             }
-            collection_group_user_role.delete_many(delete_filter)
-
-            await add_data_to_db(collection_name_group_user_role, group_user_role)
-
+        member = await bot.get_chat_member(chat_id, message.from_user.id)
+        user_id = message.from_user.id
+        username = message.from_user.username
+        chat_name = message.chat.title
+        role = member.status
     elif user_data:
-        count = await collection_group_user_role.count_documents({'user_id': user_data.user.id, 'chat_id': chat_id})
-        user_role = {'user_id': user_data.user.id,
-                     'username': user_data.user.username,  # TODO: delete
-                     'chat_id': chat_id,
-                     'chat_name': 'chat_name',  # TODO: delete
-                     'role': user_data.status
-                     }
-        if count == 0:
-            await add_data_to_db(collection_name_group_user_role, user_role)
-        elif count == 1:
-            filter_update = {'user_id': user_data.user.id, 'chat_id': chat_id}
-            update_role = {'$set': {'role': user_data.status}}
-            collection_group_user_role.update_one(filter_update, update_role)
-        else:
-            delete_filter = {'user_id': user_data.user.id, 'chat_id': chat_id}
-            collection_group_user_role.delete_many(delete_filter)
-            await add_data_to_db(collection_name_group_user_role, user_role)
-
+        user_id = user_data.user.id
+        username = user_data.user.username
+        chat_name = 'chat_name'
+        role = user_data.status
     else:
         print('ты что-то не предусмотрел')
+
+    if new_role:
+        role = new_role
+
+    count = await collection_group_user_role.count_documents({'user_id': user_id, 'chat_id': chat_id})
+
+    user_role = {'user_id': user_id,
+                 'username': username,  # TODO: delete
+                 'chat_id': chat_id,
+                 'chat_name': chat_name,  # TODO: delete
+                 'role': role
+                 }
+
+    if count == 0:
+        await add_data_to_db(collection_name_group_user_role, user_role)
+    elif count == 1:
+        filter_update = {'user_id': user_id, 'chat_id': chat_id}
+        update_role = {'$set': {'role': role}}
+        collection_group_user_role.update_one(filter_update, update_role)
+    else:
+        delete_filter = {'user_id': user_id, 'chat_id': chat_id}
+        collection_group_user_role.delete_many(delete_filter)
+        await add_data_to_db(collection_name_group_user_role, user_role)
 
 
 async def save_user_to_db_users(chat_id: int, users_data: list):
