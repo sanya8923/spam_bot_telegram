@@ -1,5 +1,5 @@
 from aiogram.types import Message
-from db.db_mongodb import db
+from db.db_mongodb import db, update_role_to_db
 import datetime
 from datetime import timedelta
 from constants import TIME_SPAN_TO_CHECK_NUMBER_OF_MESSAGES_MIN, ALLOWED_NUMBER_OF_MESSAGE_FOR_PERIOD, \
@@ -55,21 +55,27 @@ async def check_message_frequency(message: Message) -> bool:
 
 
 async def check_message_from_new_member(message: Message) -> None:
+    print('check_message_from_new_member')
     presence_url = await check_for_url(message)
     if presence_url:
         await message.delete()
         await ban_member_from_group(message)
-    else:
-        posting_too_often = await check_message_frequency(message)
-        if posting_too_often:
-            await restrict_member(message=message)
-
-
-async def check_message_from_ordinary_member(message: Message) -> None:
-    print('on_new_message_from_ordinary_member')
     posting_too_often = await check_message_frequency(message)
     if posting_too_often:
         await restrict_member(message=message)
+        await update_role_to_db(chat_id=message.chat.id,
+                                message=message,
+                                new_role='restricted')
+
+
+async def check_message_from_ordinary_member(message: Message) -> None:
+    print('check_message_from_ordinary_member')
+    posting_too_often = await check_message_frequency(message)
+    if posting_too_often:
+        await restrict_member(message=message)
+        await update_role_to_db(message.chat.id,
+                                message=message,
+                                new_role='restricted')
 
 
 async def check_new_member(message: Message) -> bool:
