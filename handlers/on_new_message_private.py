@@ -390,6 +390,8 @@ async def mute_member(callback: CallbackQuery):
         await callback.message.edit_text(text_member_is_muted,
                                          reply_markup=members_management_inline_keyboard(chat_id,
                                                                                          user_id_who_mute))
+    else:
+        print('ты что-то не предусмотрел')  # TODO: change
 
 
 
