@@ -50,6 +50,7 @@ async def on_new_message_from_member_group(message: Message):
         new_member = await check_new_member(message)
         if new_member:
             await check_message_from_new_member(message)
-        return await check_message_from_ordinary_member(message)
+        else:
+            await check_message_from_ordinary_member(message)
 
 
