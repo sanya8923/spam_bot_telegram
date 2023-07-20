@@ -37,6 +37,7 @@ async def check_for_url(message: Message) -> bool:
 
 
 async def check_message_frequency(message: Message) -> bool:
+    print('check_message_frequency')
     time_span_to_check = datetime.timedelta(minutes=TIME_SPAN_TO_CHECK_NUMBER_OF_MESSAGES_MIN)
     date_run_checking = message.date - time_span_to_check
 
@@ -61,14 +62,14 @@ async def check_message_from_new_member(message: Message) -> None:
     else:
         posting_too_often = await check_message_frequency(message)
         if posting_too_often:
-            await restrict_member(message)
+            await restrict_member(message=message)
 
 
 async def check_message_from_ordinary_member(message: Message) -> None:
     print('on_new_message_from_ordinary_member')
     posting_too_often = await check_message_frequency(message)
     if posting_too_often:
-        await restrict_member(message)
+        await restrict_member(message=message)
 
 
 async def check_new_member(message: Message) -> bool:
