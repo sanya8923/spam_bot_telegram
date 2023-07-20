@@ -20,7 +20,7 @@ from texts_of_message import text_choice_group, text_not_group, text_ban_user_fr
     text_banned_user_is_creator, text_user_not_found, text_unban_user_true, text_unban_user_false, \
     text_user_unbanned_from_private, text_unban_user_not_found, text_incorrect_username_for_unban, \
     text_mute_user_from_private, text_choice_term_mute_user, text_admin_try_mute_admin, text_muted_user_is_creator, \
-    text_member_is_muted, text_muted_user_already_mute
+    text_member_is_muted, text_muted_user_already_mute, text_unmute_user_true, text_unmute_user_false
 from keyboards.inline_keyboards import choice_groups_inline_keyboard, button_update_groups_list, \
     members_management_inline_keyboard, button_return_to_member_management, term_mute_inline_keyboard
 
@@ -181,7 +181,7 @@ async def ban_member_from_private_message(message: Message, state: FSMContext):
 
 @router.callback_query(Text(startswith='UnbanUser_'))
 async def banned_users_list(callback: CallbackQuery, state: FSMContext):
-    print('unban_member')
+    print('banned_users_list')
     user_id = int(callback.data.split('_')[1])
     chat_id = int(callback.data.split('_')[2])
     message_id = callback.message.message_id
@@ -405,4 +405,40 @@ async def mute_member(callback: CallbackQuery):
         print('ты что-то не предусмотрел')  # TODO: change
 
 
+@router.callback_query(Text(startswith='UnmuteUser_'))
+async def muted_users_list(callback: CallbackQuery, state: FSMContext):
+    print('muted_users_list')
+    user_id = int(callback.data.split('_')[1])
+    chat_id = int(callback.data.split('_')[2])
+    message_id = callback.message.message_id
+    chat_private_id = callback.message.chat.id
+    muted_users_id = []
 
+    muted_users = (await get_users_by_role(chat_id, 'restricted'))
+    print(f'muted_users: {muted_users}')
+    if len(muted_users) > 0:
+        for user in muted_users:
+            muted_users_id.append(user["user_id"])
+        muted_users = await get_data_from_db('user_id', muted_users_id, 'users')
+        message_muted_users = text_unmute_user_true
+
+        count = 1
+
+        for user in muted_users:
+            message_muted_users += f'''{count}) Имя: {user["first_name"]} {user["last_name"]}\n
+                    USERNAME: <code>@{user["username"]}</code>\n\n'''
+            count += 1
+
+        await state.update_data(user_id=user_id,
+                                chat_id=chat_id,
+                                message_id=message_id,
+                                chat_private_id=chat_private_id)
+
+        await state.set_state(MyState.waiting_message_for_unmute_user)
+
+        await callback.message.edit_text(message_muted_users,
+                                         reply_markup=button_return_to_member_management(chat_id, user_id))
+
+    else:
+        await callback.message.edit_text(text_unmute_user_false,
+                                         reply_markup=button_return_to_member_management(chat_id, user_id))
