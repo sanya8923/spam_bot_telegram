@@ -21,9 +21,19 @@ async def ban_member_from_group(message: Message) -> None:
         pass  # TODO: добавь всплывающее окно, что админа удалить нельзя (или исключение) Посмотри как реагирует телега на удаление владельца и там реши
 
 
-async def restrict_member(message: Message, *args: int) -> None:
+async def restrict_member(**kwargs: int) -> None:
     print('restrict_member')
-    term = args[0]
+    message = kwargs.get('message')
+    if message:
+        user_id = message.from_user.id
+        chat_id = message.chat.id
+    else:
+        user_id = kwargs.get('user_id')
+        chat_id = kwargs.get('chat_id')
+
+    print(f'user_id: {user_id}, chat_id: {chat_id}')
+
+    term = kwargs.get('term')
     permissions = {
         "can_send_messages": False,
         "can_send_media_messages": False,
@@ -37,15 +47,16 @@ async def restrict_member(message: Message, *args: int) -> None:
 
     permissions_json = json.dumps(permissions)
     current_date = datetime.datetime.now()
-    if term:
-        end_of_term = current_date + datetime.timedelta(minutes=term)
-    else:
-        end_of_term = current_date + datetime.timedelta(minutes=RESTRICT_DURATION_MIN)
+    if message:
+        if term:
+            end_of_term = current_date + datetime.timedelta(minutes=term)
+        else:
+            end_of_term = current_date + datetime.timedelta(minutes=RESTRICT_DURATION_MIN)
 
-    await bot.restrict_chat_member(message.chat.id,
-                                   message.from_user.id,
-                                   permissions=permissions_json,
-                                   until_date=end_of_term)
+        await bot.restrict_chat_member(chat_id,
+                                       user_id,
+                                       permissions=permissions_json,
+                                       until_date=end_of_term)
 
 
 async def unban_member(chat_id: int, user_id: int):
@@ -83,7 +94,7 @@ async def convert_term(term: int, term_type_input: str, term_type_output: str) -
             return term * 60 * 24 * 7
 
     # TODO доделай оставшиеся условия или (лучше) перепиши на нормальный
-    if term_type_output == 'hour':
+    elif term_type_output == 'hour':
         if term_type_input == 'min':
             return 0
         elif term_type_input == 'hour':
@@ -91,8 +102,9 @@ async def convert_term(term: int, term_type_input: str, term_type_output: str) -
         elif term_type_input == 'day':
             return 0
         elif term_type_input == 'week':
+            return 0
 
-    if term_type_output == 'day':
+    elif term_type_output == 'day':
         if term_type_input == 'min':
             return 0
         elif term_type_input == 'hour':
@@ -100,8 +112,9 @@ async def convert_term(term: int, term_type_input: str, term_type_output: str) -
         elif term_type_input == 'day':
             return term
         elif term_type_input == 'week':
+            return 0
 
-    if term_type_output == 'week':
+    elif term_type_output == 'week':
         if term_type_input == 'min':
             return 0
         elif term_type_input == 'hour':
