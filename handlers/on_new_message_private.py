@@ -386,7 +386,7 @@ async def mute_member(callback: CallbackQuery):
                               term_type_output='min')
     if user_id_for_mute:
         await restrict_member(user_id=user_id_for_mute, chat_id=chat_id, term=term)
-        await update_role_to_db(chat_id, user_id=user_id_for_mute, role='restricted')
+        await update_role_to_db(chat_id, user_id=user_id_for_mute, new_role='restricted')
         await callback.message.edit_text(text_member_is_muted,
                                          reply_markup=members_management_inline_keyboard(chat_id,
                                                                                          user_id_who_mute))
