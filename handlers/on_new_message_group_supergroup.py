@@ -6,7 +6,6 @@ from filter.user_role_filter import UserRoleFilter
 
 from db.update_users_db_from_message import update_users_db_from_message
 from db.save_message_update import save_message_update
-from db.update_group_user_role_db import update_group_user_role_db
 from db.db_mongodb import update_role_to_db
 
 from handlers.members_actions import ban_member_from_group
