@@ -47,16 +47,15 @@ async def restrict_member(**kwargs) -> None:
 
     permissions_json = json.dumps(permissions)
     current_date = datetime.datetime.now()
-    if message:
-        if term:
-            end_of_term = current_date + datetime.timedelta(minutes=term)
-        else:
-            end_of_term = current_date + datetime.timedelta(minutes=RESTRICT_DURATION_MIN)
+    if term:
+        end_of_term = current_date + datetime.timedelta(minutes=term)
+    else:
+        end_of_term = current_date + datetime.timedelta(minutes=RESTRICT_DURATION_MIN)
 
-        await bot.restrict_chat_member(chat_id,
-                                       user_id,
-                                       permissions=permissions_json,
-                                       until_date=end_of_term)
+    await bot.restrict_chat_member(chat_id,
+                                   user_id,
+                                   permissions=permissions_json,
+                                   until_date=end_of_term)
 
 
 async def unban_member(chat_id: int, user_id: int):
