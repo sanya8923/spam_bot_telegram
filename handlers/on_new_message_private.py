@@ -19,7 +19,8 @@ from texts_of_message import text_choice_group, text_not_group, text_ban_user_fr
     text_user_banned_from_private, text_admin_try_ban_admin, text_user_already_kicked, text_user_left, \
     text_banned_user_is_creator, text_user_not_found, text_unban_user_true, text_unban_user_false, \
     text_user_unbanned_from_private, text_unban_user_not_found, text_incorrect_username_for_unban, \
-    text_mute_user_from_private, text_choice_term_mute_user, text_admin_try_mute_admin, text_muted_user_is_creator
+    text_mute_user_from_private, text_choice_term_mute_user, text_admin_try_mute_admin, text_muted_user_is_creator, \
+    text_member_is_muted
 from keyboards.inline_keyboards import choice_groups_inline_keyboard, button_update_groups_list, \
     members_management_inline_keyboard, button_return_to_member_management, term_mute_inline_keyboard
 
@@ -380,21 +381,15 @@ async def mute_member(callback: CallbackQuery):
     chat_id = int(data[4])
     user_id_who_mute = int(data[5])
 
-    print(f'term_type: {term_type}')
-    print(f'term: {term}')
-    print(f'chat_id: {chat_id}')
-    print(f'user_id_for_mute: {user_id_for_mute}')
-    print(f'user_id_who_mute: {user_id_who_mute}')
-
     term = await convert_term(term,
                               term_type_input=term_type,
                               term_type_output='min')
-    muted_user = await bot.get_chat_member(chat_id, user_id_for_mute)
-    print(f'muted_user_before: {muted_user.json(indent=4)}')
-    await restrict_member(callback.message, term)
-    muted_user = await bot.get_chat_member(chat_id, user_id_for_mute)
-    print(f'muted_user_after: {muted_user.json(indent=4)}')
-    await update_role_to_db(chat_id, user_id_for_mute, role='restricted')
+    if user_id_for_mute:
+        await restrict_member(user_id=user_id_for_mute, chat_id=chat_id, term=term)
+        await update_role_to_db(chat_id, user_id=user_id_for_mute, role='restricted')
+        await callback.message.edit_text(text_member_is_muted,
+                                         reply_markup=members_management_inline_keyboard(chat_id,
+                                                                                         user_id_who_mute))
 
 
 
