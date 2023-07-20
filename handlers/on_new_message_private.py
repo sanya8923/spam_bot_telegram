@@ -10,7 +10,7 @@ from db.db_mongodb import get_membership_groups, get_user_data_from_users, get_u
     update_role_to_db, get_user_role_from_db
 
 from handlers.update_text_inline_keyboard import update_text_inline_keyboard
-from handlers.members_actions import restrict_admin_to_member, unban_member
+from handlers.members_actions import restrict_admin_to_member, unban_member, restrict_member, convert_term
 
 from filter.chat_type_filter import ChatTypeFilter
 from filter.state import MyState
@@ -225,6 +225,7 @@ async def unban_member_from_private_message(message: Message, state: FSMContext)
     chat_id = data.get('chat_id')
     message_id = data.get('message_id')
     chat_private_id = data.get('chat_private_id')
+    user_id_for_unban = None
 
     entities = message.entities or []
 
@@ -233,7 +234,9 @@ async def unban_member_from_private_message(message: Message, state: FSMContext)
             if len(entities) > 0:
                 found_username = [item.extract_from(message.text) for item in entities if item.type == 'mention'][0]
                 username = found_username[1:]
-                user_id_for_unban = int((await get_data_from_db('username', username, 'users'))['user_id'])
+                user_for_unban = await get_data_from_db('username', username, 'users')
+                if user_for_unban is not None:
+                    user_id_for_unban = int(user_for_unban['user_id'])
             else:
                 username = message.text
 
@@ -312,7 +315,9 @@ async def check_member_for_mute(message: Message, state: FSMContext):
                 print(f'role_banned_user: {muted_role}')
                 await state.clear()
                 await message.answer(text_choice_term_mute_user,
-                                     reply_markup=term_mute_inline_keyboard(chat_id, user_id_who_mute))
+                                     reply_markup=term_mute_inline_keyboard(chat_id,
+                                                                            user_id_for_mute,
+                                                                            user_id_who_mute))
                 await bot.delete_message(chat_private_id, message_id)
 
             elif muted_role == 'administrator':
@@ -322,27 +327,32 @@ async def check_member_for_mute(message: Message, state: FSMContext):
                 if role_user_who_ban == 'administrator':
                     print('role_user_who_ban - administrator')
                     await message.answer(text_admin_try_mute_admin,
-                                         reply_markup=button_return_to_member_management(chat_id, user_id_who_mute))
+                                         reply_markup=button_return_to_member_management(chat_id,
+                                                                                         user_id_who_mute))
                     await bot.delete_message(chat_private_id, message_id)
 
                 else:
                     print('role_user_who_mute - creator')
                     await state.clear()
                     await message.answer(text_choice_term_mute_user,
-                                         reply_markup=term_mute_inline_keyboard(chat_id, user_id_who_mute))
+                                         reply_markup=term_mute_inline_keyboard(chat_id,
+                                                                                user_id_for_mute,
+                                                                                user_id_who_mute))
                     await bot.delete_message(chat_private_id, message_id)
 
             elif muted_role == 'creator':
                 print(f'role_banned_user: {muted_role}')
                 await message.answer(text_muted_user_is_creator,
-                                     reply_markup=button_return_to_member_management(chat_id, user_id_who_mute))
+                                     reply_markup=button_return_to_member_management(chat_id,
+                                                                                     user_id_who_mute))
                 await bot.delete_message(chat_private_id, message_id)
 
             elif muted_role == 'kicked':
                 print(f'role_banned_user: {muted_role}')
                 await update_role_to_db(chat_id, user_id=user_id_for_mute)
                 await message.answer(text_user_already_kicked,
-                                     reply_markup=button_return_to_member_management(chat_id, user_id_who_mute))
+                                     reply_markup=button_return_to_member_management(chat_id,
+                                                                                     user_id_who_mute))
                 await bot.delete_message(chat_private_id, message_id)
 
             elif muted_role == 'left':
@@ -358,5 +368,7 @@ async def check_member_for_mute(message: Message, state: FSMContext):
             await message.answer(text_user_not_found,
                                  reply_markup=button_return_to_member_management(chat_id, user_id_who_mute))
             await bot.delete_message(chat_private_id, message_id)
+
+
 
 
