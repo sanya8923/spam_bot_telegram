@@ -17,15 +17,3 @@ class DataTypeRouter(MyRouter):
                 return self.data_type == type_data
         except TypeError as e:
             raise f'{e} in DataTypeRouter'
-
-
-async def router(self):
-    role = await self.data.status  # TODO: don't working. Add right
-    try:
-        if role == 'user':
-            await self.db_manager.on_user_data()
-        elif role == 'group':
-            await self.db_manager.on_group_data()
-        elif role == 'message':
-            await self.db_manager.on_message_data()
-    except TypeError  # TODO: add except
