@@ -5,8 +5,11 @@ from typing import Optional, Union
 from bot import bot
 import datetime
 
-cluster = motor.motor_asyncio.AsyncIOMotorClient(config_reader.config.mongo_db.get_secret_value())
-db = cluster['db']
+
+class Db:
+    def __init__(self):
+        self.cluster = motor.motor_asyncio.AsyncIOMotorClient(config_reader.config.mongo_db.get_secret_value())
+        self.db = self.cluster['db']
 
 
 async def add_data_to_db(collection_name, message_update):
