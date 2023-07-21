@@ -8,17 +8,35 @@ import datetime
 
 class Db:
     def __init__(self):
-        self.cluster = motor.motor_asyncio.AsyncIOMotorClient(config_reader.config.mongo_db.get_secret_value())
-        self.db = self.cluster['db']
+        self._cluster = motor.motor_asyncio.AsyncIOMotorClient(config_reader.config.mongo_db.get_secret_value())
+        self._db = self.cluster['db']
 
-    async def update_data_to_db(self, *args, **kwargs):
+    async def get_data(self):
         pass
 
+    async def add_data(self, collection_name: str, data: dict):
+        print('add_data_to_db')
+        collection = self._db[collection_name]
+        collection.insert_one(data)
 
-async def add_data_to_db(collection_name, message_update):
-    print('add_data_to_db')
-    collection = db[collection_name]
-    collection.insert_one(message_update)
+    async def update_data_one(self, *args, **kwargs):
+        pass
+
+    async def update_data_many(self, *args, **kwargs):
+        pass
+
+    async def update_data(self, collection_name: str, insert_data: dict):
+        if isinstance(self._db_result, list):
+            if len(self._db_result) < 1:
+                await self._db.add_data(collection_name, insert_data)
+                return True
+            elif len(self._db_result) == 1:
+                await self._db.update_data_one(collection_name, insert_data)
+                return True
+            else:
+                await self._db.update_data_many(collection_name, insert_data)
+                return True
+        return False
 
 
 async def get_membership_groups(user_id: int) -> list:
