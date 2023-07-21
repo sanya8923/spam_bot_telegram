@@ -11,6 +11,9 @@ class Db:
         self.cluster = motor.motor_asyncio.AsyncIOMotorClient(config_reader.config.mongo_db.get_secret_value())
         self.db = self.cluster['db']
 
+    async def update_data_to_db(self, *args, **kwargs):
+        pass
+
 
 async def add_data_to_db(collection_name, message_update):
     print('add_data_to_db')
