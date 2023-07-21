@@ -1,7 +1,7 @@
-from update_data import UpdateData
+from data import Data
 
 
-class UserData(UpdateData):
+class UserData(Data):
     id: int
     username: str
     first_name: str

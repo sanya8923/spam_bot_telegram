@@ -1,7 +1,7 @@
-from update_data import UpdateData
+from data import Data
 
 
-class MessageData(UpdateData):
+class MessageData(Data):
     id: int
     text: str
     entities: str  # TODO type not correct

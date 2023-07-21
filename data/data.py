@@ -1,4 +1,4 @@
-class UpdateData:
+class Data:
     id: int
     text: str
 
