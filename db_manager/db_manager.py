@@ -14,3 +14,9 @@ class DbManager(Db):
         self.dict: dict = await self._data_manager.set_data_to_dict(self.data)
         self._db_result: list = await self._db.get_data()
 
+    async def on_user_data(self):
+        print('on_user_data')
+        if isinstance(self._db_result, list):
+            if len(self._db_result) < 1:
+                await self._db.add_data('users', self.dict)
+
