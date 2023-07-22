@@ -34,4 +34,16 @@ class DbManager(Db):
                 return True
         return False
 
-
+    async def on_message_data(self):
+        print('on_message_data')
+        if isinstance(self._db_result, list):
+            if len(self._db_result) < 1:
+                await self._db.add_data('message_updates', self.dict)
+                return True
+            elif len(self._db_result) == 1:
+                await self._db.update_data_one('groups', self.dict)
+                return True
+            else:
+                await self._db.update_data_many('groups', self.dict)
+                return True
+        return False
