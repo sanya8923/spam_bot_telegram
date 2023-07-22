@@ -20,3 +20,18 @@ class DbManager(Db):
             if len(self._db_result) < 1:
                 await self._db.add_data('users', self.dict)
 
+    async def on_group_data(self):
+        print('on_group_data')
+        if isinstance(self._db_result, list):
+            if len(self._db_result) < 1:
+                await self._db.add_data('groups', self.dict)
+                return True
+            elif len(self._db_result) == 1:
+                await self._db.update_data_one('groups', self.dict)
+                return True
+            else:
+                await self._db.update_data_many('groups', self.dict)
+                return True
+        return False
+
+
