@@ -1,28 +1,16 @@
-class DbManager:
+from db.db_mongodb import Db
+from data_manager.data_manager import DataManager
+from data.data import UserData, GroupData, MessageData
+from typing import Union
+
+
+class DbManager(Db):
     def __init__(self, *args, **kwargs):
-        self.data = args[0]
-
-    async def qualifier(self):
-        pass
-
-    async def on_user_data(self):
-        pass
-
-    async def on_group_data(self):
-        pass
-
-    async def on_message_data(self):
-        pass
-
-    async def router(self):
-        db_manager = DbManager(self.data)
-        try:
-            if db_manager == 'user':
-                await db_manager.on_user_data()
-            elif db_manager == 'group':
-                await db_manager.on_group_data()
-            elif db_manager == 'message':
-                await db_manager.on_message_data()
-        except None # TODO: add except
-
+        super().__init__()
+        self.data: Union[UserData, GroupData, MessageData] = args[0]
+        self.data_type: Union[UserData, GroupData, MessageData] = self.data.type
+        self._db = Db()
+        self._data_manager = DataManager()
+        self.dict: dict = await self._data_manager.set_data_to_dict(self.data)
+        self._db_result: list = await self._db.get_data()
 
