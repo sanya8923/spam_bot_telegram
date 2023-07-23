@@ -9,6 +9,4 @@ class DataConverterGroup(DataConverter):
         print('get_data_to_dict in DataConverterGroup')
         return {'user': 18}
 
-    async def save_message(self, message: Message):
-        print('save_message in DataConverterGroup')
 
