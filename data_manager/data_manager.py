@@ -30,7 +30,7 @@ class DataManager:
         elif isinstance(obj, MessageData):
             return await DataConverterMessage().get_data_to_dict(obj)
         else:
-            raise TypeError
+            raise (TypeError, AttributeError, IndexError, ValueError)
 
     async def save_to_db(self, data: Union[list, UserData, GroupData, MessageData]):
         print('save_to_db in DataManager')
@@ -48,3 +48,8 @@ class DataManager:
             return True
         else:
             return False
+
+    async def check_message(self, data: MessageData):
+        print('check_message in DataManager')
+        pass
+
