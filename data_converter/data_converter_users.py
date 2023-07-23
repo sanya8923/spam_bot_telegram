@@ -4,6 +4,6 @@ from typing import Union
 
 
 class DataConverterUsers(DataConverter):
-    async def get_data_to_dict(self, obj: Union[UserData, GroupData, MessageData]) -> dict:
+    async def get_data_to_dict(self, obj: UserData) -> dict:
         print('get_data_to_dict in DataConverterUsers')
         return {'user': 18}
