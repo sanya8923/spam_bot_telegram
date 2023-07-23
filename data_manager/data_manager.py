@@ -39,12 +39,15 @@ class DataManager:
 
     async def set_data_to_dict(self, obj: Union[list, UserData, GroupData, MessageData]):
         print('set_data_to_dict')
+
         if isinstance(obj, UserData):
             return await DataConverterUsers().get_data_to_dict(obj)
         elif isinstance(obj, GroupData):
             return await DataConverterGroup().get_data_to_dict(obj)
         elif isinstance(obj, MessageData):
             return await DataConverterMessage().get_data_to_dict(obj)
+        else:
+            raise TypeError
 
     async def save_to_db(self, data: Union[list, UserData, GroupData, MessageData]):
         print('save_to_db')
