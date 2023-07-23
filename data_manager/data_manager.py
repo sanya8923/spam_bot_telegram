@@ -1,6 +1,7 @@
 from data.data import UserData, GroupData, MessageData
 from typing import Union
 from aiogram.types import Message
+from db_manager.db_manager import DbManager
 
 
 class DataManager:
@@ -35,10 +36,10 @@ class DataManager:
 
     async def set_data_to_dict(self, obj: Union[list, UserData, GroupData, MessageData]):
         print('set_data_to_dict')
-        diction = {'up': 'and go'}
+        if isinstance(obj, UserData)
         return diction
 
     async def save_to_db(self, data: Union[list, UserData, GroupData, MessageData]):
         print('save_to_db')
-        await se
+        await DataManager().save_to_db(data)
         print('save_to_db')
