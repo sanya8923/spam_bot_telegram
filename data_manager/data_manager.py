@@ -1,7 +1,44 @@
 from data.data import UserData, GroupData, MessageData
 from typing import Union
+from aiogram.types import Message
 
 
 class DataManager:
-    async def set_data_to_dict(self, data: Union[UserData, GroupData, MessageData]):
+    def __init__(self):
+        # self.object =
         pass
+
+    async def save_objects(self, message: Message) -> MessageData:
+        print('save_objects')
+
+        from_user = UserData()
+        from_user.id = message.from_user.id
+        from_user.username = message.from_user.username
+        from_user.first_name = message.from_user.first_name
+        from_user.last_name = message.from_user.last_name
+
+        from_chat = GroupData()
+        from_chat.id = message.chat.id
+        from_chat.type = message.chat.type
+        from_chat.chat_username = message.chat.username
+        from_chat.chat_name = message.chat.title
+
+        message_data = MessageData()
+        message_data.id = message.message_id
+        message_data.text = message.text
+        message_data.entities_data = message.entities
+        message_data.entities_type = message.entities['type']
+        message_data.from_user = from_user
+        message_data.from_chat = from_chat
+
+        return message_data
+
+    async def set_data_to_dict(self, obj: Union[list, UserData, GroupData, MessageData]):
+        print('set_data_to_dict')
+        diction = {'up': 'and go'}
+        return diction
+
+    async def save_to_db(self, data: Union[list, UserData, GroupData, MessageData]):
+        print('save_to_db')
+        await se
+        print('save_to_db')
