@@ -1,5 +1,5 @@
 from aiogram.types import Message
-from db.db_mongodb import add_data_to_db
+from db.db_mongodb import Db
 from bot import bot
 
 
@@ -16,7 +16,8 @@ async def save_message_update(message: Message):
     if data_join is not None:
         data['join_message'] = True
 
+    db = Db()
     collection_name = f'{message.chat.id} - message updates'
-    await add_data_to_db(collection_name, data)
+    await db.add_data(collection_name, data)
 
 
