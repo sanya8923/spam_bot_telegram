@@ -8,6 +8,6 @@ from db.db_mongodb import Db
 class DbSaverUsers(DbSaver):
     async def save_to_db(self, obj: UserData) -> bool:
         print('save_to_db in DbSaverUsers')
-        user_dict = await DataManager().set_data_to_dict(obj)
+        user_dict = await DataManager().get_data_to_dict(obj)
         await Db().update_data_one(user_dict)
 

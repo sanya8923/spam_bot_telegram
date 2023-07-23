@@ -37,8 +37,8 @@ class DataManager:
 
         return message_data
 
-    async def set_data_to_dict(self, obj: Union[list, UserData, GroupData, MessageData]):
-        print('set_data_to_dict')
+    async def get_data_to_dict(self, obj: Union[list, UserData, GroupData, MessageData]):
+        print('get_data_to_dict')
 
         if isinstance(obj, UserData):
             return await DataConverterUsers().get_data_to_dict(obj)
