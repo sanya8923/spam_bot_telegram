@@ -5,18 +5,20 @@ from typing import Optional, Union
 from bot import bot
 import datetime
 
+cluster = motor.motor_asyncio.AsyncIOMotorClient(config_reader.config.mongo_db.get_secret_value())
+db = cluster['db']
+
 
 class Db:
     def __init__(self):
-        self._cluster = motor.motor_asyncio.AsyncIOMotorClient(config_reader.config.mongo_db.get_secret_value())
-        self._db = self.cluster['db']
+        self.db = db
 
     async def get_data(self):
         pass
 
     async def add_data(self, collection_name: str, data: dict):
         print('add_data')
-        collection = self._db[collection_name]
+        collection = self.db[collection_name]
         collection.insert_one(data)
 
     async def update_data_one(self, *args, **kwargs):
@@ -158,7 +160,7 @@ async def update_role_to_db(chat_id: int, **kwargs):
                              }
 
                 if count == 0:
-                    await add_data_to_db(collection_name_group_user_role, user_role)
+                    await db.add_data(collection_name_group_user_role, user_role)
                 elif count == 1:
                     filter_update = {'user_id': user_id, 'chat_id': chat_id}
                     update_role = {'$set': {'role': role}}
@@ -166,7 +168,7 @@ async def update_role_to_db(chat_id: int, **kwargs):
                 else:
                     delete_filter = {'user_id': user_id, 'chat_id': chat_id}
                     collection_group_user_role.delete_many(delete_filter)
-                    await add_data_to_db(collection_name_group_user_role, user_role)
+                    await db.add_data(collection_name_group_user_role, user_role)
             pattern = 'already'
         else:
             user_id = user_data.user.id
@@ -190,7 +192,7 @@ async def update_role_to_db(chat_id: int, **kwargs):
                      }
 
         if count == 0:
-            await add_data_to_db(collection_name_group_user_role, user_role)
+            await db.add_data(collection_name_group_user_role, user_role)
         elif count == 1:
             filter_update = {'user_id': user_id, 'chat_id': chat_id}
             update_role = {'$set': {'role': role}}
@@ -198,7 +200,7 @@ async def update_role_to_db(chat_id: int, **kwargs):
         else:
             delete_filter = {'user_id': user_id, 'chat_id': chat_id}
             collection_group_user_role.delete_many(delete_filter)
-            await add_data_to_db(collection_name_group_user_role, user_role)
+            await db.add_data(collection_name_group_user_role, user_role)
 
 
 async def save_user_to_db_users(chat_id: int, users_data: list):
