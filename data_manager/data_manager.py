@@ -44,7 +44,7 @@ class DataManager:
         elif isinstance(obj, GroupData):
             return await DataConverterGroup().get_data_to_dict(obj)
         elif isinstance(obj, MessageData):
-            return await DataConverterMessage
+            return await DataConverterMessage().get_data_to_dict(obj)
 
     async def save_to_db(self, data: Union[list, UserData, GroupData, MessageData]):
         print('save_to_db')
