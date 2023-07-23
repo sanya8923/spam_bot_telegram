@@ -51,5 +51,5 @@ class DataManager:
 
     async def check_message(self, data: MessageData):
         print('check_message in DataManager')
-        pass
+
 
