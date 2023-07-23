@@ -2,6 +2,9 @@ from data.data import UserData, GroupData, MessageData
 from typing import Union
 from aiogram.types import Message
 from db_manager.db_manager import DbManager
+from data_converter.data_convert_group import DataConverterGroup
+from data_converter.data_converter_message import DataConverterMessage
+from data_converter.data_converter_users import DataConverterUsers
 
 
 class DataManager:
@@ -36,8 +39,12 @@ class DataManager:
 
     async def set_data_to_dict(self, obj: Union[list, UserData, GroupData, MessageData]):
         print('set_data_to_dict')
-        if isinstance(obj, UserData)
-        return diction
+        if isinstance(obj, UserData):
+            return await DataConverterUsers().get_data_to_dict(obj)
+        elif isinstance(obj, GroupData):
+            return await DataConverterGroup().get_data_to_dict(obj)
+        elif isinstance(obj, MessageData):
+            return await DataConverterMessage
 
     async def save_to_db(self, data: Union[list, UserData, GroupData, MessageData]):
         print('save_to_db')
