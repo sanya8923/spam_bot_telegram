@@ -1,7 +1,6 @@
 from data.data import UserData, GroupData, MessageData
 from typing import Union
 from aiogram.types import Message
-from db_manager.db_manager import DbManager
 from data_converter.data_convert_group import DataConverterGroup
 from data_converter.data_converter_message import DataConverterMessage
 from data_converter.data_converter_users import DataConverterUsers
@@ -9,6 +8,7 @@ from data_converter.data_converter import DataConverter
 from db_manager.db_saver_users import DbSaverUsers
 from db_manager.db_saver_groups import DbSaverGroups
 from db_manager.db_saver_role import DbSaverRole
+from message_checker import MessageChecker
 
 
 class DataManager:
@@ -51,5 +51,5 @@ class DataManager:
 
     async def check_message(self, data: MessageData):
         print('check_message in DataManager')
-
+        check_message = await MessageChecker(data).check()
 
