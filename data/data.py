@@ -1,7 +1,5 @@
 class Data:
     type = 'data'
-    id: int
-    text: str
 
 
 class UserData(Data):
@@ -17,6 +15,7 @@ class GroupData(Data):
     id: int
     chat_username: str
     chat_name: str
+    chat_type: str
 
 
 class Entities(Data):
@@ -31,3 +30,5 @@ class MessageData(Data):
     text: str
     entities: Entities  # TODO type not correct
     entities_type: str
+    from_user: UserData
+    from_chat: GroupData
