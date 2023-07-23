@@ -10,4 +10,5 @@ class DataConverterGroup(DataConverter):
         return {'user': 18}
 
     async def save_message(self, message: Message):
-        pass
+        print('save_message in DataConverterGroup')
+
