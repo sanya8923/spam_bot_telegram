@@ -8,7 +8,7 @@ class DataManager:
         # self.object =
         pass
 
-    async def save_objects(self, message: Message) -> MessageData:
+    async def save_message(self, message: Message) -> MessageData:
         print('save_objects')
 
         from_user = UserData()
