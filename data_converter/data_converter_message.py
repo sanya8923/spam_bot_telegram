@@ -10,7 +10,7 @@ class DataConverterMessage(DataConverter):
         return {'user': 18}
 
     async def save_message(self, message: Message):
-        print('save_message')
+        print('save_message in DataConverterMessage')
 
         from_user = UserData()
         from_user.id = message.from_user.id
