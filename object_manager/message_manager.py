@@ -12,5 +12,7 @@ class MessageManager(ObjManager):
         print('check in MessageManager')
         member = self.message.from_user
         member_manager = MemberManager(member)
+        member_status = await member_manager.get_status_member()
+
         checker = MessageChecker(self.message)
         return 0
