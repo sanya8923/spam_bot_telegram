@@ -5,5 +5,4 @@ class MiddleMemberChecker(MessageChecker):
     def __init__(self, member):
         self.member = member
 
-    async def check(self):
-        pass
+
