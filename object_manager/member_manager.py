@@ -10,4 +10,5 @@ class MemberManager(ObjManager):
         pass
 
     async def get_status_member(self):
+        print('get_status_member in MemberManager')
         pass
