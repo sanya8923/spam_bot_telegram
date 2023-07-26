@@ -8,4 +8,6 @@ class NewMemberMessageChecker(MessageChecker):
     async def url_check(self):
         pass
 
+    async def flood_check(self):
+        pass
 
