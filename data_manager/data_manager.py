@@ -51,5 +51,22 @@ class DataManager:
 
     async def check_message(self, data: MessageData):
         print('check_message in DataManager')
-        check_message = await MessageChecker(data).check()
+        checker = MessageChecker(data)
+        member_manager = MemberManager(data.from_user.id)
+        ban_words_check = await checker.ban_words()
+        if ban_words_check:  # if ban words is find - False
+            check_sanction = await member_manager.sanction_for_ban_words()
+            return ban_words_check
+
+        too_often = await member_manager.check_message_frequency()
+        if too_often:
+            check_sanction = await member_manager.sanction_for_url_for_message_frequency()
+            return too_often
+
+        if await member_manager.check_new_user():
+            if await
+            check_sanction = await member_manager.sanction_for_url()
+
+
+
 
