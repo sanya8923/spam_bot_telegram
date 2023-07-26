@@ -2,4 +2,6 @@ from checkers.member_checker import MemberChecker
 
 
 class NewMemberChecker(MemberChecker):
-    pass
+    def __init__(self, member):
+        self.member = member
+
