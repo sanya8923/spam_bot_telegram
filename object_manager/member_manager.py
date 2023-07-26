@@ -8,3 +8,6 @@ class MemberManager(ObjManager):
     async def check(self):
         print('check in MemberManager')
         pass
+
+    async def get_status_member(self):
+        pass
