@@ -14,9 +14,9 @@ async def main():
     dp = Dispatcher()
 
     dp.include_routers(
-        on_update_my_chat_member.router,
-        on_update_chat_member.router,
-        on_new_message_private.router,
+        # on_update_my_chat_member.router,
+        # on_update_chat_member.router,
+        # on_new_message_private.router,
         on_new_message_group_supergroup.router
     )
 

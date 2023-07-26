@@ -6,8 +6,8 @@ from aiogram.fsm.context import FSMContext
 
 from contextlib import suppress
 
-from db.db_mongodb import get_membership_groups, get_user_data_from_users, get_users_by_role, \
-    update_role_to_db, get_user_role_from_db
+# from db.db_mongodb import get_membership_groups, get_user_data_from_users, get_users_by_role, \
+#     update_role_to_db, get_user_role_from_db
 
 from handlers.update_text_inline_keyboard import update_text_inline_keyboard
 from handlers.members_actions import restrict_admin_to_member, unban_member, restrict_member, convert_term
@@ -162,18 +162,18 @@ async def ban_member_from_private_message(message: Message, state: FSMContext):
         if user_id_for_ban is not None:
             print('role_user_who_ban - not None')
             banned_user_data = await bot.get_chat_member(chat_id, user_id_for_ban)
-            banned_user_role = banned_user_data.status
+            role_banned_user_from_get_member = banned_user_data.status
 
-                if role_banned_user_from_get_member == 'member':
-                    await bot.ban_chat_member(chat_id, user_id_for_ban)
-                    await state.clear()
-                    await message.answer(text_user_banned_from_private,
-                                         reply_markup=members_management_inline_keyboard(chat_id, user_id_who_ban))
-                    await bot.delete_message(chat_private_id, message_id)
+                # if role_banned_user_from_get_member == 'member':
+                #     await bot.ban_chat_member(chat_id, user_id_for_ban)
+                #     await state.clear()
+                #     await message.answer(text_user_banned_from_private,
+                #                          reply_markup=members_management_inline_keyboard(chat_id, user_id_who_ban))
+                #     await bot.delete_message(chat_private_id, message_id)
 
 
-            else:
-                print('Ты что-то не предусмотрел')  # TODO: поменяй
+            # else:
+            #     print('Ты что-то не предусмотрел')  # TODO: поменяй
         else:
             await message.answer(text_ban_user_not_found,
                                  reply_markup=button_abolition_ban(chat_id, user_id_who_ban))  # TODO: add button 'ОТМЕНА'
