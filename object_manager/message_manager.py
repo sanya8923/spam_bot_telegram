@@ -1,6 +1,7 @@
 from object_manager.object_manager import ObjManager
 from aiogram.types import Message
 from message_checker.message_checker import MessageChecker
+from member_manager import MemberManager
 
 
 class MessageManager(ObjManager):
@@ -9,5 +10,7 @@ class MessageManager(ObjManager):
 
     async def check(self):
         print('check in MessageManager')
+        member = self.message.from_user
+        member_manager = MemberManager(member)
         checker = MessageChecker(self.message)
         return 0
