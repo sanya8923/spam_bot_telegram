@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class ObjectManager(ABC):
+class ObjManager(ABC):
     def __init__(self, obj):
         self.object = obj
 
