@@ -1,6 +1,7 @@
 from aiogram.types import TelegramObject, Message
 from aiogram import BaseMiddleware
 from typing import Callable, Awaitable, Dict, Any
+from object_manager.message_manager import MessageManager
 
 
 class MemberPublicMessageCheckMiddleware(BaseMiddleware):
@@ -9,4 +10,7 @@ class MemberPublicMessageCheckMiddleware(BaseMiddleware):
                        event: Message,
                        data: Dict[str, Any]) -> Any:
 
-        pass
+        print('MemberPublicMessageCheckMiddleware')
+        message_manager = MessageManager(event)
+
+        return handler
