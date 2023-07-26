@@ -11,3 +11,5 @@ class NewMemberMessageChecker(MessageChecker):
     async def flood_check(self):
         pass
 
+    async def ban_words_check(self):
+        pass
