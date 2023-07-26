@@ -7,11 +7,11 @@ from object_manager.message_manager import MessageManager
 class MemberPublicMessageCheckMiddleware(BaseMiddleware):
     async def __call__(self,
                        handler: Callable[[Message, Dict[str, Any]], Awaitable[Any]],
-                       event: Message,
+                       message: Message,
                        data: Dict[str, Any]) -> Any:
 
         print('MemberPublicMessageCheckMiddleware')
-        message_manager = MessageManager(event)
+        message_manager = MessageManager(message)
         check = await message_manager.check()
         print(f'check: {check}')
 
