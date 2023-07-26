@@ -12,5 +12,6 @@ class MemberPublicMessageCheckMiddleware(BaseMiddleware):
 
         print('MemberPublicMessageCheckMiddleware')
         message_manager = MessageManager(event)
+        check = await message_manager.check
 
         return handler
