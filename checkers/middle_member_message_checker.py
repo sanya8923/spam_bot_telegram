@@ -1,7 +1,7 @@
-from checkers.member_checker import MemberChecker
+from checkers.message_checker import MessageChecker
 
 
-class MiddleMemberChecker(MemberChecker):
+class MiddleMemberChecker(MessageChecker):
     def __init__(self, member):
         self.member = member
 
