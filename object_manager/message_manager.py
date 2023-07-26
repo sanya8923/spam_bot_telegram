@@ -13,6 +13,11 @@ class MessageManager(ObjManager):
         member = self.message.from_user
         member_manager = MemberManager(member)
         member_status = await member_manager.get_status_member()
-
         checker = MessageChecker(self.message)
+        await checker.
+        if member_status == 'new_member':
+            pass
+        else:
+            pass
+
         return 0
