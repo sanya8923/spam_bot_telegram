@@ -1,7 +1,9 @@
 from object_manager.object_manager import ObjManager
 from aiogram.types import Message
-from message_checker.message_checker import MessageChecker
+from checkers.message_checker import MessageChecker
 from member_manager import MemberManager
+from checkers.new_member_message_checker import NewMemberChecker
+from checkers.middle_member_message_checker import MiddleMemberChecker
 
 
 class MessageManager(ObjManager):
@@ -13,10 +15,10 @@ class MessageManager(ObjManager):
         member = self.message.from_user
         member_manager = MemberManager(member)
         member_status = await member_manager.get_status_member()
-        checker = MessageChecker(self.message)
-        await checker.
+        message_checker = MessageChecker(self.message)
+
         if member_status == 'new_member':
-            pass
+            new_member_checker = NewMemberChecker()
         else:
             pass
 
