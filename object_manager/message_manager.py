@@ -5,6 +5,7 @@ from checkers.new_member_message_checker import NewMemberMessageChecker
 from checkers.middle_member_message_checker import MiddleMemberMassageChecker
 from checkers.admin_message_checker import AdminMessageChecker
 from checkers.creator_message_checker import CreatorMessageChecker
+from db_manager.db_manager import DbManager
 
 
 class MessageManager(ObjManager):
@@ -16,7 +17,7 @@ class MessageManager(ObjManager):
     async def check(self):
         print('check in MessageManager')
         # TODO: если ты уже понял, как сохранять настройки группы, измени эту мидлварь
-        member_manager = MemberManager(self.member, self.group)
+        member_manager = MemberManager(self.message)
         member_status = await member_manager.get_status_member()
         print(f'member_status: {member_status}')
         try:
@@ -56,5 +57,11 @@ class MessageManager(ObjManager):
                 #  here code about sanctions user
                 return False
 
-        except (ValueError, TypeError) as e:
-            raise (ValueError, TypeError)
+        except(ValueError, TypeError) as e:
+            if isinstance(e, TypeError):
+                print(f"TypeError: {e}")
+                print(f"Current object: {self}")
+            else:
+                print(f"ValueError: {e}")
+                print(f"Current object: {self}")
+                raise e
