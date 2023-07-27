@@ -5,6 +5,7 @@ from checkers.new_member_message_checker import NewMemberMessageChecker
 from checkers.middle_member_message_checker import MiddleMemberMassageChecker
 from checkers.admin_message_checker import AdminMessageChecker
 from checkers.creator_message_checker import CreatorMessageChecker
+from typing import Union, Tuple
 
 
 class MessageManager(ObjManager):
@@ -13,7 +14,7 @@ class MessageManager(ObjManager):
         self.member = self.message.from_user
         self.group = self.message.chat
 
-    async def check(self):
+    async def check(self) -> Union[Tuple, bool]:
         print('check in MessageManager')
         # TODO: если ты уже понял, как сохранять настройки группы, измени эту мидлварь
         member_manager = MemberManager(self.message)
@@ -50,14 +51,16 @@ class MessageManager(ObjManager):
 
             else:
                 message_checker = CreatorMessageChecker(self.message)
-                if await message_checker.flood_check():
-                    violation.append('flood')
+                # if await message_checker.flood_check():
+                #     violation.append('flood')
                 if await message_checker.url_check():
                     violation.append('url')
                 elif await message_checker.ban_words_check():
                     violation.append('ban_words')
-
-            return member_status, violation
+            if len(violation) > 0:
+                return member_status, violation
+            else:
+                return False
 
         except(ValueError, TypeError) as e:
             if isinstance(e, TypeError):
