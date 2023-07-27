@@ -1,6 +1,5 @@
 from object_manager.object_manager import ObjManager
 from aiogram.types import Message
-from checkers.message_checker import MessageChecker
 from member_manager import MemberManager
 from checkers.new_member_message_checker import NewMemberMessageChecker
 from checkers.middle_member_message_checker import MiddleMemberMassageChecker
