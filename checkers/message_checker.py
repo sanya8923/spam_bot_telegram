@@ -1,19 +1,19 @@
 from aiogram.types import Message
-from abc import ABC, abstractmethod
 
 
-class MessageChecker(ABC):
+class MessageChecker:
     def __init__(self, message: Message):
         self.message = message
 
-    @abstractmethod
     async def url_check(self):
+        print(f'url_check')
         pass
 
-    @abstractmethod
     async def flood_check(self):
+        print(f'flood_check')
         pass
 
-    @abstractmethod
     async def ban_words_check(self):
+        print('ban_words_check')
         pass
+
