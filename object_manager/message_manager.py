@@ -5,57 +5,55 @@ from checkers.new_member_message_checker import NewMemberMessageChecker
 from checkers.middle_member_message_checker import MiddleMemberMassageChecker
 from checkers.admin_message_checker import AdminMessageChecker
 from checkers.creator_message_checker import CreatorMessageChecker
-from db_manager.db_manager import DbManager
 
 
 class MessageManager(ObjManager):
-    def __init__(self, message: Message):
+    def __init__(self, message: Message, data: dict):
         self.message = message
         self.member = self.message.from_user
         self.group = self.message.chat
+        self.data = data
 
     async def check(self):
         print('check in MessageManager')
         # TODO: если ты уже понял, как сохранять настройки группы, измени эту мидлварь
         member_manager = MemberManager(self.message)
         member_status = await member_manager.get_status_member()
-        print(f'member_status: {member_status}')
+        self.data['violation'] = None
+
         try:
             if member_status == 'new_member':
                 message_checker = NewMemberMessageChecker(self.message)
                 if await message_checker.flood_check():
-                    pass  # here code about sanctions user
+                    self.data['violation'] = 'flood'
                 if await message_checker.url_check():
-                    pass  # here code about sanctions user
+                    self.data['violation'] = 'url'
                 elif await message_checker.ban_words_check():
-                    pass  # here code about sanctions user
-                    return True
-                else:
-                    return False
+                    self.data['violation'] = 'ban_words'
+
             elif member_status == 'middle_member':
                 message_checker = MiddleMemberMassageChecker(self.message)
                 if await message_checker.flood_check():
-                    pass  # here code about sanctions user
+                    self.data['violation'] = 'flood'
                 if await message_checker.url_check():
-                    pass  # here code about sanctions user
+                    self.data['violation'] = 'url'
                 elif await message_checker.ban_words_check():
-                    pass  # here code about sanctions user
-                    return True
-                else:
-                    return False
+                    self.data['violation'] = 'ban_words'
+
             elif member_status == 'admin':
                 message_checker = AdminMessageChecker(self.message)
+                if await message_checker.flood_check():
+                    self.data['violation'] = 'flood'
                 if await message_checker.url_check():
-                    pass  # here code about sanctions user
+                    self.data['violation'] = 'url'
                 elif await message_checker.ban_words_check():
-                    pass  # here code about sanctions user
-                    return True
-                else:
-                    return False
+                    self.data['violation'] = 'ban_words'
+
             else:
                 message_checker = CreatorMessageChecker(self.message)
                 #  here code about sanctions user
-                return False
+
+            return self.data
 
         except(ValueError, TypeError) as e:
             if isinstance(e, TypeError):
