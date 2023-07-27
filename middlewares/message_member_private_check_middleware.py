@@ -11,8 +11,8 @@ class MemberPublicMessageCheckMiddleware(BaseMiddleware):
                        data: Dict[str, Any]) -> Any:
 
         print('MemberPublicMessageCheckMiddleware')
-        message_manager = MessageManager(message)
-        check = await message_manager.check()
-        print(f'check: {check}')
+        message_manager = MessageManager(message, data)
+        check_result = await message_manager.check()
+        print(f'check: {check_result["violation"]}')
 
         return handler
