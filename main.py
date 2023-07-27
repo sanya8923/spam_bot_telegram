@@ -7,6 +7,7 @@ from aiogram import Dispatcher
 from handlers import on_new_message_group_supergroup, on_update_my_chat_member, on_update_chat_member, \
     on_new_message_private
 from middlewares.message_member_private_check_middleware import MemberPublicMessageCheckMiddleware
+from middlewares.sanctions_for_violation_middleware import SanctionsForViolationMiddleware
 
 
 async def main():
@@ -14,6 +15,7 @@ async def main():
 
     dp = Dispatcher()
     dp.message.middleware(MemberPublicMessageCheckMiddleware())
+    dp.message.outer_middleware(SanctionsForViolationMiddleware())
 
     dp.include_routers(
         # on_update_my_chat_member.router,
