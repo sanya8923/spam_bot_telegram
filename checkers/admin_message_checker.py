@@ -1,8 +1,10 @@
 from checkers.message_checker import MessageChecker
+from aiogram.types import Message, User
 
 
 class AdminMessageChecker(MessageChecker):
-    def __init__(self, member, message: Message):
+    def __init__(self, message: Message):
         super().__init__(message)
-        self.member = member
+        self.message = message
+        self.member = self.message.from_user
         print('AdminMessageChecker')
