@@ -7,7 +7,17 @@ class MessageChecker:
 
     async def url_check(self) -> bool:
         print(f'url_check')
-        return True
+        entities = message.entities or []
+        print('check_for_url')
+
+        found_links = [
+            item.extract_from(message.text) for item in entities
+            if item.type == "url"
+        ]
+
+        if len(found_links) > 0:
+            return True
+        return False
 
     async def flood_check(self) -> bool:
         print(f'flood_check')
