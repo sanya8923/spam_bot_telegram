@@ -8,52 +8,56 @@ from checkers.creator_message_checker import CreatorMessageChecker
 
 
 class MessageManager(ObjManager):
-    def __init__(self, message: Message, data: dict):
+    def __init__(self, message: Message):
         self.message = message
         self.member = self.message.from_user
         self.group = self.message.chat
-        self.data = data
 
     async def check(self):
         print('check in MessageManager')
         # TODO: если ты уже понял, как сохранять настройки группы, измени эту мидлварь
         member_manager = MemberManager(self.message)
         member_status = await member_manager.get_status_member()
-        self.data['violation'] = None
+        violation = []
 
         try:
             if member_status == 'new_member':
                 message_checker = NewMemberMessageChecker(self.message)
                 if await message_checker.flood_check():
-                    self.data['violation'] = 'flood'
+                    violation.append('flood')
                 if await message_checker.url_check():
-                    self.data['violation'] = 'url'
+                    violation.append('url')
                 elif await message_checker.ban_words_check():
-                    self.data['violation'] = 'ban_words'
+                    violation.append('ban_words')
 
             elif member_status == 'middle_member':
                 message_checker = MiddleMemberMassageChecker(self.message)
                 if await message_checker.flood_check():
-                    self.data['violation'] = 'flood'
+                    violation.append('flood')
                 if await message_checker.url_check():
-                    self.data['violation'] = 'url'
+                    violation.append('url')
                 elif await message_checker.ban_words_check():
-                    self.data['violation'] = 'ban_words'
+                    violation.append('ban_words')
 
             elif member_status == 'admin':
                 message_checker = AdminMessageChecker(self.message)
                 if await message_checker.flood_check():
-                    self.data['violation'] = 'flood'
+                    violation.append('flood')
                 if await message_checker.url_check():
-                    self.data['violation'] = 'url'
+                    violation.append('url')
                 elif await message_checker.ban_words_check():
-                    self.data['violation'] = 'ban_words'
+                    violation.append('ban_words')
 
             else:
                 message_checker = CreatorMessageChecker(self.message)
-                #  here code about sanctions user
+                if await message_checker.flood_check():
+                    violation.append('flood')
+                if await message_checker.url_check():
+                    violation.append('url')
+                elif await message_checker.ban_words_check():
+                    violation.append('ban_words')
 
-            return self.data
+            return member_status, violation
 
         except(ValueError, TypeError) as e:
             if isinstance(e, TypeError):
