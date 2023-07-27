@@ -6,6 +6,7 @@ from checkers.middle_member_message_checker import MiddleMemberMassageChecker
 from checkers.admin_message_checker import AdminMessageChecker
 from checkers.creator_message_checker import CreatorMessageChecker
 from typing import Union, Tuple
+from aiogram.exceptions import TelegramBadRequest, TelegramAPIError
 
 
 class MessageManager(ObjManager):
@@ -62,11 +63,27 @@ class MessageManager(ObjManager):
             else:
                 return False
 
-        except(ValueError, TypeError) as e:
-            if isinstance(e, TypeError):
+        except(TelegramBadRequest, TelegramAPIError, ValueError, TypeError, AttributeError, KeyError, IndexError,
+               Exception) as e:
+            if isinstance(e, TelegramBadRequest):
+                print(f"TelegramBadRequest: {e}")
+                print(f"Current object: {self}")
+            elif isinstance(e, TelegramAPIError):
+                print(f"TelegramAPIError: {e}")
+                print(f"Current object: {self}")
+            elif isinstance(e, AttributeError):
+                print(f"AttributeError: {e}")
+                print(f"Current object: {self}")
+            elif isinstance(e, KeyError):
+                print(f"KeyError: {e}")
+                print(f"Current object: {self}")
+            elif isinstance(e, IndexError):
+                print(f"IndexError: {e}")
+                print(f"Current object: {self}")
+            elif isinstance(e, TypeError):
                 print(f"TypeError: {e}")
                 print(f"Current object: {self}")
             else:
-                print(f"ValueError: {e}")
+                print(f"Exception: {e}")
                 print(f"Current object: {self}")
                 raise e
