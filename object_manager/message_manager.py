@@ -18,6 +18,7 @@ class MessageManager(ObjManager):
         # TODO: если ты уже понял, как сохранять настройки группы, измени эту мидлварь
         member_manager = MemberManager(self.member, self.group)
         member_status = await member_manager.get_status_member()
+        print(f'member_status: {member_status}')
         try:
             if member_status == 'new_member':
                 message_checker = NewMemberMessageChecker(self.message)

@@ -15,4 +15,6 @@ class MemberManager(ObjManager):
     async def get_status_member(self) -> str:
         print('get_status_member in MemberManager')
         member = await bot.get_chat_member(self.group.id, self.member.id)
+        if member == 'member':
+
         return member.status
