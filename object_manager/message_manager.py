@@ -22,36 +22,32 @@ class MessageManager(ObjManager):
         try:
             if member_status == 'new_member':
                 message_checker = NewMemberMessageChecker(self.message)
-                await message_checker.flood_check()
+                if await message_checker.flood_check():
+                    pass  # here code about sanctions user
                 if await message_checker.url_check():
-                    pass
-                    #  here code about sanctions user
+                    pass  # here code about sanctions user
                 elif await message_checker.ban_words_check():
-                    pass
-                    #  here code about sanctions user
+                    pass  # here code about sanctions user
                     return True
                 else:
                     return False
             elif member_status == 'middle_member':
                 message_checker = MiddleMemberMassageChecker(self.message)
-                await message_checker.flood_check()
+                if await message_checker.flood_check():
+                    pass  # here code about sanctions user
                 if await message_checker.url_check():
-                    pass
-                    #  here code about sanctions user
+                    pass  # here code about sanctions user
                 elif await message_checker.ban_words_check():
-                    pass
-                    #  here code about sanctions user
+                    pass  # here code about sanctions user
                     return True
                 else:
                     return False
             elif member_status == 'admin':
                 message_checker = AdminMessageChecker(self.message)
                 if await message_checker.url_check():
-                    pass
-                    #  here code about sanctions user
+                    pass  # here code about sanctions user
                 elif await message_checker.ban_words_check():
-                    pass
-                    #  here code about sanctions user
+                    pass  # here code about sanctions user
                     return True
                 else:
                     return False
