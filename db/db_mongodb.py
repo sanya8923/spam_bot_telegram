@@ -4,6 +4,7 @@ import config_reader
 from typing import Optional, Union
 from bot import bot
 import datetime
+from aiogram.types import Message
 
 cluster = motor.motor_asyncio.AsyncIOMotorClient(config_reader.config.mongo_db.get_secret_value())
 db = cluster['db']
@@ -184,3 +185,11 @@ async def save_user_to_db_users(chat_id: int, users_data: list):
                     'last_name': line.user.last_name
                     }
             await add_data_to_db(collection_user_name, user)
+
+
+class Db:
+    def __init__(self, message: Message):
+        self.message = message
+        self.member = self.message.from_user
+        self.group = self.message.chat
+
